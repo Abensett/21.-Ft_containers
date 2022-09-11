@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   myheader.hpp                                       :+:      :+:    :+:   */
+/*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/07/19 13:42:01 by abensett         ###   ########.fr       */
+/*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
+/*   Updated: 2022/08/11 21:46:42 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MYHEADER_HPP_
-#define MYHEADER_HPP_
+#ifndef MAP_HPP
+#define MAP_HPP
 
 #include <string> 
 #include <iostream>
