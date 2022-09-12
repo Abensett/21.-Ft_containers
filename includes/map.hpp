@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/12 14:34:00 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:44:07 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,20 @@ namespace ft
 		* 						MEMBER TYPES						*
 		************************************************************/
 
-		typedef T											mapped_type;
 		typedef Key											Key_type;
-
-
+		typedef T											mapped_type;
+		typedef std::pair<const Key, T>						value_type;
+		typedef ?											key_compare;
+		typedef ?											value_compare;
+		typedef Alloc										allocator_type;
+		typedef allocator_type::reference					reference;
+		typedef allocator_type::const_reference				const_reference;
+		typedef allocator_type::pointer						pointer;
+		typedef allocator_type::const_pointer				const_pointer;
+		typedef allocator_type::pointer						pointer;
+		typedef allocator_type::const_pointer				const_pointer;
+		typedef ft::bidirectional_access_iterator<value_type>			iterator;
+		typedef allocator_type::const_pointer				const_pointer;
+		typedef allocator_type::pointer						pointer;
+		typedef allocator_type::const_pointer				const_pointer;
 #endif
