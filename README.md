@@ -24,12 +24,6 @@ Allocator-aware
 
 <img width="245" alt="Screenshot 2022-08-24 at 12 47 59" src="https://user-images.githubusercontent.com/85625233/186400146-a6ad44ca-437c-41b1-b85d-473b9dd52b49.png">
 
-```C
-int main (void)
-{
-
-}
-```  
   
 ### Iterators
 > Iterators are classified into five categories depending on the functionality they implement  
