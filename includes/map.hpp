@@ -6,45 +6,40 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/08/11 21:46:42 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:34:00 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <string> 
+#include <string>
 #include <iostream>
 using std::string;
-using std::ostream;  
- 
-class myheader
-{  
- 	public:
-		myheader(void); 
-		~myheader(void);
-		myheader(const myheader &myheader);
-		myheader &operator=(const myheader &myheader);
+using std::ostream;
 
-		string 		getName(void) const;
-		int 		getGrade(void) const;
-		void		upGrade(void);
-		void		deGrade(void);
- 
-		class ExceptionToThrow : public std::exception				// first exception
-		{
-			public:
-				virtual const char *what() const throw()
-				{
-					return ("myheader::exception : Something went wrong !");
-				}
-		};
+namespace ft
+{
+	template <class Key, class T, class Compare = std::less<Key>,
+	class Alloc = std::allocator<std::pair<const Key,T>>>
+	class map
+	{
+		/*
+		** Public Member Functions divided into 6 categories
+		* 1. Member types
+		* 2. Member functions
+		* 3. Iterators
+		* 4. Capacity
+		* 5. Element access
+		* 6. Modifiers
+		*/
 
-	private:
-		const string  	_name;
-		int				_grade;
-};
+		/************************************************************
+		* 						MEMBER TYPES						*
+		************************************************************/
 
-ostream &operator<<(ostream &o, const myheader &myheader);
+		typedef T											mapped_type;
+		typedef Key											Key_type;
+
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_prototypes.hpp                              :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/11 18:00:49 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:28:10 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 namespace ft
 {
-	template <class T, class Alloc = std::allocator<T> >	
-	class vector 
+	template <class T, class Alloc = std::allocator<T> >
+	class vector
 	{
 		/*
 		** Public Member Functions divided into 6 categories
@@ -31,19 +31,23 @@ namespace ft
 		* 5. Element access
 		* 6. Modifiers
 		*/
-		
 
-	private :
-				size_type			_size;
-				size_type			_capacity;
-				allocator_type		_allocator;
-				pointer				_elements;
+
+	// protected :
+	// 			allocator_type		_allocator;
+	// 			size_type			_n;
+	// 			value				_value_type;
+	// 			size_type			_capacity;
+	// 			pointer				_elements;
 	public:
 
 			/************************************************************
 			 * 						MEMBER TYPES						*
 			 ************************************************************/
-			
+
+			// typedef -> to define a type
+			// typename -> specifies that the next identifier is a type
+
 			/* First template parameter T -> represents the type of data stored */
 			typedef T											value_type;
 			/* Second template parameter Alloc
@@ -55,7 +59,7 @@ namespace ft
 			** allocator_type::reference
 			** A type provides a reference to an element stored in
 			** a vector.
-			
+
 			** For the default allocator is a reference to value_type
 			** (value_type&)
 			*/
@@ -71,13 +75,13 @@ namespace ft
 			** (const value_type&)
 			*/
 			typedef typename allocator_type::const_reference    const_reference;
-			
+
 			/*
 			** allocator_type::pointer
 			** Type that gives a pointer to an element stored.
 			** A type pointer can be used to modify the value of
 			** an element.
-			
+
 			** For the default allocator is a pointer to value_type
 			** (value_type*)
 			*/
@@ -107,7 +111,7 @@ namespace ft
 			** That can read element stored.
 			*/
 			typedef ft::random_access_iterator<const value_type>            const_iterator;
-			
+
 			/*
 			** ft::reverse_iterator<iterator>
 			** That can read or modify any element in a reversed vector.
@@ -129,7 +133,7 @@ namespace ft
 			** element actually stored.
 			** "The number of elements between two iterators."
 			*/
-			typedef typename ft::iterator_traits<iterator>::difference_type    difference_type; 
+			typedef typename ft::iterator_traits<iterator>::difference_type    difference_type;
 
 			/*
 			** An unsigned integral type that can represent any
@@ -143,7 +147,7 @@ namespace ft
 			/************************************************************
 			 * 				CONSTRUCTEURS/DESTRUCTOR					*
 			 ************************************************************/
-			
+
 			/*
 			** DEFAULT CONSTRUCTOR
 			** Constructs an empty container, with no elements.
@@ -180,8 +184,11 @@ namespace ft
 			** contents, and modifying its size accordingly.
 			*/
 			vector& operator= (const vector& x);
-			
+
 			allocator_type	get_allocator(void) const
+			{
+				return (allocator_type);
+			}
 			/************************************************************
 			 * 					      ITERATORS		   		 		    *
 			 ************************************************************/
@@ -202,8 +209,8 @@ namespace ft
 			reverse_iterator rend();
 			// Returns a const_reverse_iterator pointing to the theoretical element preceding the first element in the vector
 			const_reverse_iterator rend() const;
-	
-			
+
+
 			/************************************************************
 			 * 					      CAPACITY		   		 		    *
 			 ************************************************************/
@@ -252,29 +259,29 @@ namespace ft
 			/************************************************************
 			 * 						  Modifiers	   		 		 	    *
 			 ************************************************************/
-			
+
 			// Assigns new contents to the container, replacing its current contents,
 			// and modifying its size accordingly. In the range between first and last
 			template <class InputIterator>
 			void assign (InputIterator first, InputIterator last);
 
 			// Assigns new contents to the container, replacing its current contents,
-			// the new contents are n elements, each initialized to a copy of val.			
+			// the new contents are n elements, each initialized to a copy of val.
 			void assign (size_type n, const value_type& val);
-			
+
 			// Adds a new element at the end of the vector, after its current last element.
 			void push_back (const value_type& val);
 			// Removes the last element in the vector, effectively reducing the container size by one.
 			void pop_back();
-			// single element (1) 
+			// single element (1)
 			iterator insert (iterator position, const value_type& val);
 			// fill (2)
 			void insert (iterator position, size_type n, const value_type& val)
-			// range (3) 
+			// range (3)
 			template <class InputIterator>
 				void insert (iterator position, InputIterator first, InputIterator last,
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = u_nullptr);
-			// Removes from the vector either a single element (position) 
+			// Removes from the vector either a single element (position)
 			iterator erase (iterator position);
 			// or a range of elements ([first,last)).
 			iterator erase (iterator first, iterator last);
@@ -304,7 +311,7 @@ namespace ft
 
 	template <class T, class Alloc>
 		bool operator>= (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
-	// The contents of container x are exchanged with those of y. 
+	// The contents of container x are exchanged with those of y.
 	// Both container objects must be of the same type (same template parameters), although sizes may differ.
 	template <class T, class Alloc>
 		void swap (vector<T,Alloc>& x, vector<T,Alloc>&y);
