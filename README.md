@@ -4,6 +4,8 @@ Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèq
 ## Table of contents
 * [Vector](#Vector)  
 * [Iterators](#Iterators)  
+* [Stack](#Stack)
+* [Map](#Map)
 
 ### Vector
 >  ```= Dynamic contiguous array```   
