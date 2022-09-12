@@ -36,6 +36,6 @@ Allocator-aware
 
 ## Sitographie 
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
-* [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
+* [Vector Infos]https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170
 * [Iterators](https://cplusplus.com/reference/iterator/)
-*
+* [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
