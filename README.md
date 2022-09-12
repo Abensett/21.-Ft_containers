@@ -5,7 +5,7 @@ Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèq
 * [Vector](#Vector)  
 * [Iterators](#Iterators )  
 
-### Vector
+### Vector (=Dynamic contiguous array)
 >  Conteneur séquentiel qui encapsule les tableaux de taille dynamique.  
 >  Les éléments sont stockés de façon contigüe, ce qui signifie que les éléments sont ```accessibles non seulement
 via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur un élément.  
