@@ -47,3 +47,8 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * [Vector Infos](https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170)
 * [Iterators](https://cplusplus.com/reference/iterator/)
 * [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
+
+#### Somes questions
+* [Diff between 'typename' and 'class'](https://stackoverflow.com/questions/2023977/difference-of-keywords-typename-and-class-in-templates)
+* [When is 'typename' necessary](https://stackoverflow.com/questions/7923369/when-is-the-typename-keyword-necessary)
+* [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
