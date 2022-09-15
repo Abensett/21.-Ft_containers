@@ -12,6 +12,12 @@
         "system_error": "cpp",
         "__functional_03": "cpp",
         "functional": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "stdexcept": "cpp",
+        "array": "cpp",
+        "ios": "cpp",
+        "algorithm": "cpp",
+        "deque": "cpp",
+        "map": "cpp"
     }
 }

@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/12 14:28:21 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/13 00:51:42 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ namespace ft
 
 
 	protected :
-				allocator_type		_allocator;
-				size_type			_n;
-				value				_value_type;
-				size_type			_capacity;
-				pointer				_elements;
+				allocator_type		_alloc;		// Allocator
+				pointer				_begin;		// Pointer to the first element
+				size_type			_size;		// Number of elements
+				size_type			_capacity;	// Size of the allocated storage capacity
+				
 	public:
 
 			/************************************************************
