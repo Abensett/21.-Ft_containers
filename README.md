@@ -52,3 +52,4 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * [Diff between 'typename' and 'class'](https://stackoverflow.com/questions/2023977/difference-of-keywords-typename-and-class-in-templates)
 * [When is 'typename' necessary](https://stackoverflow.com/questions/7923369/when-is-the-typename-keyword-necessary)
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
+* [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
