@@ -34,9 +34,16 @@ Allocator-aware
 <img width="641" alt="Screenshot 2022-08-24 at 13 12 18" src="https://user-images.githubusercontent.com/85625233/186404935-9ab09210-5622-49be-bfe4-0dc20f6d60ca.png">
 
 
+
 ### To implement  
 > The ones to do are vector, map, stack (mandatory) and set (bonus)
-![image](https://user-images.githubusercontent.com/85625233/189640037-e2556d3a-bef5-4f7b-9404-b3643d0f9b72.png)
+
+<details>
+    <summary>The ones to do are vector, map, stack (mandatory) and set (bonus)</summary>   
+    
+![image](https://user-images.githubusercontent.com/85625233/189640037-e2556d3a-bef5-4f7b-9404-b3643d0f9b72.png)  
+
+</details>
 
 
 map: Binary Search Tree of key-value pairs, sorted by unique keys.
