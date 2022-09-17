@@ -63,4 +63,4 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * Vector
     * [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
     * [Why and how using traits](https://www.youtube.com/watch?v=bFCzd5U2fsk)
-    * [How](Un itérateur Iterator autre qu'un pointeur d'objet doit également définir les types de membres requis par la spécialisation iterator_traits<Iterator>)
+    * [Un itérateur Iterator autre qu'un pointeur d'objet doit également définir les types de membres requis par la spécialisation iterator_traits<Iterator>](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
