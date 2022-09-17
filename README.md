@@ -34,9 +34,16 @@ Allocator-aware
 <img width="641" alt="Screenshot 2022-08-24 at 13 12 18" src="https://user-images.githubusercontent.com/85625233/186404935-9ab09210-5622-49be-bfe4-0dc20f6d60ca.png">
 
 
+
 ### To implement  
 > The ones to do are vector, map, stack (mandatory) and set (bonus)
-![image](https://user-images.githubusercontent.com/85625233/189640037-e2556d3a-bef5-4f7b-9404-b3643d0f9b72.png)
+
+<details>
+    <summary>The ones to do are vector, map, stack (mandatory) and set (bonus)</summary>   
+    
+![image](https://user-images.githubusercontent.com/85625233/189640037-e2556d3a-bef5-4f7b-9404-b3643d0f9b72.png)  
+
+</details>
 
 
 map: Binary Search Tree of key-value pairs, sorted by unique keys.
@@ -52,4 +59,8 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * [Diff between 'typename' and 'class'](https://stackoverflow.com/questions/2023977/difference-of-keywords-typename-and-class-in-templates)
 * [When is 'typename' necessary](https://stackoverflow.com/questions/7923369/when-is-the-typename-keyword-necessary)
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
-* [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
+
+* Vector
+    * [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
+    * [Why and how using traits](https://www.youtube.com/watch?v=bFCzd5U2fsk)
+    * [Un itérateur Iterator autre qu'un pointeur d'objet doit également définir les types de membres requis par la spécialisation iterator_traits<Iterator>](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
