@@ -18,6 +18,7 @@
         "ios": "cpp",
         "algorithm": "cpp",
         "deque": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "iostream": "cpp"
     }
 }
