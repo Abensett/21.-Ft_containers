@@ -6,13 +6,13 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/18 18:19:53 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:27:40 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
-#include <memory> 		// allocator
+#include <memory>
 #include <stdexcept>
 #include <limits>
 #include <iostream>
@@ -457,16 +457,15 @@ namespace ft
 			void push_back (const value_type& val)
 			{
 				if (_size == _capacity)
-					reserve(_capacity + 1);
-					// reserve(_capacity * 2);
-				_alloc.construct(end(), val);
+					reserve(_capacity * 2);
+				get_allocator().construct(_begin + _size, val);
 				_size++;
 			};
 
 			// Removes the last element in the vector, effectively reducing the container size by one.
 			void pop_back()
 			{
-				_alloc.destroy(end() - 1);
+				get_allocator().destroy(_begin + _size - 1);
 				_size--;
 			};
 			
