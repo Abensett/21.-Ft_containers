@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/13 00:51:42 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:20:43 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
 		** Public Member Functions divided into 6 categories
 		* 1. Member types
 		* 2. Member functions
-		* 3. Iterators
+		* 3. Iteratorsww
 		* 4. Capacity
 		* 5. Element access
 		* 6. Modifiers
@@ -38,7 +38,7 @@ namespace ft
 				pointer				_begin;		// Pointer to the first element
 				size_type			_size;		// Number of elements
 				size_type			_capacity;	// Size of the allocated storage capacity
-				
+
 	public:
 
 			/************************************************************
