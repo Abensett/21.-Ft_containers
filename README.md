@@ -64,3 +64,4 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
     * [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
     * [Why and how using traits](https://www.youtube.com/watch?v=bFCzd5U2fsk)
     * [Un itérateur Iterator autre qu'un pointeur d'objet doit également définir les types de membres requis par la spécialisation iterator_traits<Iterator>](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
+    * [Le trait enable_if est une technique permettant de contrôler l'application de SFINAE.](https://h-deb.clg.qc.ca/Sujets/TrucsScouts/Comprendre_enable_if.html)
