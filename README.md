@@ -79,3 +79,4 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
     * [**std::lexicographical_compare**: true if the range1 < range2 | note: the shorter sequence <  than the longer one](https://leimao.github.io/blog/CPP-Enable-If/)
 
     * [**std::pair** is a class that couples together a pair of values](https://cplusplus.com/reference/utility/pair/)
+* [REDBLACKTREE](https://www.youtube.com/watch?v=qvZGUFHWChY)
