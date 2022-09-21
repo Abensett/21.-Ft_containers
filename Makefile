@@ -38,7 +38,11 @@ LDFLAGS			=
 #                                SOURCE FILES                                  #
 # **************************************************************************** #
 
+<<<<<<< HEAD
 SRC 			= vector_testeur.cpp
+=======
+SRC 			= test_vector.cpp
+>>>>>>> b38a1d4776bf8faa721f2fc8f6226fc14d6165fa
 
 OBJ 			:= $(SRC:.cpp=.o)
 
