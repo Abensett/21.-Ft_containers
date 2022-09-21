@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/18 21:27:40 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:18:10 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
 
 namespace ft
 {
-	template <typename T> 
+	template <typename T>
 	class VectorIterator
 	{
 		public:
-			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;
+			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;			// specify the iterator traits
 			typedef typename traits::difference_type 										value_type;
 			typedef	typename traits::difference_type										difference_type;
 			typedef	typename traits::pointer												pointer;
 			typedef	typename traits::reference												reference;
 			typedef	typename traits::iterator_category										iterator_category;
-		
+
 			// Constructors
 			VectorIterator() : _ptr(NULL) {};
 			// constructor from pointer
@@ -49,7 +49,7 @@ namespace ft
 					_ptr = rhs._ptr;
 				return (*this);
 			}
-			
+
 			// comparison operators
 			bool operator==(const VectorIterator &rhs) const { return (_ptr == rhs._ptr); };
 			bool operator!=(const VectorIterator &rhs) const { return (_ptr != rhs._ptr); };
@@ -62,18 +62,18 @@ namespace ft
 			// incrementation operator iterator++
 			VectorIterator &operator++() { ++_ptr; return (*this); };
 			// post-incrementation operator ++iterator
-			VectorIterator operator++(int) { 
-				VectorIterator tmp(*this); 
+			VectorIterator operator++(int) {
+				VectorIterator tmp(*this);
 				++_ptr;
 				return (tmp); };
 			// decrementation operator iterator--
 			VectorIterator &operator--() { --_ptr; return (*this); };
 			// post-decrementation operator --iterator
-			VectorIterator operator--(int) { 
-				VectorIterator tmp(*this); 
+			VectorIterator operator--(int) {
+				VectorIterator tmp(*this);
 				--_ptr;
 				return (tmp); };
-			
+
 			// addition operator iterator + int
 			VectorIterator operator+(difference_type n) const { return (VectorIterator(_ptr + n)); };
 			// addition operator int + iterator
@@ -92,21 +92,21 @@ namespace ft
 			bool operator<=(const VectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
 			// comparison operator iterator1 >= iterator2
 			bool operator>=(const VectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
-						
+
 			// addition assignation operator iterator += int
 			VectorIterator &operator+=(difference_type n) { _ptr += n; return (*this); };
 			// diffrence assignation operator iterator -= int
 			VectorIterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
-			
+
 			// dereferencing operator iterator[int]
 			reference operator[](difference_type n) const { return (_ptr[n]); };
-		
+
 			private:
 			// pointer to the current element
 			pointer 															_ptr;
-			
+
 	};
-	
+
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -236,7 +236,7 @@ namespace ft
 			explicit vector (const allocator_type& alloc = allocator_type()):
 				_alloc(alloc), _begin(NULL), _size(0), _capacity(0)
 				{ _begin =_alloc.allocate(0); };
-			
+
 			/*
 			** FILL CONSTRUCTOR
 			** Constructs a container with n elements.
@@ -267,7 +267,7 @@ namespace ft
 			** COPY CONSTRUCTOR
 			** Constructs a container with a copy of each of the elements
 			*/
-			vector (const vector& x) : 
+			vector (const vector& x) :
 			_alloc(x.alloc), _size(x._size), _capacity(x._capacity)
 			{
 				_begin = _alloc.allocate(x._capacity);
@@ -284,7 +284,7 @@ namespace ft
 					_alloc.destroy(_begin + i);
 				_alloc.deallocate(_begin, _capacity);
 			};
-			
+
 
 			/*
 			** Overload of the assignement operator
@@ -336,12 +336,12 @@ namespace ft
 			size_type capacity() const { return (_capacity); };
 			// Returns whether the vector is empty (i.e. whether its size is 0).
 			bool empty() const { return (_size == 0); };
-			/* 
+			/*
 			** Requests that the vector capacity be at least enough to contain n elements.
-			** If n is greater than the current vector capacity, the function causes 
+			** If n is greater than the current vector capacity, the function causes
 			** the container to reallocate its storage increasing its capacity to n (or greater).
 			*/
-			void reserve (size_type n) 
+			void reserve (size_type n)
 			{
 				if (n > max_size())
 					throw std::length_error("vector::reserve");
@@ -356,11 +356,11 @@ namespace ft
 					_begin = tmp;
 					_capacity = n;
 				}
-					
+
 			};
-			/* 
+			/*
 			** Resizes the container so that it contains n elements.
-			** If n is smaller than the current container size, 
+			** If n is smaller than the current container size,
 			** the content is reduced to its first n elements,
 			*/
 			void resize (size_type n, value_type val = value_type())
@@ -381,7 +381,7 @@ namespace ft
 				}
 				_size = n;
 			};
-	
+
 			/************************************************************
 			 * 					  Element access	   		 		    *
 			 ************************************************************/
@@ -392,7 +392,7 @@ namespace ft
 			const_reference operator[] (size_type n) const { return (_begin[n]); };
 			// Returns a reference to the element at position n in the vector.
 			// Checks if out of range
-			reference at (size_type n) 
+			reference at (size_type n)
 			{
 				if (n >= _size)
 					throw std::out_of_range("vector::at");
@@ -419,13 +419,13 @@ namespace ft
 			/************************************************************
 			 * 						  Modifiers	   		 		 	    *
 			 ************************************************************/
-			
+
 			// RANGE
 			// Assigns new contents to the container, replacing its current contents,
 			// and modifying its size accordingly. In the range between first and last
 			template <class InputIterator>
 			void assign (InputIterator first, InputIterator last)
-			{ 	
+			{
 				size_type n = 0;
 				for (InputIterator it = first; it != last; it++)
 					n++;
@@ -437,7 +437,7 @@ namespace ft
 				for (InputIterator it = first; it != last; it++)
 					push_back(*it);
 			};
-			
+
 			/* FILL
 			** Assigns new contents to the container, replacing its current contents,
 			** the new contents are n elements, each initialized to a copy of val.
@@ -452,7 +452,7 @@ namespace ft
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
 			};
-			
+
 			// Adds a new element at the end of the vector, after its current last element.
 			void push_back (const value_type& val)
 			{
@@ -468,9 +468,9 @@ namespace ft
 				get_allocator().destroy(_begin + _size - 1);
 				_size--;
 			};
-			
+
 			/* single element (1)
-			** insents a new element before the element at the specified position 
+			** insents a new element before the element at the specified position
 			** return an iterator pointing to the inserted element.
 			*/
 			iterator insert (iterator position, const value_type& val)
@@ -501,7 +501,7 @@ namespace ft
 			// range (3)
 			// inserts new elements before the element at the specified position.
 			template <class InputIterator>
-				void insert (iterator position, InputIterator first, InputIterator last,				
+				void insert (iterator position, InputIterator first, InputIterator last,
 				typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = 0)
 			{
 				size_type n = 0;
@@ -516,17 +516,17 @@ namespace ft
 					_alloc.construct(_begin + pos++, *it);
 				_size += n;
 			};
-			/* 
+			/*
 			** Removes from the vector either a single element (position)
-			** vectors use an array as their underlying storage, erasing elements in positions other than the vector end 
+			** vectors use an array as their underlying storage, erasing elements in positions other than the vector end
 			** causes the container to relocate all the elements after the segment erased to their new positions
 			*/
 			iterator erase (iterator position)
 			{
 				size_type n = position - _begin;
 				_alloc.destroy(_begin + n);
-				for (size_type i = n; i < _size - 1; i++)		
-					_alloc.construct(_begin + i, _begin[i + 1]);	
+				for (size_type i = n; i < _size - 1; i++)
+					_alloc.construct(_begin + i, _begin[i + 1]);
 				_size--;
 				return (_begin + n);
 			};
@@ -569,7 +569,7 @@ namespace ft
 					_alloc.destroy(_begin + i);
 				_size = 0;
 			};
-			
+
 			protected :
 				allocator_type		_alloc;		// Allocator
 				pointer				_begin;		// Pointer to the first element
@@ -577,7 +577,7 @@ namespace ft
 				size_type			_capacity;	// Size of the allocated storage capacity
 		};
 	// END OF VECTOR
-			
+
 			/************************************************************
 			 * 				Non-member function overloads	   	 	    *
 			 ************************************************************/
@@ -594,7 +594,7 @@ namespace ft
 					return (false);
 			return (true);
 		};
-		
+
 	template <class T, class Alloc>
 		bool operator!= (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 		{
