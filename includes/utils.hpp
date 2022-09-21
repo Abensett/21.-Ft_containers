@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterators_utils.hpp                                :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/21 20:21:30 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:25:53 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ namespace ft
 		typedef const	T&								reference;
 		typedef std::random_access_iterator_tag 		iterator_category;
 	};
-};
+
 
 /* ENABLE_IF
 **
@@ -102,8 +102,6 @@ template< class T > struct is_integral
 template <> struct is_integral<bool> { static const bool value = true; };
 template <> struct is_integral<char> { static const bool value = true; };
 template <> struct is_integral<wchar_t> { static const bool value = true; };
-template <> struct is_integral<char16_t> { static const bool value = true; };
-template <> struct is_integral<char32_t> { static const bool value = true; };
 template <> struct is_integral<short> { static const bool value = true; };
 template <> struct is_integral<int> { static const bool value = true; };
 template <> struct is_integral<long> { static const bool value = true; };
@@ -188,5 +186,6 @@ template <class T1, class T2>  pair<T1,T2> make_pair (T1 x, T2 y)
 { return ( pair<T1,T2>(x,y) ); };
 
 
-
+};
+// End of namespace FT
 #endif

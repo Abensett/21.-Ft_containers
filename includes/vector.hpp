@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/21 18:18:10 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/21 21:41:21 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdexcept>
 #include <limits>
 #include <iostream>
-#include "iterators.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -253,6 +253,7 @@ namespace ft
 			** RANGE CONSTRUCTOR
 			** Constructs a container with as many elements as the range
 			** from first to last, with each element constructed from its
+			** corresponding element in that range.
 			*/
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last,
@@ -502,7 +503,7 @@ namespace ft
 			// inserts new elements before the element at the specified position.
 			template <class InputIterator>
 				void insert (iterator position, InputIterator first, InputIterator last,
-				typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = 0)
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
 			{
 				size_type n = 0;
 				for (InputIterator it = first; it != last; it++)
@@ -603,7 +604,7 @@ namespace ft
 	template <class T, class Alloc>
 		bool operator<  (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 		{
-			return(std::lexicographical_compare(lhs.begin(), lhs.end(),rhs.begin(), rhs.end()));
+			return(ft::lexicographical_compare(lhs.begin(), lhs.end(),rhs.begin(), rhs.end()));
 		};
 	template <class T, class Alloc>
 		bool operator<= (const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
