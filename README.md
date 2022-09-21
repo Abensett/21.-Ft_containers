@@ -63,7 +63,7 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
 
 * Vector
-    * [**Size** = number of elements whereas **Capacity** = the amount of total space](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)\
+    * [**Size** = number of elements whereas **Capacity** = the amount of total space](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
     * [**Traits** give information, at the compilation, about certain types thanks to a generic base](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Traits.html)
     * [Why and how using **traits**](https://www.youtube.com/watch?v=bFCzd5U2fsk)
     * [Un itérateur != pointeur  must define 5 required member types by specializing iterator_traits](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
