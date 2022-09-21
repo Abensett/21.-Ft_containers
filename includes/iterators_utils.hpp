@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/21 20:12:45 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:21:30 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ template< class T1, class T2> struct pair
 	};
 	pair (const first_type& a, const second_type& b) : first(a), second(b) {};	// INITIALIZATION CONSTRUCTOR
 
-
 	pair& operator= (const pair& pr)						// ASSIGNMENT OPERATOR
 	{
 		first = pr.first;
@@ -179,5 +178,15 @@ template <class T1, class T2>  bool operator>  (const pair<T1,T2>& lhs, const pa
 { return rhs<lhs; };
 template <class T1, class T2>  bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 { return !(lhs<rhs); }
+
+
+/* MAKE PAIR
+**
+** - Constructs a pair object with its elements initialized to the values passed as arguments.
+*/
+template <class T1, class T2>  pair<T1,T2> make_pair (T1 x, T2 y)
+{ return ( pair<T1,T2>(x,y) ); };
+
+
 
 #endif
