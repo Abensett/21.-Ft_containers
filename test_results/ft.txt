@@ -1,9 +1,0 @@
-Le vecteur vect contient 7 entiers : 
-vect[0] = 1
-vect[1] = 2
-vect[2] = 0
-vect[3] = 0
-vect[4] = 0
-vect[5] = 6
-vect[6] = 7
-
