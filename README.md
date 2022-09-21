@@ -35,7 +35,7 @@ Allocator-aware
 <img width="641" alt="Screenshot 2022-08-24 at 13 12 18" src="https://user-images.githubusercontent.com/85625233/186404935-9ab09210-5622-49be-bfe4-0dc20f6d60ca.png">
 
 ### Utils
-> * __enable_if__ : <bool B, class T >
+> * __enable_if__ : <bool B, class T > If B true : public member **typedef T _type_**; otherwise: there is no member typedef.
 
 ### To implement  
 > The ones to do are vector, map, stack (mandatory) and set (bonus)
@@ -67,4 +67,9 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
     * [**Traits** give information, at the compilation, about certain types thanks to a generic base](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Traits.html)
     * [Why and how using **traits**](https://www.youtube.com/watch?v=bFCzd5U2fsk)
     * [Un itérateur != pointeur  must define 5 required member types by specializing iterator_traits](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
+* Utils
     * [**std::enable_if** is an important function to enable certain types for template specialization](https://leimao.github.io/blog/CPP-Enable-If/)
+    * [**std::is_integral** is a Trait class that identifies whether T is an integral type](https://cplusplus.com/reference/type_traits/is_integral/?kw=is_integral)
+    * [**std::lexicographical_compare**: true if the range1 < range2 | note: the shorter sequence <  than the longer one](https://leimao.github.io/blog/CPP-Enable-If/)
+
+    * [**std::pair** is a class that couples together a pair of values](https://cplusplus.com/reference/utility/pair/)
