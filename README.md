@@ -36,6 +36,9 @@ Allocator-aware
 
 ### Utils
 > * __enable_if__ : <bool B, class T > If B true : public member **typedef T _type_**; otherwise: there is no member typedef.
+> * __lexicographical_compare__ :  bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
+> * __pair__ : Class with 2 elements of type T1 and T2;
+> * __make_paire__ : pair<T1,T2> make_pair (T1 x, T2 y);
 
 ### To implement  
 > The ones to do are vector, map, stack (mandatory) and set (bonus)
