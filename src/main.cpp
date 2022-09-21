@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#if 1 //CREATE A REAL STL EXAMPLE
+#if STD //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
-	#include <vector.hpp>
+	#include <vector>
 #else
 	#include <map.hpp>
 	#include <stack.hpp>
@@ -54,8 +54,8 @@ int main(int argc, char** argv) {
 	const int seed = atoi(argv[1]);
 	srand(seed);
 
-	ft::vector<std::string> vector_str;
-	ft::vector<int> vector_int;
+	std::vector<std::string> vector_str;
+	std::vector<int> vector_int;
 	std::stack<int> stack_int;
 	std::vector<Buffer> vector_buffer;
 	std::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;

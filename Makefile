@@ -38,7 +38,7 @@ LDFLAGS			=
 #                                SOURCE FILES                                  #
 # **************************************************************************** #
 
-SRC 			= main.cpp
+SRC 			= vector_testeur.cpp
 
 OBJ 			:= $(SRC:.cpp=.o)
 
@@ -54,7 +54,7 @@ DIROBJS			= $(addprefix $(DIROBJ), $(OBJ))
 all: 			$(NAME)
 
 leaks:			all
-				valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./${NAME}
+				valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes
 
 
 
@@ -67,12 +67,24 @@ $(NAME):		$(DIROBJS)
 				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o $@
 				@printf "[$(GREEN)OK$(WHITE)] $(NAME) generated. \n"
 
+test:			$(NAME)
+				@mkdir -p test_results
+				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o test_results/std
+				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -D library=0 -o test_results/ft
+				@printf "  $(YELLOW)Compiling and linking all the tests $(END)⌛\n"
+				@./test_results/std > test_results/std.txt
+				@./test_results/ft > test_results/ft.txt
+				@printf "[$(GREEN)OK$(WHITE)] Tests generated. \n"
+				./tester/script.sh
+
 clean:
 				@rm -rf $(OBJS)	$(DIROBJ)
+				@rm -rf test_results
 				@printf "[$(GREEN)cleaned$(WHITE)] .o FILES \n"
 
 fclean:			clean
 				@rm -rf $(NAME)
+				@rm -rf test_results
 				@printf "[$(GREEN)cleaned$(WHITE)] $(NAME) \n\n"
 
 re:				fclean all

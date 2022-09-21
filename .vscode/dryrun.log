@@ -1,9 +1,8 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/abou/Desktop/ft_containers'
-mkdir -p objs/
-c++ -Wall -Wextra -Werror -std=c++98 -g -I ./includes -c src/main.cpp -o objs/main.o
 printf "  \033[33;1mCompiling and linking all the files ⌛\n"
-c++ -I ./includes  -Wall -Wextra -Werror -std=c++98 -g objs/main.o   -o executable
+c++ -I ./includes  -Wall -Wextra -Werror -std=c++98 -g objs/vector_testeur.o   -o executable
 printf "[\033[32;1mOK\033[0;m] executable generated. \n"
+ 
 make: Leaving directory `/Users/abou/Desktop/ft_containers'
  

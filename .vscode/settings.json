@@ -19,6 +19,7 @@
         "algorithm": "cpp",
         "deque": "cpp",
         "map": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
