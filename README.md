@@ -6,6 +6,7 @@ Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèq
 * [Iterators](#Iterators)  
 * [Stack](#Stack)
 * [Map](#Map)
+* [Utils to implement](#Utils)
 
 ### Vector
 >  ```= Dynamic contiguous array (SEQUENTIEL)```  
@@ -33,7 +34,8 @@ Allocator-aware
 
 <img width="641" alt="Screenshot 2022-08-24 at 13 12 18" src="https://user-images.githubusercontent.com/85625233/186404935-9ab09210-5622-49be-bfe4-0dc20f6d60ca.png">
 
-
+### Utils
+> * __enable_if__ : <bool B, class T >
 
 ### To implement  
 > The ones to do are vector, map, stack (mandatory) and set (bonus)
@@ -61,7 +63,8 @@ map: Binary Search Tree of key-value pairs, sorted by unique keys.
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
 
 * Vector
-    * [Diff between size and capacity](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
-    * [Why and how using traits](https://www.youtube.com/watch?v=bFCzd5U2fsk)
-    * [Un itérateur Iterator autre qu'un pointeur d'objet doit également définir les types de membres requis par la spécialisation iterator_traits<Iterator>](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
-    * [Le trait enable_if est une technique permettant de contrôler l'application de SFINAE.](https://h-deb.clg.qc.ca/Sujets/TrucsScouts/Comprendre_enable_if.html)
+    * [**Size** = number of elements whereas **Capacity** = the amount of total space](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)\
+    * [**Traits** give information, at the compilation, about certain types thanks to a generic base](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Traits.html)
+    * [Why and how using **traits**](https://www.youtube.com/watch?v=bFCzd5U2fsk)
+    * [Un itérateur != pointeur  must define 5 required member types by specializing iterator_traits](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
+    * [**std::enable_if** is an important function to enable certain types for template specialization](https://leimao.github.io/blog/CPP-Enable-If/)
