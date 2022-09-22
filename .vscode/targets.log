@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Wed Sep 21 14:20:26 2022
+# Make data base, printed on Thu Sep 22 01:43:48 2022
 
 # Variables
 
@@ -31,7 +31,7 @@ INCLUDES = -I ./includes
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/abou/Desktop/ft_containers
+CURDIR := /Users/abou/Desktop/containers
 # makefile
 SHELL = /bin/sh
 # environment
@@ -53,8 +53,6 @@ DIROBJS = $(addprefix $(DIROBJ), $(OBJ))
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-LaunchInstanceID = 7F3FB152-A77D-4067-BF5F-03B1C276964A
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # makefile (from `Makefile', line 34)
 LDFLAGS = 
@@ -67,7 +65,7 @@ SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.XJtHsX8J2x/Listeners
 # environment
 DISPLAY = /private/tmp/com.apple.launchd.GOXXJYqXoy/org.xquartz:0
 # environment
-PWD = /Users/abou/Desktop/ft_containers
+PWD = /Users/abou/Desktop/containers
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # makefile (from `Makefile', line 6)
@@ -79,7 +77,7 @@ HOME = /Users/abou
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/abou/Library/Application Support/Code/CachedData/784b0177c56c607789f9638da7b6bf3230d47a8c
+VSCODE_CODE_CACHE_PATH = /Users/abou/Library/Application Support/Code/CachedData/e7f30e38c5a4efafeec8ad52861eb772a9ee4dfb
 # environment
 LOGNAME = abou
 # environment
@@ -125,7 +123,7 @@ TMPDIR = /var/folders/2z/n_j1frln1rq2q__6qhnmdmrr0000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/abou/Library/Application Support/Code/1.71.0-main.sock
+VSCODE_IPC_HOOK = /Users/abou/Library/Application Support/Code/1.71.1-main.sock
 # environment
 MallocNanoZone = 0
 # makefile (from `Makefile', line 7)
@@ -137,7 +135,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.38820103.38820110
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.41596504.41596511
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from `Makefile', line 8)
@@ -162,8 +160,6 @@ PAGER = less
 LC_ALL = C
 # makefile (from `Makefile', line 10)
 RESET = \033[0m
-# environment
-SECURITYSESSIONID = 18790
 # automatic
 ^F = $(notdir $^)
 # default
@@ -177,9 +173,9 @@ DIRSRC = src/
 # environment
 LANG = C
 # environment
-VSCODE_PID = 52737
+VSCODE_PID = 19221
 # variable set hash-table stats:
-# Load=83/1024=8%, Rehash=0, Collisions=6/130=5%
+# Load=81/1024=8%, Rehash=0, Collisions=4/121=3%
 
 # Pattern-specific Variable Values
 
@@ -187,10 +183,10 @@ VSCODE_PID = 52737
 
 # Directories
 
-# . (device 16777232, inode 35184844): 13 files, no impossibilities.
-# src (device 16777232, inode 35184914): 3 files, no impossibilities so far.
+# . (device 16777232, inode 41596280): 11 files, no impossibilities.
+# src (device 16777232, inode 41596364): 3 files, no impossibilities so far.
 
-# 16 files, no impossibilities in 2 directories.
+# 14 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -212,7 +208,7 @@ all: executable
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/14=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
 
 .PHONY: all clean fclean re
 #  Implicit rule search has not been done.
@@ -228,13 +224,13 @@ all: executable
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-21 14:19:55
+#  Last modified 2022-09-22 01:42:51
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-test:
+test: executable
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -242,14 +238,17 @@ test:
 	@mkdir -p test_results
 	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o test_results/std
 	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -D library=0 -o test_results/ft
-	./test_results/std > test_results/std.txt
-	./test_results/ft > test_results/ft.txt
+	@printf "  $(YELLOW)Compiling and linking all the tests $(END)⌛\n"
+	@./test_results/std > test_results/std.txt
+	@./test_results/ft > test_results/ft.txt
+	@printf "[$(GREEN)OK$(WHITE)] Tests generated. \n"
+	./tester/script.sh
 	
 
 # Not a target:
 src/vector_testeur.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-21 14:14:20
+#  Last modified 2022-09-22 01:43:19
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -260,7 +259,7 @@ fclean: clean
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 83):
+#  commands to execute (from `Makefile', line 86):
 	@rm -rf $(NAME)
 	@rm -rf test_results
 	@printf "[$(GREEN)cleaned$(WHITE)] $(NAME) \n\n"
@@ -291,7 +290,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 78):
+#  commands to execute (from `Makefile', line 81):
 	@rm -rf $(OBJS)	$(DIROBJ)
 	@rm -rf test_results
 	@printf "[$(GREEN)cleaned$(WHITE)] .o FILES \n"
@@ -300,41 +299,40 @@ clean:
 objs/vector_testeur.o: src/vector_testeur.cpp
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `vector_testeur'
-#  Last modified 2022-09-21 14:14:22
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := objs/vector_testeur.o
+# automatic
+# % := 
+# automatic
+# * := vector_testeur
+# automatic
+# + := src/vector_testeur.cpp
+# automatic
+# | := 
+# automatic
+# < := src/vector_testeur.cpp
+# automatic
+# ^ := src/vector_testeur.cpp
+# automatic
+# ? := src/vector_testeur.cpp
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+# Load=8/32=25%, Rehash=0, Collisions=4/16=25%
 #  commands to execute (from `Makefile', line 62):
 	@mkdir -p $(DIROBJ)
+ 
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 	
 
 executable: objs/vector_testeur.o
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
-# automatic
-# @ := executable
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := objs/vector_testeur.o
- 
-# automatic
-# | := 
-# automatic
-# < := objs/vector_testeur.o
-# automatic
-# ^ := objs/vector_testeur.o
-# automatic
-# ? := objs/vector_testeur.o
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=5/23=22%
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
 #  commands to execute (from `Makefile', line 66):
 	@printf "  $(YELLOW)Compiling and linking all the files $(END)⌛\n"
 	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o $@
@@ -354,6 +352,6 @@ executable: objs/vector_testeur.o
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Sep 21 14:20:26 2022
+# Finished Make data base on Thu Sep 22 01:43:48 2022
 
  

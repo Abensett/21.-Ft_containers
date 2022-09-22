@@ -8,14 +8,16 @@ if they are working properly.
 This is a function that will test the containers VECTOR
 This-is-a-comment-thanks-to-here-doc
 
+# .out are the output files of a program
+for i
 if !(diff=`diff test_results/std.txt test_results/ft.txt`)
 then
     echo $diff
-    echo "The tests are not the same"
+    echo "The tests are not the same ✓"
     exit 0
 else
     echo $diff
-    echo "The tests are the same"
+    echo "The tests are the same ❌"
     exit 0
 fi
 
@@ -24,8 +26,8 @@ https://unix.stackexchange.com/questions/243489/bash-command-script-to-diff-all-
  diff test${i}.out mytest${i}.out > difftest${i}.txt
 
   if ! [[ -s difftest${i} ]]; then
-      echo success
+      echo ✓
   else
-      echo "difference found"
+      echo "❌"
   fi
 testers

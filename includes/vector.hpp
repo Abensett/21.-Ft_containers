@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/21 21:41:21 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:00:34 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 	{
 		public:
 			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;			// specify the iterator traits
-			typedef typename traits::difference_type 										value_type;
+			typedef typename traits::value_type												value_type;
 			typedef	typename traits::difference_type										difference_type;
 			typedef	typename traits::pointer												pointer;
 			typedef	typename traits::reference												reference;
@@ -42,10 +42,10 @@ namespace ft
 
 			// Operators
 			// assignation operator
-			VectorIterator &operator=(const VectorIterator &rhs)
+			VectorIterator operator=(const VectorIterator &rhs)
 			{
 				// protection de l'autodéfinition
-				if (this != &rhs)
+				if (this != rhs)
 					_ptr = rhs._ptr;
 				return (*this);
 			}
@@ -166,7 +166,7 @@ namespace ft
 			** For the default allocator is a pointer to value_type
 			** (value_type*)
 			*/
-			typedef typename allocator_type::pointer            pointer;
+			typedef  T *							            pointer;
 
 			/*
 			** allocator_type::const_pointer
@@ -261,8 +261,8 @@ namespace ft
 				 : _alloc(alloc), _size(last - first), _capacity(last - first)
 				 {
 					 _begin = _alloc.allocate(last - first);
-					 for (size_type i = 0; i < last - first; i++)
-						 _alloc.construct(_begin + i, first[i]);
+					 for (int i = 0; i < last - first; i++)
+						 _alloc.construct(_begin + i, first + i);
 				 };
 			/*
 			** COPY CONSTRUCTOR
