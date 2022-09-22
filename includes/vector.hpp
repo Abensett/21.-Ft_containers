@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/22 18:08:30 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:51:38 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,12 +243,14 @@ namespace ft
 			*/
 			explicit vector (size_type n, const value_type& val = value_type(),
                  const allocator_type& alloc = allocator_type()):
-				 _alloc(alloc), _size(n), _capacity(n)
-				 {
-					 _begin = _alloc.allocate(n);
-					 for (size_type i = 0; i < n; i++)
-						 _alloc.construct(_begin + i, val);
-				 };
+				_alloc(alloc), _begin(NULL), _size(0), _capacity(0)
+				{
+					_begin = _alloc.allocate(n);
+					_size = n;
+					_capacity = n;
+					for (size_type i = 0; i < n; i++)
+						_alloc.construct(_begin + i, val);
+				};
 			/*
 			** RANGE CONSTRUCTOR
 			** Constructs a container with as many elements as the range
@@ -269,7 +271,7 @@ namespace ft
 			** Constructs a container with a copy of each of the elements
 			*/
 			vector (const vector& x) :
-			_alloc(x.alloc), _size(x._size), _capacity(x._capacity)
+			_alloc(x._alloc), _size(x._size), _capacity(x._capacity)
 			{
 				_begin = _alloc.allocate(x._capacity);
 				for (size_type i = 0; i < x._size; i++)

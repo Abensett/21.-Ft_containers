@@ -38,11 +38,11 @@ LDFLAGS			=
 #                                SOURCE FILES                                  #
 # **************************************************************************** #
 
-SRC 			= vector_testeur.cpp
+SRC 			=
 
 OBJ 			:= $(SRC:.cpp=.o)
 
-SRC				= $(addprefix $(DIRSRC), $(SRC))
+SRC			= $(addprefix $(DIRSRC), $(SRC))
 
 DIROBJS			= $(addprefix $(DIROBJ), $(OBJ))
 
@@ -64,13 +64,12 @@ $(DIROBJ)%.o:${DIRSRC}%.cpp
 
 $(NAME):		$(DIROBJS)
 				@printf "  $(YELLOW)Compiling and linking all the files $(END)⌛\n"
-				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o $@
 				@printf "[$(GREEN)OK$(WHITE)] $(NAME) generated. \n"
 
 test:			$(NAME)
 				@mkdir -p test_results
-				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o test_results/std
-				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -D library=0 -o test_results/ft
+				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) src/vector_testeur.cpp -D library=0 -o test_results/std
+				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) src/vector_testeur.cpp -D library=1 -o test_results/ft
 				@chmod +x test_results/std
 				@chmod +x test_results/ft
 				@printf "  $(YELLOW)Compiling and linking all the tests $(END)⌛\n"
