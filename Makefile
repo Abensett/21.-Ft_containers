@@ -71,11 +71,11 @@ test:			$(NAME)
 				@mkdir -p test_results
 				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o test_results/std
 				@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -D library=0 -o test_results/ft
+				@chmod +x test_results/std
+				@chmod +x test_results/ft
 				@printf "  $(YELLOW)Compiling and linking all the tests $(END)⌛\n"
-				@./test_results/std > test_results/std.txt
-				@./test_results/ft > test_results/ft.txt
 				@printf "[$(GREEN)OK$(WHITE)] Tests generated. \n"
-				./tester/script.sh
+				@./script.sh
 
 clean:
 				@rm -rf $(OBJS)	$(DIROBJ)
