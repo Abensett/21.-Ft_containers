@@ -50,10 +50,25 @@ void    Test_operator_equal(void)
 	size_t	n3		= 5;
 
 	ft::vector<int> v1(n, 5);
-	ft::vector<int> v2(n, 8);
-	ft::vector<int> v2(n, 8);
+	ft::vector<int> v2(n2, 8);
+	ft::vector<int> v3(n3, 8);
 	v1 = v2;
 	print_vector(v1);
+}
+
+void    Test_Iterators(void)
+{
+	size_t	n		= 5;
+    ft::vector<int> v1(n, 5);
+    ft::vector<int>::iterator it = v1.begin();
+    ft::vector<int>::iterator ite = v1.end();
+    print_vector(v1);
+    while (it != ite)
+    {
+        cout << *it << " ";
+        it++;
+    }
+    cout << endl;
 }
 
 // pointeurs sur fonctions tests
@@ -61,6 +76,7 @@ void    Test_operator_equal(void)
 {
 	Test_Constructors,
 	Test_operator_equal,
+    Test_Iterators,
 };
 
 int main(int ac, char**av)

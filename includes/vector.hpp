@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/22 19:51:38 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/23 21:37:55 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,19 @@ namespace ft
 
 			// Constructors
 			VectorIterator() : _ptr(NULL) {};
-			// constructor from pointer
+			// Copy, constructor from pointer
 			VectorIterator(pointer ptr) : _ptr(ptr) {};
-			// copy constructor
-			VectorIterator(const VectorIterator &src) { *this = src; };
 			// destructor
 			~VectorIterator() {};
-
 			// Operators
 			// assignation operator
-			VectorIterator operator=(const VectorIterator &rhs)
+			const VectorIterator operator=( VectorIterator &rhs)
 			{
 				// protection de l'autodéfinition
 				if (this != rhs)
 					_ptr = rhs._ptr;
 				return (*this);
 			}
-
 			// comparison operators
 			bool operator==(const VectorIterator &rhs) const { return (_ptr == rhs._ptr); };
 			bool operator!=(const VectorIterator &rhs) const { return (_ptr != rhs._ptr); };
@@ -126,7 +122,7 @@ namespace ft
 			 * 						MEMBER TYPES						*
 			 ************************************************************/
 
-			// typedef -> to define a type
+			// typedef -> to define a type -> always the type specifer in first
 			// typename -> specifies that the next identifier is a type
 
 			/* First template parameter T -> represents the type of data stored */
@@ -144,7 +140,7 @@ namespace ft
 			** For the default allocator is a reference to value_type
 			** (value_type&)
 			*/
-			typedef typename allocator_type::reference          reference;
+			typedef  T &     									 reference;
 
 			/*
 			** allocator_type::const_reference
@@ -152,10 +148,10 @@ namespace ft
 			** Useful to read and perform const operator.
 			** A type const_reference can't be used to modify the value
 			** of an element.
-			** For the default allocator is a const reference to value_type
+			** For the default allocat or is a const reference to value_type
 			** (const value_type&)
 			*/
-			typedef typename allocator_type::const_reference    const_reference;
+			typedef  const T &								const_reference;
 
 			/*
 			** allocator_type::pointer
@@ -166,7 +162,7 @@ namespace ft
 			** For the default allocator is a pointer to value_type
 			** (value_type*)
 			*/
-			typedef  T *							            pointer;
+			typedef  T*							   		         pointer;
 
 			/*
 			** allocator_type::const_pointer
@@ -177,7 +173,7 @@ namespace ft
 			** For the default allocator is a const pointer to value_type
 			** (const value_type*)
 			*/
-			typedef typename allocator_type::const_pointer      const_pointer;
+			typedef  const T*								   	 const_pointer;
 
 			/*
 			** A random access iterator to value_type
@@ -185,7 +181,7 @@ namespace ft
 			** !! Works like standard pointers !!
 			** Convertible to const_iterator;
 			*/
-			typedef ft::VectorIterator<pointer>               iterator;
+			typedef	 ft::VectorIterator<value_type>          	   iterator;
 
 			/*
 			** A random access iterator to const value_type
@@ -199,13 +195,13 @@ namespace ft
 			** Iterate in reverse.
 			** !! Works like standard pointers !!
 			*/
-			typedef ft::VectorIterator<iterator>             reverse_iterator;
+			typedef ft::VectorIterator<iterator>            		 reverse_iterator;
 
 			/*
 			** ft::reverse_iterator<const_iterator>
 			** That can read any element in a reversed the vector.
 			*/
-			typedef ft::VectorIterator<const_iterator>       const_reverse_iterator;
+			typedef ft::VectorIterator<const_iterator>      		 const_reverse_iterator;
 
 			/*
 			** A signed integral type.
@@ -222,7 +218,7 @@ namespace ft
 			** Usually the same as size_t.
 			** = number of elements
 			*/
-			typedef typename allocator_type::size_type          size_type;
+			typedef typename allocator_type::size_type       				   size_type;
 
 			public:
 			/************************************************************
@@ -313,7 +309,7 @@ namespace ft
 			//Returns a const_iterator pointing to the first element in the vector.
 			const_iterator begin() const {return (const_iterator(_begin)); };
 			// Returns an iterator referring to the past-the-end element in the vector container.
-			iterator end()	{ return (iterator(end())); };
+			iterator end()	{ return (iterator(_begin + _size)); };
 			// Returns a const_iterator referring to the past-the-end element in the vector container.
 			const_iterator end() const { return (const_iterator(end())); };
 			// Returns a reverse iterator pointing to the last element in the vector (i.e., its reverse beginning).

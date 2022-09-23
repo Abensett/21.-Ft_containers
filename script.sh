@@ -1,6 +1,6 @@
 #!/bin/bash
 #shebang means gotta use bash to run this
-
+NOMBRE_DE_TESTS=2
 << 'This-is-a-comment-thanks-to-here-doc'
 This is a containers tester. It will test the containers and see
 if they are working properly.
@@ -8,12 +8,18 @@ if they are working properly.
 This is a function that will test the containers VECTOR
 This-is-a-comment-thanks-to-here-doc
 
+
+# (()) will change variables see there the rest: https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar
+
+
 # .out are the output files of a program
-tests=(constructeur  operateur_= operateur_plus operateur_moins operateur_mult
+tests=(constructeur  operateur_= iterator iterators operateur_mult
  operateur_div operateur_inf operateur_sup operateur_infeg operateur_supeg operateur_eg operateur_diff)
 
 # This the execution of the testers and the diff
-for i in {0..1}; do
+i=0
+while [[ $i -le $NOMBRE_DE_TESTS ]]
+do
  ./test_results/ft ${i} > ./test_results/ft_test_${i}.out
  ./test_results/std  ${i} > ./test_results/std_test_${i}.out
 diff ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out > test_results/difftest_${i}.out
@@ -26,6 +32,7 @@ then
 else
     echo -e "TEST ${tests[${i}]} ❌ voir le fichier difftest_${i}"
 fi
+    ((i = i + 1))
 done
 
 << testers
