@@ -40,7 +40,6 @@ void    Test_Constructors(void)
 	print_vector(v1);
 	print_vector(v2);
 	print_vector(v4);
-
 }
 
 void    Test_operator_equal(void)
@@ -58,17 +57,47 @@ void    Test_operator_equal(void)
 
 void    Test_Iterators(void)
 {
+	// test begin() and end()
 	size_t	n		= 5;
     ft::vector<int> v1(n, 5);
+
+	//begin end
     ft::vector<int>::iterator it = v1.begin();
     ft::vector<int>::iterator ite = v1.end();
+    ft::vector<int>::const_iterator it_cst = v1.begin();
+
     print_vector(v1);
+	cout << "Ceci est un const iterator: " << *it_cst << endl;
+
     while (it != ite)
     {
         cout << *it << " ";
         it++;
     }
-    cout << endl;
+	cout<< *it++ <<" ";
+	cout<< --*it <<" ";
+	cout << *it << " ";
+
+	// rebegin rend
+	ft::vector<int>::reverse_iterator it2 = v1.rbegin();
+    ft::vector<int>::reverse_iterator ite2 = v1.rend();
+    print_vector(v1);
+    while (it2 != ite2)
+    {
+        cout << *it2 << " ";
+        it2++;
+    }
+	cout <<endl;
+	cout<< *it2++ <<" ";
+	cout<< --*it2 <<" ";
+	cout << *it2 << " ";
+
+	// test rbegin() and rend()
+	ft::vector<int>::reverse_iterator rit(it);
+	ft::vector<int>::reverse_iterator rite(ite);
+
+	print_vector(v1);
+	cout << endl;
 }
 
 // pointeurs sur fonctions tests

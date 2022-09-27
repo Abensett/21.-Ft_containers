@@ -30,7 +30,8 @@ if ! [[ -s test_results/difftest_${i}.out ]];
 then
     echo -e "Test ${tests[${i}]} ✅"
 else
-    echo -e "TEST ${tests[${i}]} ❌ voir le fichier difftest_${i}"
+    echo -e "TEST ${tests[${i}]} ❌ "
+    diff -y ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out
 fi
     ((i = i + 1))
 done
