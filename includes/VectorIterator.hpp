@@ -6,322 +6,122 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/27 14:52:05 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:37:02 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTORITERATOR_HPP
 #define VECTORITERATOR_HPP
 
-#include <iterator>
+#include "utils.hpp"
+#include "ConstVectorIterator.hpp"
 
 namespace ft
 {
+	template <typename T>
 
-	/*
-	**	ITERATOR BASE CLASS
-	** helper to define the iterator traits of an iterator.
-	*/
-	template<typename Category, typename T, typename Difference = std::ptrdiff_t, typename Pointer = T*, typename   Reference = T&>
-	struct iterator{
-	typedef T 					value_type;				// The type "pointed to" by the iterator.
-	typedef Difference 			difference_type;		// The type to represent the difference between two iterators.
-	typedef	Pointer				pointer;				// A type to represent a pointer-to-value_type
-	typedef Reference 			reference;				// A type to represent a reference-to-value_type
-	typedef Category			iterator_category;		// The iterator category (input, output, forward, bidirectional, random access)
-	};
-
-
-
-	struct random_access_iterator_tag {};		//Categories used to identify random access iterators
-	struct bidirectional_iterator_tag {};
-	struct forward_iterator_tag {};
-	struct input_iterator_tag {};
-	struct output_iterator_tag {};
-
-		/*
-	**	ITERATOR_TRAITS
-	** 	- A type trait class that provides a uniform interface to obtaining properties of iterator types.
-	**  - specializations for iterator types
-	** MANDATORY IF YOU WANT TO IMPLEMENT YOUR OWN ITERATOR
-	*/
-	// STRUCT public whereas CLASS private
-	template <class Iterator> struct iterator_traits
+	// Iterator Vector = random access iterator
+	// template <class T>
+	// class ConstVectorIterator;
+	
+	class VectorIterator
 	{
-		typedef typename Iterator::difference_type 			difference_type;
-		typedef typename Iterator::value_type				value_type;
-		typedef	typename Iterator::pointer					pointer;
-		typedef typename Iterator::reference 				reference;
-		typedef typename Iterator::iterator_category		iterator_category;
+		public:
+			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;			// specify the iterator traits
+			typedef typename traits::value_type												value_type;
+			typedef	typename traits::difference_type										difference_type;
+			typedef	typename traits::pointer												pointer;
+			typedef	typename traits::reference												reference;
+			typedef	typename traits::iterator_category										iterator_category;
+
+			// Constructors
+			VectorIterator() : _ptr(NULL) {};
+			// Copy, constructor from pointer
+			VectorIterator(pointer ptr) : _ptr(ptr) {};
+			// destructor
+			~VectorIterator() {};
+			// Operators
+			// assignation operator
+			VectorIterator operator=( const VectorIterator &rhs)
+			{
+				// protection de l'autodéfinition
+				if (*this != rhs)
+					this->_ptr = rhs._ptr;
+				return (*this);
+			}
+			// comparison operators
+			bool operator==(const VectorIterator &rhs) const { return (_ptr == rhs._ptr); };
+			bool operator!=(const VectorIterator &rhs) const { return (_ptr != rhs._ptr); };
+			// rvalue dereferencing operator
+			reference operator*() const { return (*_ptr); };
+			// pointer dereferencing operator
+			pointer operator->() const { return (_ptr); };
+			// lvalue pointer dereferencing operator
+			pointer operator&() const { return (_ptr); };
+			// incrementation operator iterator++
+			VectorIterator &operator++() { ++_ptr; return (*this); };
+			// post-incrementation operator ++iterator
+			VectorIterator operator++(int) {
+				VectorIterator tmp(*this);
+				++_ptr;
+				return (tmp); };
+			// decrementation operator iterator--
+			VectorIterator &operator--() { --_ptr; return (*this); };
+			// post-decrementation operator --iterator
+			VectorIterator operator--(int) {
+				VectorIterator tmp(*this);
+				--_ptr;
+				return (tmp); };
+
+			// addition operator iterator + int
+			VectorIterator operator+(difference_type n) const { return (VectorIterator(_ptr + n)); };
+			// addition operator int + iterator
+			friend VectorIterator operator+(difference_type n, const VectorIterator &rhs)  { return (VectorIterator(rhs._ptr + n)); };
+			// difference_type operator iterator - int
+			VectorIterator operator-(difference_type n) 
+			{
+				VectorIterator tmp(*this);
+				tmp -= n;
+				return (tmp);
+			};
+			// difference_type operator iterator1 - iterator2
+			difference_type operator-( VectorIterator rhs)  { return (_ptr - rhs._ptr); };
+			// difference_type operator iterator1 - cons iterator2
+			difference_type operator-( ConstVectorIterator<T> rhs)  { return (_ptr - rhs._ptr); };
+			
+			// COMPARAISON OPERATORS
+			// comparison operator iterator1 < iterator2
+			bool operator<(const VectorIterator &rhs) const { return (_ptr < rhs._ptr); };
+			// comparison operator iterator1 > iterator2
+			bool operator>(const VectorIterator &rhs) const { return (_ptr > rhs._ptr); };
+			// comparison operator iterator1 <= iterator2
+			bool operator<=(const VectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
+			// comparison operator iterator1 >= iterator2
+			bool operator>=(const VectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
+
+			// With const operators
+			bool operator==(const ConstVectorIterator<T> &rhs) const { return (_ptr == rhs._ptr); };
+			bool operator!=(const ConstVectorIterator<T> &rhs) const { return (_ptr != rhs._ptr); };
+			bool operator<(const ConstVectorIterator<T> &rhs) const { return (_ptr < rhs._ptr); };
+			// comparison operator iterator1 > iterator2
+			bool operator>(const ConstVectorIterator<T> &rhs) const { return (_ptr > rhs._ptr); };
+			// comparison operator iterator1 <= iterator2
+			bool operator<=(const ConstVectorIterator<T> &rhs) const { return (_ptr <= rhs._ptr); };
+			// comparison operator iterator1 >= iterator2
+			bool operator>=(const ConstVectorIterator<T> &rhs) const { return (_ptr >= rhs._ptr); };
+			
+			// addition assignation operator iterator += int
+			VectorIterator &operator+=(difference_type n) { _ptr += n; return (*this); };
+			// diffrence assignation operator iterator -= int
+			VectorIterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
+
+			// dereferencing operator iterator[int]
+			reference operator[](difference_type n) const { return (_ptr[n]); };
+
+			// pointer to the current element
+			pointer 															_ptr;
+
 	};
-
-	template <class T> struct iterator_traits<T*>
-	{
-		typedef std::ptrdiff_t 							difference_type;
-		typedef T 										value_type;
-  		typedef T* 										pointer;
-  		typedef T& 										reference;
-   		typedef std::random_access_iterator_tag 		iterator_category;
-	};
-
-	template <class T> struct iterator_traits<const T*>
-	{
-		typedef std::ptrdiff_t 							difference_type;
-		typedef T										value_type;
-		typedef const	T* 								pointer;
-		typedef const	T&								reference;
-		typedef std::random_access_iterator_tag 		iterator_category;
-	};
-
-/* REVERSE_ITERATOR
-**
-** 	- A reverse iterator is an iterator that moves in the opposite 
-** direction of a given iterator.
-*/
-template <class Iterator> class reverse_iterator
-{
-	public :
-		Iterator 										_base_iterator;
-		typedef ft::iterator_traits<Iterator>			traits;			// specify the iterator traits
-		typedef Iterator 								iterator_type;
-		typedef typename traits::value_type				value_type;
-		typedef	typename traits::difference_type		difference_type;
-		typedef	typename traits::pointer				pointer;
-		typedef	typename traits::reference				reference;
-		typedef	typename traits::iterator_category		iterator_category;
-
-		// CONSTRUCTORS
-		// default constructor
-		reverse_iterator () { _base_iterator = iterator_type(); };
-		// initialize constructor
-		reverse_iterator (iterator_type it)	{ _base_iterator = it; };
-		// copy constructor
-		template <class Iter> reverse_iterator(const reverse_iterator<Iter>& rev_it)
-		{ *this = rev_it; };
-		
-		// OPERATORS
-		// assignation operator
-		template< class U >
-		reverse_iterator& operator=( const reverse_iterator<U>& other )
-		{
-			_base_iterator = other.base();
-			return *this;
-		};
-		// base -> returns the underlying iterator
-		iterator_type base() const { return _base_iterator; };
-		// * -> dereference operator
-		reference operator*() const
-		{
-			Iterator tmp = _base_iterator;
-			return *--tmp;
-		};
-		// + -> addition operator
-		reverse_iterator operator+(difference_type n) const
-		{ return reverse_iterator(_base_iterator - n); };
-		// ++ -> increment operator
-		reverse_iterator& operator++()
-		{
-			--_base_iterator;
-			return *this;
-		};
-		reverse_iterator operator++(int)
-		{
-			reverse_iterator tmp = *this;
-			--_base_iterator;
-			return tmp;
-		};
-		// += -> addition and assignment operator
-		reverse_iterator& operator+=(difference_type n)
-		{
-			_base_iterator -= n;
-			return *this;
-		};
-		// - -> subtraction operator
-		reverse_iterator operator-(difference_type n) const
-		{ return reverse_iterator(_base_iterator + n); };
-		// -- -> decrement operator
-		reverse_iterator& operator--()
-		{
-			++_base_iterator;
-			return *this;
-		};
-		reverse_iterator operator--(int)
-		{
-			reverse_iterator tmp = *this;
-			++_base_iterator;
-			return tmp;
-		};
-		// -= -> subtraction and assignment operator
-		reverse_iterator& operator-=(difference_type n)
-		{
-			_base_iterator += n;
-			return *this;
-		};
-		// -> deference operator 
-		pointer operator->() const
-		{ return &(operator*()); };
-		
-		// [] -> mem access operator : access the element at n and return a reference 
-		reference operator[](difference_type n) const
-		{ return *(*this + n); };
-};
-// End of class reverse_iterator
-
-// Non-member function overloads of reverse_iterator operators
-// Comparison operators
-// =
-template< class Iterator1, class Iterator2 >
- bool operator==( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() == rhs.base(); };
-// !=
-template< class Iterator1, class Iterator2 >
- bool operator!=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() != rhs.base(); };
-// <
-template< class Iterator1, class Iterator2 > 
-bool operator<( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() > rhs.base(); };
-// <=
-template< class Iterator1, class Iterator2 >
-bool operator<=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() >= rhs.base(); };
-// >
-template< class Iterator1, class Iterator2 >
-bool operator>( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() < rhs.base(); };
-// >=
-template< class Iterator1, class Iterator2 >
- bool operator>=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
-{ return lhs.base() <= rhs.base(); };
-
-// operator+ : addition operator and  subtraction operator
-// +
-template <class Iterator> reverse_iterator<Iterator> operator+ (typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it)
-{ return reverse_iterator<Iterator>(rev_it.base() - n); };
-//-
-template <class Iterator> typename reverse_iterator<Iterator>::difference_type operator- (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-{ return rhs.base() - lhs.base(); };	
-
-template <class Iterator1, class Iterator2>
-typename reverse_iterator<Iterator1>::difference_type operator - (const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs)
-{
-		return (rhs.base() - lhs.base());
-};
-// End of reverse_iterator
-
-// REVERSE_ITERATOR OPERATORS
-
-/* ENABLE_IF
-**
-**- A type trait that provides a member typedef type if the condition is true, otherwise no member typedef is provided.
-** SFINAE  Substitution Failure Is Not An Error
-** Using types that are not enabled by std::enable_if
-** for template specialization will result in compile-time error.
-*/
-template <bool B, class T = void>
-struct enable_if {};
-
-template<class T>
-struct enable_if<true, T> { typedef T type; };
-
-/* IS_INTEGRAL
-**
-**- A type trait that determines whether T is an integral type.
-** - Integral types are those that can be represented as a sequence of bits.
-** - bool, char, wchar_t, char16_t, char32_t, short, int, long, long long,
-** - unsigned short, unsigned int, unsigned long, unsigned long long
-**
-** - if integral type then static const bool value = true
-*/
-template< class T > struct is_integral
-{	static const bool value = false; };
-
-template <> struct is_integral<bool> { static const bool value = true; };
-template <> struct is_integral<char> { static const bool value = true; };
-template <> struct is_integral<wchar_t> { static const bool value = true; };
-template <> struct is_integral<short> { static const bool value = true; };
-template <> struct is_integral<int> { static const bool value = true; };
-template <> struct is_integral<long> { static const bool value = true; };
-template <> struct is_integral<long long> { static const bool value = true; };
-template <> struct is_integral<unsigned short> { static const bool value = true; };
-template <> struct is_integral<unsigned int> { static const bool value = true; };
-template <> struct is_integral<unsigned long> { static const bool value = true; };
-template <> struct is_integral<unsigned long long> { static const bool value = true; };
-
-/* LEXICOGRAPHICAL_COMPARE
-**
-** - Compares the elements in the range [first1,last1) with those of the range beginning at first2,
-** and returns true if all the elements in both ranges match or if the first range is lexicographically less than the second.
-** - The elements are compared using operator< for this verions
-*/
-template<class InputIt1, class InputIt2>
-bool lexicographical_compare(InputIt1 first1, InputIt1 last1,
- 							InputIt2 first2, InputIt2 last2)
-{
-	for (; (first1 != last1) && (first2 != last2); ++first1, (void) ++first2)
-	{
-		if (*first1 < *first2)
-			return true;
-		if (*first2 < *first1)
-			return false;
-	}
-	return (first1 == last1) && (first2 != last2);
-}
-
-/* PAIR
-**
-** - A pair is a simple container defined in <utility> that stores two heterogeneous objects as a single unit.
-*/
-
-
-template< class T1, class T2> struct pair
-{
-	typedef T1 first_type;									// The type of the first element
-	typedef T2 second_type;									// The type of the second element
-
-	T1 first;												// the first stored value
-	T2 second;												// the second stored value
-
-
-	pair() : first(T1()), second(T2()) {};					// DEFAULT CONSTRUCTOR
-	template<class U, class V> pair (const pair<U,V>& pr)	// COPY CONSTRUCTOR
-	{
-		first = pr.first;
-		second = pr.second;
-	};
-	pair (const first_type& a, const second_type& b) : first(a), second(b) {};	// INITIALIZATION CONSTRUCTOR
-
-	pair& operator= (const pair& pr)						// ASSIGNMENT OPERATOR
-	{
-		first = pr.first;
-		second = pr.second;
-		return *this;
-	};
-
-};
-
-// NON-MEMBER FUNCTIONS FOR PAIR (RELATIONAL OPERATORS)
-template <class T1, class T2>  bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{	return lhs.first == rhs.first && lhs.second == rhs.second;};
-template <class T1, class T2>  bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{	return !(lhs == rhs);};
-template <class T1, class T2>  bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second); };
-template <class T1, class T2> bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return !(rhs<lhs); };
-template <class T1, class T2>  bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return rhs<lhs; };
-template <class T1, class T2>  bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-{ return !(lhs<rhs); }
-
-
-/* MAKE PAIR
-**
-** - Constructs a pair object with its elements initialized to the values passed as arguments.
-*/
-template <class T1, class T2>  pair<T1,T2> make_pair (T1 x, T2 y)
-{ return ( pair<T1,T2>(x,y) ); };
-
 
 };
 // End of namespace FT

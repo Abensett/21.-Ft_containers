@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/27 14:39:42 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:01:40 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,222 +17,11 @@
 #include <limits>
 #include <iostream>
 #include "utils.hpp"
+#include "VectorIterator.hpp"
 
 namespace ft
 {
-	template <typename T>
 
-	// Iterator Vector = random access iterator
-	// template <class T>
-	// class ConstVectorIterator;
-	
-	class VectorIterator
-	{
-		public:
-			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;			// specify the iterator traits
-			typedef typename traits::value_type												value_type;
-			typedef	typename traits::difference_type										difference_type;
-			typedef	typename traits::pointer												pointer;
-			typedef	typename traits::reference												reference;
-			typedef	typename traits::iterator_category										iterator_category;
-
-			// Constructors
-			VectorIterator() : _ptr(NULL) {};
-			// Copy, constructor from pointer
-			VectorIterator(pointer ptr) : _ptr(ptr) {};
-			// destructor
-			~VectorIterator() {};
-			// Operators
-			// assignation operator
-			VectorIterator operator=( const VectorIterator &rhs)
-			{
-				// protection de l'autodéfinition
-				if (*this != &rhs)
-					this->_ptr = rhs._ptr;
-				return (*this);
-			}
-			// comparison operators
-			bool operator==(const VectorIterator &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const VectorIterator &rhs) const { return (_ptr != rhs._ptr); };
-			// rvalue dereferencing operator
-			reference operator*() const { return (*_ptr); };
-			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr); };
-			// lvalue pointer dereferencing operator
-			pointer operator&() const { return (_ptr); };
-			// incrementation operator iterator++
-			VectorIterator &operator++() { ++_ptr; return (*this); };
-			// post-incrementation operator ++iterator
-			VectorIterator operator++(int) {
-				VectorIterator tmp(*this);
-				++_ptr;
-				return (tmp); };
-			// decrementation operator iterator--
-			VectorIterator &operator--() { --_ptr; return (*this); };
-			// post-decrementation operator --iterator
-			VectorIterator operator--(int) {
-				VectorIterator tmp(*this);
-				--_ptr;
-				return (tmp); };
-
-			// addition operator iterator + int
-			VectorIterator operator+(difference_type n) const { return (VectorIterator(_ptr + n)); };
-			// addition operator int + iterator
-			friend VectorIterator operator+(difference_type n, const VectorIterator &rhs)  { return (VectorIterator(rhs._ptr + n)); };
-			// difference_type operator iterator - int
-			VectorIterator operator-(difference_type n) const { return (VectorIterator(_ptr - n)); };
-			// difference_type operator iterator1 - iterator2
-			difference_type operator-(const VectorIterator &rhs) const { return (_ptr - rhs._ptr); };
-
-			// COMPARAISON OPERATORS
-			// comparison operator iterator1 < iterator2
-			bool operator<(const VectorIterator &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const VectorIterator &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const VectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const VectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
-
-			// With const operators
-			bool operator==(const ConstVectorIterator<T> &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const ConstVectorIterator<T> &rhs) const { return (_ptr != rhs._ptr); };
-			bool operator<(const ConstVectorIterator<T> &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const ConstVectorIterator<T> &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const ConstVectorIterator<T> &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const ConstVectorIterator<T> &rhs) const { return (_ptr >= rhs._ptr); };
-			
-			// addition assignation operator iterator += int
-			VectorIterator &operator+=(difference_type n) { _ptr += n; return (*this); };
-			// diffrence assignation operator iterator -= int
-			VectorIterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
-
-			// dereferencing operator iterator[int]
-			reference operator[](difference_type n) const { return (_ptr[n]); };
-
-			// pointer to the current element
-			pointer 															_ptr;
-
-	};
-	// Cont vector iterator
-	template <typename T>
-	class ConstVectorIterator
-	{
-		public:
-			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, const T> >		traits;			// specify the iterator traits
-			typedef typename traits::value_type												value_type;
-			typedef	typename traits::difference_type										difference_type;
-			typedef	typename traits::pointer												pointer;
-			typedef	typename traits::reference												reference;
-			typedef	typename traits::iterator_category										iterator_category;
-
-			// Constructors
-			ConstVectorIterator() : _ptr(NULL) {};
-			// Copy, constructor from pointer
-			ConstVectorIterator(pointer ptr) : _ptr(ptr) {};
-			// Copy from other const iterator
-			ConstVectorIterator(const ConstVectorIterator &rhs) : _ptr(rhs._ptr) {};
-			// Copy from other random iterator
-			ConstVectorIterator(const VectorIterator<T> &rhs) : _ptr(rhs._ptr) {};
-			// destructor
-			~ConstVectorIterator() {};
-			// Operators
-			// assignation operator
-			ConstVectorIterator operator=( const ConstVectorIterator & rhs)
-			{
-				// protection de l'autodéfinition
-				if (*this != &rhs)
-					this->_ptr = rhs._ptr;
-				return (*this);
-			};
-			ConstVectorIterator operator=( const VectorIterator<T> & rhs)
-			{
-				
-				this->_ptr = rhs._ptr;
-				return (*this);
-			};
-			// comparison operators
-			bool operator==(const ConstVectorIterator &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const ConstVectorIterator &rhs) const { return (_ptr != rhs._ptr); };
-			// rvalue dereferencing operator
-			reference operator*() const { return (*_ptr); };
-			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr); };
-			// lvalue pointer dereferencing operator
-			pointer operator&() const { return (_ptr); };
-			// incrementation operator iterator++
-			ConstVectorIterator &operator++() { ++_ptr; return (*this); };
-			// post-incrementation operator ++iterator
-			ConstVectorIterator operator++(int) {
-				ConstVectorIterator tmp(*this);
-				++_ptr;
-				return (tmp); };
-			// decrementation operator iterator--
-			ConstVectorIterator &operator--() { --_ptr; return (*this); };
-			// post-decrementation operator --iterator
-			ConstVectorIterator operator--(int) {
-				ConstVectorIterator tmp(*this);
-				--_ptr;
-				return (tmp); };
-
-			// addition operator iterator + int
-			ConstVectorIterator operator+(difference_type n) const
-			{ 
-				ConstVectorIterator tmp(*this);
-				tmp += n;
-				return (tmp); 
-			};
-			// addition operator int + iterator
-			friend ConstVectorIterator operator+(difference_type n, const ConstVectorIterator &rhs) 
-			{	return (rhs._ptr + n);	};
-			// difference_type operator iterator - int
-			ConstVectorIterator operator-(difference_type n) const { return (_ptr - n); };
-			// difference_type operator iterator1 - iterator2
-			difference_type operator-(const ConstVectorIterator &rhs) const { return (_ptr - rhs._ptr); };
-
-			// COMPARAISON OPERATORS
-			// rvalue dereferencing operator
-			// comparison operator iterator1 < iterator2
-			bool operator<(const ConstVectorIterator &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const ConstVectorIterator &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const ConstVectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const ConstVectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
-
-			// With non const operators
-			bool operator==(const VectorIterator<T> &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const  VectorIterator<T> &rhs) const { return (_ptr != rhs._ptr); };
-			// rvalue dereferencing operator
-			// comparison operator iterator1 < iterator2
-			bool operator<(const VectorIterator<T> &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const VectorIterator<T> &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const VectorIterator<T> &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const VectorIterator<T> &rhs) const { return (_ptr >= rhs._ptr); };
-
-			// addition assignation operator iterator += int
-			ConstVectorIterator &operator+=(difference_type n) 
-			{ 
-				_ptr += n;
-				return (*this);
-			};
-			// diffrence assignation operator iterator -= int
-			ConstVectorIterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
-
-			// dereferencing operator iterator[int]
-			reference operator[](difference_type n) const { return (_ptr[n]); };
-
-			// pointer to the current element
-			pointer															_ptr;
-
-	};
 	
 	// VECTOR CLASS
 	
@@ -250,7 +39,6 @@ namespace ft
 		*/
 
 	public:
-
 			/************************************************************
 			 * 						MEMBER TYPES						*
 			 ************************************************************/
@@ -343,7 +131,7 @@ namespace ft
 			** element actually stored.
 			** "The number of elements between two iterators."
 			*/
-			typedef typename ft::iterator_traits<iterator>::difference_type    difference_type_type;
+			typedef typename ft::iterator_traits<iterator>::difference_type    difference_type;
 
 			/*
 			** An unsigned integral type that can represent any
@@ -351,7 +139,7 @@ namespace ft
 			** Usually the same as size_t.
 			** = number of elements
 			*/
-			typedef typename allocator_type::size_type       				   size_type;
+			typedef typename std::size_t       				   size_type;
 
 			public:
 			/************************************************************
@@ -591,8 +379,10 @@ namespace ft
 			// Adds a new element at the end of the vector, after its current last element.
 			void push_back (const value_type& val)
 			{
+				if (_capacity == 0)
+					reserve(1);
 				if (_size == _capacity)
-					reserve(_capacity + 1);
+					reserve(_capacity * 2);
 				get_allocator().construct(_begin + _size, val);
 				_size++;
 			};
@@ -612,10 +402,10 @@ namespace ft
 			{
 				size_type n = position - _begin;
 				if (_size == _capacity)
-					reserve(_capacity + 1);
+					reserve(_capacity * 2);
 				for (size_type i = _size; i > n; i--)
-					_alloc.construct(_begin + i, _begin[i - 1]);
-				_alloc.construct(_begin + n, val);
+					_begin[i] = _begin[i - 1];
+				_begin[n] = val;	
 				_size++;
 				return (_begin + n);
 			};
@@ -625,30 +415,37 @@ namespace ft
 			{
 				size_type pos = position - _begin;
 				if (_size + n > _capacity)
-					reserve(_size + n);
-				for (size_type i = _size; i > pos; i--)
-					_alloc.construct(_begin + i + n - 1, _begin[i - 1]);
-				for (size_type i = 0; i < n; i++)
-					_alloc.construct(_begin + pos + i, val);
+					reserve( _size + n);
+				for (size_type  i = pos; i < n ; i++ )
+					_begin[i] = val;
 				_size += n;
 			};
 			// range (3)
 			// inserts new elements before the element at the specified position.
 			template <class InputIterator>
-				void insert (iterator position, InputIterator first, InputIterator last,
-				typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0)
+				void insert (iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type
+				 first, InputIterator last)
 			{
-				size_type n = 0;
-				for (InputIterator it = first; it != last; it++)
-					n++;
-				size_type pos = position - _begin;
-				if (_size + n > _capacity)
-					reserve(_size + n);
+				size_type				count;
+				size_type				pos = 0;
+				iterator				it = _begin;
+				count = std::distance(first, last);
+
+				while(it != position)
+				{
+					it++;
+					pos++;
+				}
+				if (_size + count > _capacity)
+					reserve(_size + count);
 				for (size_type i = _size; i > pos; i--)
-					_alloc.construct(_begin + i + n - 1, _begin[i - 1]);
-				for (InputIterator it = first; it != last; it++)
-					_alloc.construct(_begin + pos++, *it);
-				_size += n;
+					_alloc.construct(_begin + i + count - 1, _begin[i - 1]);
+				for (size_type i = pos; i < _size; i++)
+					_alloc.destroy(_begin + i);
+				_size += count;
+				for (size_type i = pos; i < _size; i++)
+					_alloc.construct(_begin + i, *(first++));
+				
 			};
 			/*
 			** Removes from the vector either a single element (position)
@@ -657,7 +454,7 @@ namespace ft
 			*/
 			iterator erase (iterator position)
 			{
-				size_type n = position - _begin;
+				size_type n = position - begin();
 				_alloc.destroy(_begin + n);
 				for (size_type i = n; i < _size - 1; i++)
 					_alloc.construct(_begin + i, _begin[i + 1]);
@@ -667,13 +464,14 @@ namespace ft
 			// or a range of elements ([first,last)).
 			iterator erase (iterator first, iterator last)
 			{
-				size_type n = first - _begin;
-				size_type m = last - _begin;
-				for (size_type i = n; i < m; i++)
-					_alloc.destroy(_begin + i);
-				for (size_type i = n; i < _size - (m - n); i++)
-					_alloc.construct(_begin + i, _begin[i + (m - n)]);
-				_size -= (m - n);
+				size_type n = 0;
+				for (iterator it = first; it != last; it++)
+					n++;
+				while (first != last)
+				{
+					erase(first++);
+					_size--;
+				}
 				return (_begin + n);
 			};
 

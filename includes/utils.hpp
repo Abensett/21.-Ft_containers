@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/27 12:56:13 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:23:29 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ namespace ft
 
 
 
-	struct random_access_iterator_tag {};		//Categories used to identify random access iterators
-	struct bidirectional_iterator_tag {};
-	struct forward_iterator_tag {};
+
 	struct input_iterator_tag {};
 	struct output_iterator_tag {};
+	struct forward_iterator_tag  : public input_iterator_tag {};
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	struct random_access_iterator_tag : public bidirectional_iterator_tag{};		//Categories used to identify random access iterators
 
 		/*
 	**	ITERATOR_TRAITS
@@ -117,7 +118,7 @@ template <class Iterator> class reverse_iterator
 		};
 		// + -> addition operator
 		reverse_iterator operator+(difference_type n) const
-		{ return reverse_iterator(_base_iterator - n); };
+		{ return( base() - n); };
 		// ++ -> increment operator
 		reverse_iterator& operator++()
 		{
@@ -138,7 +139,8 @@ template <class Iterator> class reverse_iterator
 		};
 		// - -> subtraction operator
 		reverse_iterator operator-(difference_type n) const
-		{ return reverse_iterator(_base_iterator + n); };
+		{ return (base() + n);};
+		
 		// -- -> decrement operator
 		reverse_iterator& operator--()
 		{
@@ -171,27 +173,27 @@ template <class Iterator> class reverse_iterator
 // Comparison operators
 // =
 template< class Iterator1, class Iterator2 >
- bool operator==( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+ bool operator==( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() == rhs.base(); };
 // !=
 template< class Iterator1, class Iterator2 >
- bool operator!=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+ bool operator!=( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() != rhs.base(); };
 // <
 template< class Iterator1, class Iterator2 > 
-bool operator<( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+bool operator<( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() > rhs.base(); };
 // <=
 template< class Iterator1, class Iterator2 >
-bool operator<=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+bool operator<=( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() >= rhs.base(); };
 // >
 template< class Iterator1, class Iterator2 >
-bool operator>( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+bool operator>( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() < rhs.base(); };
 // >=
 template< class Iterator1, class Iterator2 >
- bool operator>=( const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs )
+ bool operator>=( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() <= rhs.base(); };
 
 // operator+ : addition operator and  subtraction operator
@@ -215,7 +217,7 @@ typename reverse_iterator<Iterator1>::difference_type operator - (const reverse_
 **
 **- A type trait that provides a member typedef type if the condition is true, otherwise no member typedef is provided.
 ** SFINAE  Substitution Failure Is Not An Error
-** Using types that are not enabled by std::enable_if
+** Using types that are not enabled by enable_if
 ** for template specialization will result in compile-time error.
 */
 template <bool B, class T = void>

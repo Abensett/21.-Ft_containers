@@ -6,9 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
 
-# Make data base, printed on Thu Sep 22 01:43:48 2022
+# Make data base, printed on Thu Sep 29 12:32:44 2022
 
 # Variables
 
@@ -17,7 +16,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # automatic
 ?F = $(notdir $?)
 # makefile (from `Makefile', line 43)
-OBJ := vector_testeur.o
+OBJ := 
 # makefile (from `Makefile', line 45)
 SRC = $(addprefix $(DIRSRC), $(SRC))
 # automatic
@@ -53,17 +52,19 @@ DIROBJS = $(addprefix $(DIROBJ), $(OBJ))
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
+LaunchInstanceID = 0ACCBD1B-268E-4813-91CF-79CD815A42B5
+# environment
 ELECTRON_RUN_AS_NODE = 1
 # makefile (from `Makefile', line 34)
 LDFLAGS = 
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.XJtHsX8J2x/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.KGtTMjlG5H/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.GOXXJYqXoy/org.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.qde1hYDFTV/org.xquartz:0
 # environment
 PWD = /Users/abou/Desktop/containers
 # environment
@@ -160,6 +161,8 @@ PAGER = less
 LC_ALL = C
 # makefile (from `Makefile', line 10)
 RESET = \033[0m
+# environment
+SECURITYSESSIONID = 186b3
 # automatic
 ^F = $(notdir $^)
 # default
@@ -173,9 +176,9 @@ DIRSRC = src/
 # environment
 LANG = C
 # environment
-VSCODE_PID = 19221
+VSCODE_PID = 605
 # variable set hash-table stats:
-# Load=81/1024=8%, Rehash=0, Collisions=4/121=3%
+# Load=83/1024=8%, Rehash=0, Collisions=5/124=4%
 
 # Pattern-specific Variable Values
 
@@ -183,10 +186,10 @@ VSCODE_PID = 19221
 
 # Directories
 
-# . (device 16777232, inode 41596280): 11 files, no impossibilities.
-# src (device 16777232, inode 41596364): 3 files, no impossibilities so far.
+# . (device 16777229, inode 41596280): 12 files, no impossibilities.
+# src (device 16777229, inode 41596364): No files, no impossibilities so far.
 
-# 14 files, no impossibilities in 2 directories.
+# 12 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -208,7 +211,7 @@ all: executable
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/7=0%
 
 .PHONY: all clean fclean re
 #  Implicit rule search has not been done.
@@ -224,7 +227,7 @@ all: executable
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-09-22 01:42:51
+#  Last modified 2022-09-28 22:11:06
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -234,32 +237,23 @@ test: executable
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 71):
+#  commands to execute (from `Makefile', line 70):
 	@mkdir -p test_results
-	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o test_results/std
-	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -D library=0 -o test_results/ft
+	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) src/vector_testeur.cpp -D library=0 -o test_results/std
+	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) src/vector_testeur.cpp -D library=1 -o test_results/ft
+	@chmod +x test_results/std
+	@chmod +x test_results/ft
 	@printf "  $(YELLOW)Compiling and linking all the tests $(END)⌛\n"
-	@./test_results/std > test_results/std.txt
-	@./test_results/ft > test_results/ft.txt
 	@printf "[$(GREEN)OK$(WHITE)] Tests generated. \n"
-	./tester/script.sh
+	@./script.sh
 	
-
-# Not a target:
-src/vector_testeur.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2022-09-22 01:43:19
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 fclean: clean
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 86):
+#  commands to execute (from `Makefile', line 85):
 	@rm -rf $(NAME)
 	@rm -rf test_results
 	@printf "[$(GREEN)cleaned$(WHITE)] $(NAME) \n\n"
@@ -290,57 +284,44 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 81):
+#  commands to execute (from `Makefile', line 80):
 	@rm -rf $(OBJS)	$(DIROBJ)
 	@rm -rf test_results
 	@printf "[$(GREEN)cleaned$(WHITE)] .o FILES \n"
 	
 
-objs/vector_testeur.o: src/vector_testeur.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: `vector_testeur'
+executable:
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := objs/vector_testeur.o
+# @ := executable
 # automatic
 # % := 
 # automatic
-# * := vector_testeur
+# * := 
 # automatic
-# + := src/vector_testeur.cpp
+# + := 
 # automatic
 # | := 
 # automatic
-# < := src/vector_testeur.cpp
+# < := 
 # automatic
-# ^ := src/vector_testeur.cpp
+# ^ := 
 # automatic
-# ? := src/vector_testeur.cpp
+# ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=4/16=25%
-#  commands to execute (from `Makefile', line 62):
-	@mkdir -p $(DIROBJ)
- 
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-	
-
-executable: objs/vector_testeur.o
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+# Load=8/32=25%, Rehash=0, Collisions=2/15=13%
 #  commands to execute (from `Makefile', line 66):
 	@printf "  $(YELLOW)Compiling and linking all the files $(END)⌛\n"
-	@$(CC) $(INCLUDES)  $(CFLAGS) $(DIROBJS)  $(LDFLAGS) -o $@
+ 
 	@printf "[$(GREEN)OK$(WHITE)] $(NAME) generated. \n"
 	
 
 # files hash-table stats:
-# Load=13/1024=1%, Rehash=0, Collisions=0/40=0%
+# Load=11/1024=1%, Rehash=0, Collisions=0/35=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -352,6 +333,6 @@ executable: objs/vector_testeur.o
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Thu Sep 22 01:43:48 2022
+# Finished Make data base on Thu Sep 29 12:32:44 2022
 
  

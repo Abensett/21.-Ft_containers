@@ -1,6 +1,6 @@
 #!/bin/bash
 #shebang means gotta use bash to run this
-NOMBRE_DE_TESTS=2
+NOMBRE_DE_TESTS=3
 << 'This-is-a-comment-thanks-to-here-doc'
 This is a containers tester. It will test the containers and see
 if they are working properly.

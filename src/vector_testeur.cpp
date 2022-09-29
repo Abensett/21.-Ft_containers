@@ -25,20 +25,24 @@ template <typename T> void print_vector( ft::vector<T> &v )
 	cout << "size: " << v.size() << endl;
 	cout << "capacity: " << v.capacity() << endl;
 	cout << "content: ";
-	// for (typename ft::vector<T>::iterator it = v.begin(); it != v.end(); it++)
-	// 	cout << *it << " ";
+	for (typename ft::vector<T>::iterator it = v.begin(); it != v.end(); it++)
+		cout << *it << " ";
 	cout << endl;
 }
 
 void    Test_Constructors(void)
 {
 
-	size_t	n		= 5;
 	ft::vector<int> v1;
-	ft::vector<int>	v2(n, 8);
+	ft::vector<int>	v2(5, 8);
+	ft::vector<int>::iterator first = v2.begin();
+    ft::vector<int>::iterator end = v2.end();
+
+	ft::vector<int>	v3(first, end);
 	ft::vector<int> v4(v2);
 	print_vector(v1);
 	print_vector(v2);
+	print_vector(v3);
 	print_vector(v4);
 }
 
@@ -91,13 +95,34 @@ void    Test_Iterators(void)
 	cout<< *it2++ <<" ";
 	cout<< --*it2 <<" ";
 	cout << *it2 << " ";
+    ft::vector<int>::const_reverse_iterator it_rev_cst = v1.rbegin();
+	cout << "Ceci est un const rev iterator: " << *it_rev_cst << endl;
 
-	// test rbegin() and rend()
-	ft::vector<int>::reverse_iterator rit(it);
-	ft::vector<int>::reverse_iterator rite(ite);
 
 	print_vector(v1);
 	cout << endl;
+}
+
+
+void    Test_erase(void)
+{
+	ft::vector<int> v1;
+	v1.push_back(1);
+	print_vector(v1);
+	v1.push_back(2);
+	v1.push_back(3);
+	print_vector(v1);
+
+	v1.push_back(4);
+	v1.push_back(5);
+	print_vector(v1);
+
+	v1.push_back(6);
+	print_vector(v1);
+	v1.erase(v1.begin() + 1);
+	print_vector(v1);
+	v1.erase(v1.end() - 1);
+	print_vector(v1);
 }
 
 // pointeurs sur fonctions tests
@@ -106,10 +131,11 @@ void    Test_Iterators(void)
 	Test_Constructors,
 	Test_operator_equal,
     Test_Iterators,
+	Test_erase
 };
 
 int main(int ac, char**av)
-{
+{	
 	if(ac != 2)
 	{
 		cout << "usage: ./vector_testeur [test_number]" << endl;
