@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/29 22:01:40 by abensett         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:46:43 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 namespace ft
 {
 
-	
+
 	// VECTOR CLASS
-	
+
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -152,7 +152,7 @@ namespace ft
 			*/
 			explicit vector (const allocator_type& alloc = allocator_type()):
 				_alloc(alloc), _begin(NULL), _size(0), _capacity(0)
-				{ _begin =_alloc.allocate(0); };
+				{};
 
 			/*
 			** FILL CONSTRUCTOR
@@ -179,6 +179,7 @@ namespace ft
                  const allocator_type& alloc = allocator_type())
 				 : _alloc(alloc)
 				 {
+					_size = 0;
 					for(InputIterator it = first; it != last; it++)
 						_size++;
 					_capacity = _size;
@@ -258,7 +259,7 @@ namespace ft
 			// Returns the number of elements the storage space currently allocated for the vector
 			size_type capacity() const { return (_capacity); };
 			// Returns whether the vector is empty (i.e. whether its size is 0).
-			bool empty() const { return (_size == 0); };
+			bool empty() const { return (begin() == end()); };
 			/*
 			** Requests that the vector capacity be at least enough to contain n elements.
 			** If n is greater than the current vector capacity, the function causes
@@ -290,8 +291,10 @@ namespace ft
 			{
 				if (n > max_size())
 					throw std::length_error("vector::resize");
-				if (n > _capacity)
-						reserve(_capacity * 2);
+				if (_capacity == 0 || n > _capacity)
+					reserve(n);
+				else if (n > _capacity)
+					reserve(_capacity * 2);
 				if (n > _size)
 				{
 					for (size_type i = _size; i < n; i++)
@@ -400,25 +403,33 @@ namespace ft
 			*/
 			iterator insert (iterator position, const value_type& val)
 			{
-				size_type n = position - _begin;
-				if (_size == _capacity)
+				size_type n = position - begin();
+				if (_capacity == 0)
+					reserve(n);
+				else if (_size + 1 > _capacity)
 					reserve(_capacity * 2);
 				for (size_type i = _size; i > n; i--)
-					_begin[i] = _begin[i - 1];
-				_begin[n] = val;	
-				_size++;
-				return (_begin + n);
+				{
+					_alloc.construct(_begin + i, _begin[i - 1]);
+					_alloc.destroy(_begin + i - 1);
+				}
+
+				(void)val;
+				_alloc.construct(_begin + n, val);
+				return (_begin);
 			};
 			// fill (2)
 			// inserts n new elements before the element at the specified position.
 			void insert (iterator position, size_type n, const value_type& val)
 			{
-				size_type pos = position - _begin;
-				if (_size + n > _capacity)
-					reserve( _size + n);
+				size_type pos = position - begin();
+				if (_capacity == 0)
+					reserve(n);
+				else if (_size + n > _capacity)
+					reserve( _size * 2);
 				for (size_type  i = pos; i < n ; i++ )
 					_begin[i] = val;
-				_size += n;
+				_size *= 2;
 			};
 			// range (3)
 			// inserts new elements before the element at the specified position.
@@ -426,27 +437,11 @@ namespace ft
 				void insert (iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type
 				 first, InputIterator last)
 			{
-				size_type				count;
-				size_type				pos = 0;
-				iterator				it = _begin;
-				count = std::distance(first, last);
-
-				while(it != position)
-				{
-					it++;
-					pos++;
-				}
-				if (_size + count > _capacity)
-					reserve(_size + count);
-				for (size_type i = _size; i > pos; i--)
-					_alloc.construct(_begin + i + count - 1, _begin[i - 1]);
-				for (size_type i = pos; i < _size; i++)
-					_alloc.destroy(_begin + i);
-				_size += count;
-				for (size_type i = pos; i < _size; i++)
-					_alloc.construct(_begin + i, *(first++));
-				
+				size_type n = last - first;
+				for (size_type i = 0; i < n; i++)
+					insert(position, *first++);
 			};
+
 			/*
 			** Removes from the vector either a single element (position)
 			** vectors use an array as their underlying storage, erasing elements in positions other than the vector end
@@ -462,17 +457,15 @@ namespace ft
 				return (_begin + n);
 			};
 			// or a range of elements ([first,last)).
+			// return an iterator pointing to the new location of the
+			// element that followed the last element erased by the function call.
+			// or vector::end if no such element exists.
 			iterator erase (iterator first, iterator last)
 			{
-				size_type n = 0;
-				for (iterator it = first; it != last; it++)
-					n++;
-				while (first != last)
-				{
-					erase(first++);
-					_size--;
-				}
-				return (_begin + n);
+				size_t n = last - first;
+				for(size_t i = 0; i != n; i++)
+					erase(first);
+				return (first);
 			};
 
 			// Exchanges the content of the container by the content of x, which is another vector object of the same type.
