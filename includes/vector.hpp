@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/09/30 19:46:43 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:29:24 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@
 #include "utils.hpp"
 #include "VectorIterator.hpp"
 
+// https://en.cppreference.com/w/cpp/container/vector
+
 namespace ft
 {
-
-
 	// VECTOR CLASS
-
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -400,46 +399,123 @@ namespace ft
 			/* single element (1)
 			** insents a new element before the element at the specified position
 			** return an iterator pointing to the inserted element.
+			** 
 			*/
 			iterator insert (iterator position, const value_type& val)
 			{
-				size_type n = position - begin();
-				if (_capacity == 0)
-					reserve(n);
-				else if (_size + 1 > _capacity)
-					reserve(_capacity * 2);
-				for (size_type i = _size; i > n; i--)
-				{
-					_alloc.construct(_begin + i, _begin[i - 1]);
-					_alloc.destroy(_begin + i - 1);
-				}
-
-				(void)val;
-				_alloc.construct(_begin + n, val);
-				return (_begin);
+					iterator	it = begin();
+					size_type	i = 0;
+					size_type	j = 1;
+					
+					if (_size + 1 > _capacity)
+					{
+						if (_capacity == 0 || _size + 1 > 2 * _capacity)
+							reserve(_size + 1);
+						else if (_size + 1 > _capacity)
+							reserve(_capacity * 2);
+					}
+					while (it != position)
+					{
+						it++;
+						i++;
+					}
+					size_type backup = i;
+					size_type new_pos = i;
+					while (i < _size)
+					{
+						get_allocator().construct(&_begin[_size + 1 - j], _begin[_size - j]);
+						j++;
+						i++;
+					}
+					get_allocator().construct(&_begin[backup], val);
+					_size += 1;
+					return (begin() + new_pos);
 			};
-			// fill (2)
-			// inserts n new elements before the element at the specified position.
+			/* fill (2)
+			** inserts n new elements before the element at the specified position.
+			** !!! pos before realocation !!
+			*/
 			void insert (iterator position, size_type n, const value_type& val)
 			{
-				size_type pos = position - begin();
-				if (_capacity == 0)
-					reserve(n);
-				else if (_size + n > _capacity)
-					reserve( _size * 2);
-				for (size_type  i = pos; i < n ; i++ )
-					_begin[i] = val;
-				_size *= 2;
-			};
+						iterator	it = begin();
+						size_type	distance = n;
+						size_type	i = 0;
+						size_type	j = 1;
+						size_type	k = 0;
+
+						if (distance)
+						{
+							if (_size + distance > _capacity)
+							{
+								if (_capacity == 0 || _size + distance >= 2 * _capacity)
+									reserve(_size + distance);
+								else if (_size + distance < _size * 2)
+									reserve(_size * 2);
+								else
+									reserve(_capacity * 2);
+							}
+							while (it != position)
+							{
+								it++;
+								i++;
+							}
+							size_type backup = i;
+							while (i < _size)
+							{
+								get_allocator().construct(&_begin[_size + distance - j], _begin[_size - j]);
+								get_allocator().destroy(&_begin[_size - j]);
+								j++;
+								i++;
+							}
+							while (k < distance)
+							{
+								get_allocator().construct(&_begin[backup], val);
+								k++;
+								backup++;
+							}
+							_size += distance;
+						}
+				};
 			// range (3)
 			// inserts new elements before the element at the specified position.
 			template <class InputIterator>
 				void insert (iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type
 				 first, InputIterator last)
 			{
-				size_type n = last - first;
-				for (size_type i = 0; i < n; i++)
-					insert(position, *first++);
+				iterator	it = begin();
+				size_type	distance = std::distance(first, last);
+				size_type	i = 0;
+				size_type	j = 1;
+				size_type	k = 0;
+
+				if (_size + distance > _capacity)
+				{
+					if (_capacity == 0 || _size + distance > 2 * _capacity)
+						reserve(_size + distance);
+					else if (_size + distance > _capacity)
+						reserve(_capacity * 2);
+				}
+				while (it != position)
+				{
+					it++;
+					i++;
+				}
+				size_type backup = i;
+				while (i < _size)
+				{
+					get_allocator().construct(&_begin[_size + distance - j], _begin[_size - j]);
+					get_allocator().destroy(&_begin[_size - j]);
+					j++;
+					i++;
+				}
+				while (k < distance)
+				{
+					get_allocator().construct(&_begin[backup], *first);
+					first++;
+					k++;
+					backup++;
+				}
+				_size += distance;
 			};
 
 			/*

@@ -125,13 +125,42 @@ void    Test_erase(void)
 	print_vector(v1);
 }
 
+void	Test_insert(void)
+{
+	ft::vector<int> v1;
+	ft::vector<int> v2(5, 8);
+
+	print_vector(v1);
+	v1.insert(v1.begin(), 2);
+	print_vector(v1);
+	v1.insert(v1.begin(), 1);
+	print_vector(v1);
+	v1.insert(v1.end(), 4);
+	print_vector(v1);
+	v1.insert(v1.end() - 1, 3);
+
+
+	print_vector(v1);
+	v1.insert(v1.end(), 3, 8);
+	print_vector(v1);
+
+	print_vector(v2);
+	v2.insert(v2.end(),1);
+	print_vector(v2);
+	v2.insert(v2.end(), 4, 8);
+	print_vector(v2);
+	v2.insert(v2.begin() + 2, v1.begin(), v1.end());
+
+}
+
 // pointeurs sur fonctions tests
  void  (*Fcn_tests[])() =
 {
 	Test_Constructors,
 	Test_operator_equal,
     Test_Iterators,
-	Test_erase
+	Test_erase,
+	Test_insert
 };
 
 int main(int ac, char**av)

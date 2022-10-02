@@ -1,6 +1,9 @@
 #!/bin/bash
 #shebang means gotta use bash to run this
-NOMBRE_DE_TESTS=3
+
+# number of tests
+NOMBRE_DE_TESTS=4
+
 << 'This-is-a-comment-thanks-to-here-doc'
 This is a containers tester. It will test the containers and see
 if they are working properly.
@@ -13,7 +16,7 @@ This-is-a-comment-thanks-to-here-doc
 
 
 # .out are the output files of a program
-tests=(constructeur  operateur_= iterator iterators operateur_mult
+tests=(constructeur  operateur_= iterator iterators insert
  operateur_div operateur_inf operateur_sup operateur_infeg operateur_supeg operateur_eg operateur_diff)
 
 # This the execution of the testers and the diff
