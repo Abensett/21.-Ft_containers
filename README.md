@@ -10,8 +10,8 @@ Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèq
 
 ### Vector
 >  ```= Dynamic contiguous array (SEQUENTIEL)```  
->  Conteneur séquentiel qui encapsule les tableaux de taille dynamique.  
->  Les éléments sont stockés de façon contigüe, ce qui signifie que les éléments sont ```accessibles non seulement
+>  * Conteneur séquentiel qui encapsule les tableaux de taille dynamique.  
+> *  Les éléments sont stockés de façon contigüe, ce qui signifie que les éléments sont ```accessibles non seulement
 via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur un élément.  
 
 
@@ -53,10 +53,18 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 </details>
 
+### Stack
+>  ```= a type of container adaptors with LIFO(Last In First Out ```  
+> * uses an encapsulated object of either vector or deque (by default) or list  
+> * a new element is ```added at one end``` (top) and an element is ```removed from that end only```
 
-map: Binary Search Tree of key-value pairs, sorted by unique keys.
-- stack: Adapts a container to provide stack (LIFO - Last In First Out)
-- 
+ 
+### Map
+>  ```= Binary Search Tree of key-value pairs, sorted by unique keys.```  
+> * Keys are sorted by using the comparison function Compare. Search, removal, and insertion
+> * Maps are usually implemented as ```red-black trees```
+
+
 ## Sitographie 
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
 * [Vector Infos](https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170)
