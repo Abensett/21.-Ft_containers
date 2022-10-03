@@ -6,26 +6,29 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/03 01:56:43 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:42:38 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include "utils.hpp"
 #include <memory>
 #include <stdexcept>
 #include <limits>
 #include <iostream>
+
+#include "utils.hpp"
+#include "RedBlackTree.hpp"
+
 // https://cplusplus.com/reference/map/map/
 
 namespace ft
 {
 
 	// Map class
-	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, Value> > >
-		class map 
+	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
+		class map
 		{
 			/************************************************************
 			 * 						MEMBER TYPES						*
@@ -51,7 +54,7 @@ namespace ft
 			// MEMBER OBJECTS
 			private:
 				key_compare														_key_compare;
-				red_black_tree<Key, Value, Compare, Allocator>					_tree;
+				RedBlackTree<Key, Value, Compare, Allocator>					_tree;
 				allocator_type													_alloc;
 
 			/************************************************************
@@ -69,7 +72,7 @@ namespace ft
 						typedef bool											result_type;
 						typedef value_type										first_argument_type;
 						typedef value_type										second_argument_type;
-						
+
 						result_type operator () (const value_type & lhs, const value_type & rhs) const
 						{
 							return (comp(lhs.first, rhs.first));
@@ -80,8 +83,8 @@ namespace ft
 						key_compare												comp;
 						value_compare(key_compare c) :
 							 comp(c){};
-					
-				 };	
+
+				 };
 
 			/************************************************************
 			 * 				CONSTRUCTEURS/DESTRUCTOR					*
@@ -95,7 +98,7 @@ namespace ft
 				template<class InputIterator>
 					map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
 						_tree(), _key_compare(comp), _alloc(alloc)
-				{insert(first, last);};
+				{(first, last);};
 
 				// COPY CONSTRUCTOR
 				map(const map & x)
@@ -114,13 +117,13 @@ namespace ft
 					_key_compare = x._key_compare;
 					return (*this);
 				};
-				
+
 				// return the allocator
 				allocator_type get_allocator(void) const
 				{
 					return (_alloc);
 				};
-				
+
 				// DESTRUCTOR
 				~map(void){};
 
@@ -202,11 +205,11 @@ namespace ft
 				/************************************************************
 				 * 						MODIFIERS							*
 				 ************************************************************/
-				
+
 				// erase all elements and set size to 0
 				void clear(void)
 				{ _tree.clear();	};
-				
+
 				// insert single element
 				ft::pair<iterator, bool> insert(const value_type& val)
 				{
@@ -238,7 +241,7 @@ namespace ft
 					return ;
 				};
 
-				//  removes the elements of a range 
+				//  removes the elements of a range
 				void erase(iterator first, iterator last)
 				{
 					map	cpy(first, last);
@@ -282,7 +285,7 @@ namespace ft
 						return (1);
 					return (0);
 				};
-					
+
 				// returns an iterator to the first element that is not considered to go before key
 				iterator lower_bound(const key_type& key)
 				{
@@ -353,7 +356,7 @@ namespace ft
 				{
 					return (ft::pair<iterator, iterator>(lower_bound(key), upper_bound(key)));
 				};
-			
+
 
 				// CONST EQUAL RANGE
 				ft::pair<const_iterator, const_iterator> equal_range(const key_type& key) const
@@ -362,16 +365,16 @@ namespace ft
 				/************************************************************
 				 * 						OBSERVERS							*
 				 ************************************************************/
-				
+
 				// return the key comparison object
 				key_compare key_comp(void) const {return (_key_compare);};
 				// return the comparison object used by the container to compare keys
 				value_compare value_comp(void) const {return (value_compare(Compare()));
 				};
-				
 
 
-		}; 
+
+		};
 		// end of map
 
 				/************************************************************
@@ -424,6 +427,6 @@ namespace ft
 					lhs.swap(rhs);
 				};
 
-} 
+}
 
 #endif
