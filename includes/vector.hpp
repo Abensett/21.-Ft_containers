@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/02 18:29:24 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:59:03 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,13 +400,13 @@ namespace ft
 			** insents a new element before the element at the specified position
 			** return an iterator pointing to the inserted element.
 			** 
+			** !! begin() before reserve() !!
 			*/
 			iterator insert (iterator position, const value_type& val)
 			{
-					iterator	it = begin();
-					size_type	i = 0;
-					size_type	j = 1;
 					
+					iterator	it = begin();
+
 					if (_size + 1 > _capacity)
 					{
 						if (_capacity == 0 || _size + 1 > 2 * _capacity)
@@ -414,22 +414,12 @@ namespace ft
 						else if (_size + 1 > _capacity)
 							reserve(_capacity * 2);
 					}
-					while (it != position)
-					{
-						it++;
-						i++;
-					}
-					size_type backup = i;
-					size_type new_pos = i;
-					while (i < _size)
-					{
-						get_allocator().construct(&_begin[_size + 1 - j], _begin[_size - j]);
-						j++;
-						i++;
-					}
-					get_allocator().construct(&_begin[backup], val);
+					size_type pos = position - it;
+					for (size_type i = _size; i > pos; i--)
+						_alloc.construct(_begin + i, _begin[i - 1]);
+					_alloc.construct(&_begin[pos], val);
 					_size += 1;
-					return (begin() + new_pos);
+					return (begin() + pos);
 			};
 			/* fill (2)
 			** inserts n new elements before the element at the specified position.
@@ -438,43 +428,28 @@ namespace ft
 			void insert (iterator position, size_type n, const value_type& val)
 			{
 						iterator	it = begin();
-						size_type	distance = n;
-						size_type	i = 0;
-						size_type	j = 1;
-						size_type	k = 0;
 
-						if (distance)
-						{
-							if (_size + distance > _capacity)
+						if (_size + n > _capacity)
 							{
-								if (_capacity == 0 || _size + distance >= 2 * _capacity)
-									reserve(_size + distance);
-								else if (_size + distance < _size * 2)
+								if (_capacity == 0 || _size + n >= 2 * _capacity)
+									reserve(_size + n);
+								else if (_size + n < _size * 2)
 									reserve(_size * 2);
 								else
 									reserve(_capacity * 2);
 							}
-							while (it != position)
-							{
-								it++;
-								i++;
-							}
-							size_type backup = i;
-							while (i < _size)
-							{
-								get_allocator().construct(&_begin[_size + distance - j], _begin[_size - j]);
-								get_allocator().destroy(&_begin[_size - j]);
-								j++;
-								i++;
-							}
-							while (k < distance)
-							{
-								get_allocator().construct(&_begin[backup], val);
-								k++;
-								backup++;
-							}
-							_size += distance;
+						size_type pos = position - it;
+						size_type	j = 1;
+						for (size_type i = pos; i < _size; i++)
+						{
+								_alloc.construct(&_begin[_size + n - j], _begin[_size - j]);
+								_alloc.destroy(&_begin[_size - j++]);
 						}
+						
+						for (size_type i = 0; i < n; i++)
+								_alloc.construct(&_begin[pos++], val);
+								
+						_size += n;
 				};
 			// range (3)
 			// inserts new elements before the element at the specified position.
@@ -482,40 +457,30 @@ namespace ft
 				void insert (iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type
 				 first, InputIterator last)
 			{
+				size_type	n = std::distance(first, last);
 				iterator	it = begin();
-				size_type	distance = std::distance(first, last);
-				size_type	i = 0;
-				size_type	j = 1;
-				size_type	k = 0;
 
-				if (_size + distance > _capacity)
+				if (_size + n > _capacity)
 				{
-					if (_capacity == 0 || _size + distance > 2 * _capacity)
-						reserve(_size + distance);
-					else if (_size + distance > _capacity)
+					if (_capacity == 0 || _size + n > 2 * _capacity)
+						reserve(_size + n);
+					else if (_size + n > _capacity)
 						reserve(_capacity * 2);
 				}
-				while (it != position)
+				
+				size_type pos = position - it;
+
+				size_type	j = 1;
+				for (size_type i = pos; i < _size; i++)
 				{
-					it++;
-					i++;
+					get_allocator().construct(&_begin[_size + n - j], _begin[_size - j]);
+					get_allocator().destroy(&_begin[_size - j++]);
 				}
-				size_type backup = i;
-				while (i < _size)
-				{
-					get_allocator().construct(&_begin[_size + distance - j], _begin[_size - j]);
-					get_allocator().destroy(&_begin[_size - j]);
-					j++;
-					i++;
-				}
-				while (k < distance)
-				{
-					get_allocator().construct(&_begin[backup], *first);
-					first++;
-					k++;
-					backup++;
-				}
-				_size += distance;
+			
+				for (size_type i = 0; i < n; i++)
+					get_allocator().construct(&_begin[pos++], *(first++));
+	
+				_size += n;
 			};
 
 			/*
