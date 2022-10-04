@@ -83,6 +83,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
     * [Un itérateur != pointeur  must define 5 required member types by specializing iterator_traits](https://learn.microsoft.com/fr-fr/cpp/standard-library/iterators?view=msvc-170)
 
 * Map 
+    * [A Red Black Tree is a Binary Search Tree So let's see how it works?](https://www.programiz.com/dsa/binary-search-tree)
     * [Why C++ uses RedBlackTree](https://github.com/mli42/containers_test.git)
     * [Video explaning RedBlackTree](https://www.youtube.com/watch?v=qvZGUFHWChY)
     * [Red Black Tree = lots of insertions/deletions  AVL Tree = lot of searches](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)
