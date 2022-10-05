@@ -2,10 +2,10 @@
 Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèque standard (Standard Template Library).
 
 ## Table of contents
-* [Vector](#Vector)  
-* [Iterators](#Iterators)  
+* [Vector](#Vector) 
 * [Stack](#Stack)
 * [Map](#Map)
+* [Iterators](#Iterators) 
 * [Utils to implement](#Utils)
 
 ### Vector
@@ -13,7 +13,6 @@ Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèq
 >  * Conteneur séquentiel qui encapsule les tableaux de taille dynamique.  
 > *  Les éléments sont stockés de façon contigüe, ce qui signifie que les éléments sont ```accessibles non seulement
 via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur un élément.  
-
 
 <details>
     <summary>Propreties STD</summary>  
@@ -30,12 +29,27 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 <img width="245" alt="Screenshot 2022-08-24 at 12 47 59" src="https://user-images.githubusercontent.com/85625233/186400146-a6ad44ca-437c-41b1-b85d-473b9dd52b49.png">
 </details>
 
+### Stack
+>  ```= a type of container adaptors with LIFO(Last In First Out ```  
+> * uses an encapsulated object of either vector or deque (by default) or list  
+> * a new element is ```added at one end``` (top) and an element is ```removed from that end only```
+
+ 
+### Map
+>  ```= Binary Search Tree of key-value pairs, sorted by unique keys.```  
+> * Keys are sorted by using the comparison function Compare. Search, removal, and insertion
+> * Maps are usually implemented as ```red-black trees```
+
+
 
 ### Iterators
 > Iterators are classified into five categories depending on the functionality they implement  
 > ```Random Access Pointers are equivalent to standard pointers.```
 
 <img width="641" alt="Screenshot 2022-08-24 at 13 12 18" src="https://user-images.githubusercontent.com/85625233/186404935-9ab09210-5622-49be-bfe4-0dc20f6d60ca.png">
+
+![image](https://user-images.githubusercontent.com/85625233/194087568-6396c021-7997-4caa-ae50-e728b8f4a96a.png)
+
 
 ### Utils
 > * __enable_if__ : <bool B, class T > If B true : public member **typedef T _type_**; otherwise: there is no member typedef.
@@ -53,17 +67,6 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 ![image](https://user-images.githubusercontent.com/85625233/189640037-e2556d3a-bef5-4f7b-9404-b3643d0f9b72.png)  
 
 </details>
-
-### Stack
->  ```= a type of container adaptors with LIFO(Last In First Out ```  
-> * uses an encapsulated object of either vector or deque (by default) or list  
-> * a new element is ```added at one end``` (top) and an element is ```removed from that end only```
-
- 
-### Map
->  ```= Binary Search Tree of key-value pairs, sorted by unique keys.```  
-> * Keys are sorted by using the comparison function Compare. Search, removal, and insertion
-> * Maps are usually implemented as ```red-black trees```
 
 
 ## Sitographie 
