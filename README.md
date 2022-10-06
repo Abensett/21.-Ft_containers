@@ -90,7 +90,9 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
     * [A Red Black Tree is a Binary Search Tree So let's see how it works?](https://www.programiz.com/dsa/binary-search-tree)
     * [Why C++ uses RedBlackTree](https://github.com/mli42/containers_test.git)
     * [Video explaning RedBlackTree](https://www.youtube.com/watch?v=qvZGUFHWChY)
-    * [Red Black Tree = lots of insertions/deletions  AVL Tree = lot of searches](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)
+    * [Red Black Tree = lots of insertions/deletions  AVL Tree = lot of searches](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/) 
+    * [Red Black Tree rotations](https://www.youtube.com/watch?v=q4fnJZr8ztY)
+    * [How to use rebind ?](https://stackoverflow.com/questions/14148756/what-does-template-rebind-do)
  * Utils
     * [**std::enable_if** is an important function to enable certain types for template specialization](https://leimao.github.io/blog/CPP-Enable-If/)
     * [**std::is_integral** is a Trait class that identifies whether T is an integral type](https://cplusplus.com/reference/type_traits/is_integral/?kw=is_integral)
