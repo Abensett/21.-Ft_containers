@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef CONSTMAPRITERATOR_HPP
-#define CONSTMAPITERATOR_HPP
+#define CONSTMAPRITERATOR_HPP
 
 #include "utils.hpp"
-#include "VectorIterator.hpp"
 
 namespace ft
 {
@@ -23,20 +22,21 @@ namespace ft
 	// template <class T>
 	// class ConstConstMapIterator;
 	template < typename T >
-	class ConstConstMapIterator
+	class ConstMapIterator
 	{
 				public:
-			typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
+			typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, const T> >		traits;			// specify the iterator traits
 			typedef typename traits::value_type												value_type;
 			typedef	typename traits::difference_type										difference_type;
 			typedef	typename traits::pointer												pointer;
 			typedef	typename traits::reference												reference;
 			typedef	typename traits::iterator_category										iterator_category;
+			typedef  Node<T>*																NodePointer;
 
 			// Constructors
 			ConstMapIterator() : _ptr(NULL) {};
 			// Copy, constructor from pointer
-			ConstMapIterator(pointer ptr) : _ptr(ptr) {};
+			ConstMapIterator(pointer ptr) : _ptr(ptr.base()) {};
 			// destructor
 			~ConstMapIterator() {};
 			// Operators
@@ -52,9 +52,9 @@ namespace ft
 			bool operator==(const ConstMapIterator &rhs) const { return (_ptr == rhs._ptr); };
 			bool operator!=(const ConstMapIterator &rhs) const { return (_ptr != rhs._ptr); };
 			// rvalue dereferencing operator
-			reference operator*() const { return (*(_ptr->data)); };
+			reference operator*() const { return (*(_ptr->value)); };
 			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr->data); };
+			pointer operator->() const { return (_ptr->value); };
 			// lvalue pointer dereferencing operator
 			pointer operator&() const { return (_ptr); };
 			// incrementation operator iterator++
@@ -67,38 +67,41 @@ namespace ft
 			// decrementation operator iterator--
 			ConstMapIterator &operator--() { _ptr = prev(_ptr); return (_ptr); };
 			// post-decrementation operator --iterator
-			ConstMapIterator operator--(int) 
+			ConstMapIterator operator--(int)
 			{
 				ConstMapIterator tmp(*this);
 				_ptr = prev(_ptr);
-				return (tmp); 
+				return (tmp);
 			};
-			
-		private:	
+
+			// base() member function
+			NodePointer base() const { return (_ptr); };
+
+		private:
 				// find last node of the branch
-				Node* maximum(Node* Node)
+				NodePointer maximum(NodePointer Node)
 				{
 					while (Node->right->color != NIL)
 						Node = Node->right;
 					return (Node);
 				};
-				
+
 				// find first node of the branch
-				Node* minimum(Node* Node)
+				NodePointer minimum(NodePointer Node)
 				{
-					while (Node->left->color != NIL) 
+					while (Node->left->color != NIL)
 						Node = Node->left;
 					return (Node);
 				};
 
-				// return the previous node in the tree and check if it's a NIL node 
-				Node* prev(Node* Node)
+				// return the previous node in the tree and check if it's a NIL node
+				NodePointer prev(NodePointer Node)
 				{
 					if (Node->color == NIL)
 						return (Node->parent);
 					if (Node->color != NIL && Node->left->color != NIL)
 						return (maximum(Node->left));
-					Node* _ptr = Node->parent;
+					NodePointer _ptr = Node->parent;
 					while (_ptr->color != NIL && Node == _ptr->left)
 					{
 						Node = _ptr;
@@ -108,15 +111,15 @@ namespace ft
 						return (_ptr);
 					return (Node);
 				};
-				
+
 				// return the next node in the tree and check if it's the end of the tree
-				Node* next(Node* Node)
+				NodePointer next(NodePointer Node)
 				{
 					if (Node->color == NIL)
 						return (Node);
 					if (Node->right->color != NIL)
 						return (minimum(Node->right));
-					Node* _ptr = Node->parent;
+					NodePointer _ptr = Node->parent;
 					while (_ptr->color != NIL && Node == _ptr->right)
 					{
 						Node = _ptr;
@@ -125,7 +128,7 @@ namespace ft
 					return (_ptr);
 				};
 				// pointer to the current element
-				pointer 															_ptr;
+				NodePointer 															_ptr;
 
 	};
 

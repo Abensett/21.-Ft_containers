@@ -33,7 +33,7 @@ namespace ft
 			// Constructors
 			MapIterator() : _ptr(NULL) {};
 			// Copy, constructor from pointer
-			MapIterator(pointer ptr) : _ptr(ptr) {};
+			MapIterator(pointer ptr) : _ptr(ptr.base()) {};
 			// destructor
 			~MapIterator() {};
 			// Operators
@@ -46,8 +46,8 @@ namespace ft
 				return (*this);
 			}
 			// comparison operators
-			bool operator==(const MapIterator &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const MapIterator &rhs) const { return (_ptr != rhs._ptr); };
+			bool operator==(const MapIterator &rhs) const { return (_ptr == rhs.base()); };
+			bool operator!=(const MapIterator &rhs) const { return (_ptr != rhs.base()); };
 			// rvalue dereferencing operator
 			reference operator*() const { return (*(_ptr->value)); };
 			// pointer dereferencing operator
@@ -64,14 +64,17 @@ namespace ft
 			// decrementation operator iterator--
 			MapIterator &operator--() { _ptr = prev(_ptr); return (_ptr); };
 			// post-decrementation operator --iterator
-			MapIterator operator--(int) 
+			MapIterator operator--(int)
 			{
 				MapIterator tmp(*this);
 				_ptr = prev(_ptr);
-				return (tmp); 
+				return (tmp);
 			};
-			
-		private:	
+
+			// base() function used to get the underlying pointer of the iterator
+			pointer base() const { return (_ptr); };
+
+		private:
 				// find last node of the branch
 				NodePointer maximum(NodePointer Node)
 				{
@@ -83,12 +86,12 @@ namespace ft
 				// find first node of the branch
 				NodePointer minimum(NodePointer Node)
 				{
-					while (Node->left->color != NIL) 
+					while (Node->left->color != NIL)
 						Node = Node->left;
 					return (Node);
 				};
 
-				// return the previous node in the tree and check if it's a NIL node 
+				// return the previous node in the tree and check if it's a NIL node
 				NodePointer prev(NodePointer Node)
 				{
 					if (Node->color == NIL)
@@ -105,7 +108,7 @@ namespace ft
 						return (_ptr);
 					return (Node);
 				};
-				
+
 				// return the next node in the tree and check if it's the end of the tree
 				NodePointer next(NodePointer Node)
 				{

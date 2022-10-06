@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/05 16:23:33 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:39:40 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ namespace ft
 
 /* REVERSE_ITERATOR
 **
-** 	- A reverse iterator is an iterator that moves in the opposite 
+** 	- A reverse iterator is an iterator that moves in the opposite
 ** direction of a given iterator.
 */
 template <class Iterator> class reverse_iterator
@@ -99,7 +99,7 @@ template <class Iterator> class reverse_iterator
 		// copy constructor
 		template <class Iter> reverse_iterator(const reverse_iterator<Iter>& rev_it)
 		{ *this = rev_it; };
-		
+
 		// OPERATORS
 		// assignation operator
 		template< class U >
@@ -140,7 +140,7 @@ template <class Iterator> class reverse_iterator
 		// - -> subtraction operator
 		reverse_iterator operator-(difference_type n) const
 		{ return (base() + n);};
-		
+
 		// -- -> decrement operator
 		reverse_iterator& operator--()
 		{
@@ -159,11 +159,11 @@ template <class Iterator> class reverse_iterator
 			_base_iterator += n;
 			return *this;
 		};
-		// -> deference operator 
+		// -> deference operator
 		pointer operator->() const
 		{ return &(operator*()); };
-		
-		// [] -> mem access operator : access the element at n and return a reference 
+
+		// [] -> mem access operator : access the element at n and return a reference
 		reference operator[](difference_type n) const
 		{ return *(*this + n); };
 };
@@ -180,7 +180,7 @@ template< class Iterator1, class Iterator2 >
  bool operator!=( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() != rhs.base(); };
 // <
-template< class Iterator1, class Iterator2 > 
+template< class Iterator1, class Iterator2 >
 bool operator<( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
 { return lhs.base() > rhs.base(); };
 // <=
@@ -202,7 +202,7 @@ template <class Iterator> reverse_iterator<Iterator> operator+ (typename reverse
 { return reverse_iterator<Iterator>(rev_it.base() - n); };
 //-
 template <class Iterator> typename reverse_iterator<Iterator>::difference_type operator- (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-{ return rhs.base() - lhs.base(); };	
+{ return rhs.base() - lhs.base(); };
 
 template <class Iterator1, class Iterator2>
 typename reverse_iterator<Iterator1>::difference_type operator - (const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs)
@@ -304,7 +304,11 @@ template< class T1, class T2> struct pair
 
 
 	pair() : first(T1()), second(T2()) {};					// DEFAULT CONSTRUCTOR
-	template<class U, class V> pair (const pair<U,V>& pr)	// COPY CONSTRUCTOR
+
+	pair(const ft::pair <T1, Value > & T2):
+	first(T2.first), second(T2.second) {};// COPY CONSTRUCTOR
+
+	template<class U, class V> pair (const pair<U,V>& pr)	//  TEMPLATE COPY CONSTRUCTOR
 	{
 		first = pr.first;
 		second = pr.second;

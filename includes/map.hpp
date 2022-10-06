@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/06 12:24:01 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:45:02 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "utils.hpp"
 #include "RedBlackTree.hpp"
 #include "MapIterator.hpp"
+#include "ConstMapIterator.hpp"
+
 
 // https://cplusplus.com/reference/map/map/
 
@@ -48,8 +50,8 @@ namespace ft
 				typedef const T &												const_reference;
 				typedef T *														pointer;
 				typedef const pointer											const_pointer;
-				typedef ft::MapIterator<value_type>								iterator;
-				typedef ft::MapIterator<value_type>								const_iterator;
+				typedef ft::MapIterator<value_type*>								iterator;
+				typedef ft::ConstMapIterator<value_type*>						const_iterator;
 				typedef ft::reverse_iterator<iterator>							reverse_iterator;
 				typedef ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
@@ -201,7 +203,7 @@ namespace ft
 				// return a reference to the mapped value of the element identified with key k
 				mapped_type & operator [] (const key_type& key)
 				{
-					return (insert(ft::pair<Key, mapped_type>(key, _tree.find(key)->data->second)).first->second);
+					return (insert(ft::pair<Key, mapped_type>(key, _tree.find(key)->value->second)).first->second);
 				};
 
 				/************************************************************
