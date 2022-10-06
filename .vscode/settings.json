@@ -79,6 +79,8 @@
         "__functional_base": "cpp",
         "list": "cpp",
         "queue": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "filesystem": "cpp",
+        "*.tpp": "cpp"
     }
 }

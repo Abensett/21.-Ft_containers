@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/03 17:42:38 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:24:01 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include "utils.hpp"
 #include "RedBlackTree.hpp"
+#include "MapIterator.hpp"
 
 // https://cplusplus.com/reference/map/map/
 
@@ -27,6 +28,7 @@ namespace ft
 {
 
 	// Map class
+	// std::less<key> is to  strict total order <
 	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 		class map
 		{
@@ -46,15 +48,15 @@ namespace ft
 				typedef const T &												const_reference;
 				typedef T *														pointer;
 				typedef const pointer											const_pointer;
-				typedef ft::MapIterator<Key, Value, value_type*>				iterator;
-				typedef ft::ConstMapIterator<Key, Value, const value_type*>		const_iterator;
+				typedef ft::MapIterator<value_type>								iterator;
+				typedef ft::MapIterator<value_type>								const_iterator;
 				typedef ft::reverse_iterator<iterator>							reverse_iterator;
 				typedef ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 			// MEMBER OBJECTS
 			private:
 				key_compare														_key_compare;
-				RedBlackTree<Key, Value, Compare, Allocator>					_tree;
+				RedBlackTree<Key, T, Compare, Allocator>						_tree;
 				allocator_type													_alloc;
 
 			/************************************************************
@@ -92,13 +94,13 @@ namespace ft
 			public:
 				// DEFAULT CONSTRUCTOR
 				explicit map(const Compare & comp = key_compare(), const Allocator & alloc = allocator_type()) :
-					_tree(), _key_compare(comp),	_alloc(alloc)
+					 	_key_compare(comp), _tree(), _alloc(alloc)
 				{	};
 				// RANGE CONSTRUCTOR
 				template<class InputIterator>
 					map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
-						_tree(), _key_compare(comp), _alloc(alloc)
-				{(first, last);};
+					_key_compare(comp), _tree(), _alloc(alloc)
+				{insert(first, last);};
 
 				// COPY CONSTRUCTOR
 				map(const map & x)

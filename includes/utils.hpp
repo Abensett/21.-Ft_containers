@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/03 14:22:15 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:23:33 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,24 @@ bool lexicographical_compare(InputIt1 first1, InputIt1 last1,
 	}
 	return (first1 == last1) && (first2 != last2);
 }
+
+
+/* EQUAL
+*	- Compares the elements in the range [first1,last1) with those of the range beginning at first2,
+*	and returns true if all the elements in both ranges match.
+*	- The elements are compared using operator== for this verions
+*/
+template<class InputIt1, class InputIt2>
+bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2)
+{
+    for (; first1 != last1; ++first1, ++first2) {
+        if (!(*first1 == *first2)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 /* PAIR
 **

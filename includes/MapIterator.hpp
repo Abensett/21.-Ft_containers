@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   VectorIterator.hpp                                 :+:      :+:    :+:   */
+/*   MapIterator.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,39 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTORITERATOR_HPP
-#define VECTORITERATOR_HPP
+#ifndef MAPITERATOR_HPP
+#define MAPITERATOR_HPP
 
 #include "utils.hpp"
-#include "ConstVectorIterator.hpp"
+#include "RedBlackTree.hpp"
 
 namespace ft
 {
-	template <typename T>
-
-	// Iterator Vector = random access iterator
-	// template <class T>
-	// class ConstVectorIterator;
-	
-	class VectorIterator
+	template <class T>
+	// Iterator Map = bidirectionnal access iterator
+	class MapIterator
 	{
 		public:
-			typedef ft::iterator_traits<iterator<std::random_access_iterator_tag, T> >		traits;			// specify the iterator traits
+			typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
 			typedef typename traits::value_type												value_type;
 			typedef	typename traits::difference_type										difference_type;
 			typedef	typename traits::pointer												pointer;
 			typedef	typename traits::reference												reference;
 			typedef	typename traits::iterator_category										iterator_category;
-
+			typedef  Node<T>*														NodePointer;
 			// Constructors
-			VectorIterator() : _ptr(NULL) {};
+			MapIterator() : _ptr(NULL) {};
 			// Copy, constructor from pointer
-			VectorIterator(pointer ptr) : _ptr(ptr) {};
+			MapIterator(pointer ptr) : _ptr(ptr) {};
 			// destructor
-			~VectorIterator() {};
+			~MapIterator() {};
 			// Operators
 			// assignation operator
-			VectorIterator operator=( const VectorIterator &rhs)
+			MapIterator operator=( const MapIterator &rhs)
 			{
 				// protection de l'autodéfinition
 				if (*this != rhs)
@@ -50,76 +46,85 @@ namespace ft
 				return (*this);
 			}
 			// comparison operators
-			bool operator==(const VectorIterator &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const VectorIterator &rhs) const { return (_ptr != rhs._ptr); };
+			bool operator==(const MapIterator &rhs) const { return (_ptr == rhs._ptr); };
+			bool operator!=(const MapIterator &rhs) const { return (_ptr != rhs._ptr); };
 			// rvalue dereferencing operator
-			reference operator*() const { return (*_ptr); };
+			reference operator*() const { return (*(_ptr->value)); };
 			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr); };
+			pointer operator->() const { return (_ptr->value); };
 			// lvalue pointer dereferencing operator
 			pointer operator&() const { return (_ptr); };
 			// incrementation operator iterator++
-			VectorIterator &operator++() { ++_ptr; return (*this); };
+			MapIterator &operator++() { _ptr = next(_ptr); return (*this); };
 			// post-incrementation operator ++iterator
-			VectorIterator operator++(int) {
-				VectorIterator tmp(*this);
-				++_ptr;
+			MapIterator operator++(int) {
+				MapIterator tmp(*this);
+				_ptr = next(_ptr);
 				return (tmp); };
 			// decrementation operator iterator--
-			VectorIterator &operator--() { --_ptr; return (*this); };
+			MapIterator &operator--() { _ptr = prev(_ptr); return (_ptr); };
 			// post-decrementation operator --iterator
-			VectorIterator operator--(int) {
-				VectorIterator tmp(*this);
-				--_ptr;
-				return (tmp); };
-
-			// addition operator iterator + int
-			VectorIterator operator+(difference_type n) const { return (VectorIterator(_ptr + n)); };
-			// addition operator int + iterator
-			friend VectorIterator operator+(difference_type n, const VectorIterator &rhs)  { return (VectorIterator(rhs._ptr + n)); };
-			// difference_type operator iterator - int
-			VectorIterator operator-(difference_type n) 
+			MapIterator operator--(int) 
 			{
-				VectorIterator tmp(*this);
-				tmp -= n;
-				return (tmp);
+				MapIterator tmp(*this);
+				_ptr = prev(_ptr);
+				return (tmp); 
 			};
-			// difference_type operator iterator1 - iterator2
-			difference_type operator-( VectorIterator rhs)  { return (_ptr - rhs._ptr); };
-			// difference_type operator iterator1 - cons iterator2
-			difference_type operator-( ConstVectorIterator<T> rhs)  { return (_ptr - rhs._ptr); };
 			
-			// COMPARAISON OPERATORS
-			// comparison operator iterator1 < iterator2
-			bool operator<(const VectorIterator &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const VectorIterator &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const VectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const VectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
+		private:	
+				// find last node of the branch
+				NodePointer maximum(NodePointer Node)
+				{
+					while (Node->right->color != NIL)
+						Node = Node->right;
+					return (Node);
+				};
 
-			// With const operators
-			bool operator==(const ConstVectorIterator<T> &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const ConstVectorIterator<T> &rhs) const { return (_ptr != rhs._ptr); };
-			bool operator<(const ConstVectorIterator<T> &rhs) const { return (_ptr < rhs._ptr); };
-			// comparison operator iterator1 > iterator2
-			bool operator>(const ConstVectorIterator<T> &rhs) const { return (_ptr > rhs._ptr); };
-			// comparison operator iterator1 <= iterator2
-			bool operator<=(const ConstVectorIterator<T> &rhs) const { return (_ptr <= rhs._ptr); };
-			// comparison operator iterator1 >= iterator2
-			bool operator>=(const ConstVectorIterator<T> &rhs) const { return (_ptr >= rhs._ptr); };
-			
-			// addition assignation operator iterator += int
-			VectorIterator &operator+=(difference_type n) { _ptr += n; return (*this); };
-			// diffrence assignation operator iterator -= int
-			VectorIterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
+				// find first node of the branch
+				NodePointer minimum(NodePointer Node)
+				{
+					while (Node->left->color != NIL) 
+						Node = Node->left;
+					return (Node);
+				};
 
-			// dereferencing operator iterator[int]
-			reference operator[](difference_type n) const { return (_ptr[n]); };
+				// return the previous node in the tree and check if it's a NIL node 
+				NodePointer prev(NodePointer Node)
+				{
+					if (Node->color == NIL)
+						return (Node->parent);
+					if (Node->color != NIL && Node->left->color != NIL)
+						return (maximum(Node->left));
+					NodePointer _ptr = Node->parent;
+					while (_ptr->color != NIL && Node == _ptr->left)
+					{
+						Node = _ptr;
+						_ptr = _ptr->parent;
+					}
+					if (_ptr->color != NIL)
+						return (_ptr);
+					return (Node);
+				};
+				
+				// return the next node in the tree and check if it's the end of the tree
+				NodePointer next(NodePointer Node)
+				{
+					if (Node->color == NIL)
+						return (Node);
+					if (Node->right->color != NIL)
+						return (minimum(Node->right));
+					NodePointer _ptr = Node->parent;
+					while (_ptr->color != NIL && Node == _ptr->right)
+					{
+						Node = _ptr;
+						_ptr = _ptr->parent;
+					}
+					return (_ptr);
+				};
 
-			// pointer to the current element
-			pointer 															_ptr;
+
+				// pointer to the current element
+				NodePointer															_ptr;
 
 	};
 
