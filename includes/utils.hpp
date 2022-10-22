@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/06 16:39:40 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/11 00:45:11 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,29 +294,32 @@ bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2)
 */
 
 
-template< class T1, class T2> struct pair
+template< class T1, class T2> 
+struct pair
 {
-	typedef T1 first_type;									// The type of the first element
-	typedef T2 second_type;									// The type of the second element
+	typedef T1 first_type;												// The type of the first element
+	typedef T2 second_type;												// The type of the second element
 
-	T1 first;												// the first stored value
-	T2 second;												// the second stored value
+	first_type 	first;													// the first stored value
+	second_type second;													// the second stored value
 
 
-	pair() : first(T1()), second(T2()) {};					// DEFAULT CONSTRUCTOR
+	pair() : first(first_type()), second(second_type()) {};				// DEFAULT CONSTRUCTOR
 
-	pair(const ft::pair <T1, Value > & T2):
-	first(T2.first), second(T2.second) {};// COPY CONSTRUCTOR
-
-	template<class U, class V> pair (const pair<U,V>& pr)	//  TEMPLATE COPY CONSTRUCTOR
+	pair(const ft::pair <T1, T2 > & other):								// COPY CONSTRUCTOR
+	first(other.first), second(other.second) {};
+	
+	template<class U, class V> pair (const ft::pair<U,V>& pr)				//  TEMPLATE COPY CONSTRUCTOR
+	:first(pr.first),
+	second(pr.second)
 	{
-		first = pr.first;
-		second = pr.second;
 	};
 	pair (const first_type& a, const second_type& b) : first(a), second(b) {};	// INITIALIZATION CONSTRUCTOR
 
 	pair& operator= (const pair& pr)						// ASSIGNMENT OPERATOR
 	{
+		if (this == &pr)
+					return (*this);
 		first = pr.first;
 		second = pr.second;
 		return *this;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <chrono>
 #ifndef library
 #define library 0
 #endif
@@ -18,6 +19,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::stringstream;
+using namespace std::chrono;
 
 // print a vector of any type: size, capacity, element
 template <typename T> void print_vector( ft::vector<T> &v )
@@ -32,7 +34,7 @@ template <typename T> void print_vector( ft::vector<T> &v )
 
 void    Test_Constructors(void)
 {
-
+	// std::time_t avant = system_clock::now();
 	ft::vector<int> v1;
 	ft::vector<int>	v2(5, 8);
 	ft::vector<int>::iterator first = v2.begin();
@@ -44,6 +46,7 @@ void    Test_Constructors(void)
 	print_vector(v2);
 	print_vector(v3);
 	print_vector(v4);
+	// cout << std::ctime(system_clock::now() - avant) << endl;
 }
 
 void    Test_operator_equal(void)

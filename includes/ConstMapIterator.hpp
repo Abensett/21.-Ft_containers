@@ -18,119 +18,183 @@
 namespace ft
 {
 
-	// Iterator Map = random access iterator
-	// template <class T>
-	// class ConstConstMapIterator;
-	template < typename T >
-	class ConstMapIterator
-	{
-				public:
-			typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, const T> >		traits;			// specify the iterator traits
-			typedef typename traits::value_type												value_type;
-			typedef	typename traits::difference_type										difference_type;
-			typedef	typename traits::pointer												pointer;
-			typedef	typename traits::reference												reference;
-			typedef	typename traits::iterator_category										iterator_category;
-			typedef  Node<T>*																NodePointer;
+	template <class Key, class Value, class Iter>
+    class MapIterator;
 
-			// Constructors
-			ConstMapIterator() : _ptr(NULL) {};
-			// Copy, constructor from pointer
-			ConstMapIterator(pointer ptr) : _ptr(ptr.base()) {};
-			// destructor
-			~ConstMapIterator() {};
-			// Operators
-			// assignation operator
-			ConstMapIterator operator=( const ConstMapIterator &rhs)
-			{
-				// protection de l'autodéfinition
-				if (*this != rhs)
-					this->_ptr = rhs._ptr;
-				return (*this);
-			}
-			// comparison operators
-			bool operator==(const ConstMapIterator &rhs) const { return (_ptr == rhs._ptr); };
-			bool operator!=(const ConstMapIterator &rhs) const { return (_ptr != rhs._ptr); };
-			// rvalue dereferencing operator
-			reference operator*() const { return (*(_ptr->value)); };
-			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr->value); };
-			// lvalue pointer dereferencing operator
-			pointer operator&() const { return (_ptr); };
-			// incrementation operator iterator++
-			ConstMapIterator &operator++() { _ptr = next(_ptr); return (*this); };
-			// post-incrementation operator ++iterator
-			ConstMapIterator operator++(int) {
-				ConstMapIterator tmp(*this);
-				_ptr = next(_ptr);
-				return (tmp); };
-			// decrementation operator iterator--
-			ConstMapIterator &operator--() { _ptr = prev(_ptr); return (_ptr); };
-			// post-decrementation operator --iterator
-			ConstMapIterator operator--(int)
-			{
-				ConstMapIterator tmp(*this);
-				_ptr = prev(_ptr);
-				return (tmp);
-			};
+	template <class Key, class Value, class Iter>
+		class ConstMapIterator
+		{
 
-			// base() member function
-			NodePointer base() const { return (_ptr); };
+			// MEMBER TYPES
+			public:
 
-		private:
-				// find last node of the branch
-				NodePointer maximum(NodePointer Node)
+				typedef Iter																iterator_type;
+				typedef std::bidirectional_iterator_tag										iterator_category;
+				typedef typename ft::iterator_traits<iterator_type>::value_type				value_type;
+				typedef typename ft::iterator_traits<iterator_type>::difference_type		difference_type;
+				typedef typename ft::iterator_traits<iterator_type>::pointer				pointer;
+				typedef typename ft::iterator_traits<iterator_type>::reference				reference;
+				typedef node<Key, Value>*													nodePointer;
+
+			// MEMBER OBJECTS
+			private:
+
+				nodePointer																	_ptr;
+
+			// MEMBER FUNTIONS
+			public:
+
+				// DEFAULT CONSTRUCTOR
+				ConstMapIterator(nodePointer _ptr = NULL) :
+					_ptr(_ptr)
 				{
-					while (Node->right->color != NIL)
-						Node = Node->right;
-					return (Node);
+					return ;
 				};
 
-				// find first node of the branch
-				NodePointer minimum(NodePointer Node)
+				// COPY CONSTRUCTOR
+				template<class U>
+					ConstMapIterator(const MapIterator<Key, Value, U> & other) :
+						_ptr(other.base())
 				{
-					while (Node->left->color != NIL)
-						Node = Node->left;
-					return (Node);
+					return ;
 				};
 
-				// return the previous node in the tree and check if it's a NIL node
-				NodePointer prev(NodePointer Node)
+				// OPERATOR =
+				ConstMapIterator & operator = (const ConstMapIterator & other)
 				{
-					if (Node->color == NIL)
-						return (Node->parent);
-					if (Node->color != NIL && Node->left->color != NIL)
-						return (maximum(Node->left));
-					NodePointer _ptr = Node->parent;
-					while (_ptr->color != NIL && Node == _ptr->left)
+					if (this == &other)
+						return (*this);
+					_ptr = other._ptr;
+					return (*this);
+				};
+
+				// OPERATOR = MAP ITERATOR
+				ConstMapIterator & operator = (const MapIterator<Key, Value, Iter> & other)
+				{
+					_ptr = other._ptr;
+					return (*this);
+				};
+
+				// DESTRUCTOR
+				~ConstMapIterator(void)
+				{
+					return ;
+				};
+
+				// BASE
+				nodePointer base(void) const
+				{
+					return (_ptr);
+				};
+
+				// OPERATOR ==
+				bool operator == (const ConstMapIterator & other) const
+				{
+					return (_ptr == other.base());
+				};
+
+				// OPERATOR !=
+				bool operator != (const ConstMapIterator& other) const
+				{
+					return (_ptr != other.base());
+				};
+
+				// DEREFERENCE
+				reference operator * (void) const
+				{
+					return (*(_ptr->data));
+				};
+
+				// DEREFERENCE
+				pointer operator -> (void) const
+				{
+					return (_ptr->data);
+				};
+
+				// POST INCREMENTATION
+				ConstMapIterator & operator ++ (void)
+				{
+					_ptr = next(_ptr);
+					return (*this);
+				};
+
+				// PRE INCREMENTATION
+				ConstMapIterator operator ++ (int)
+				{
+					ConstMapIterator	tmp(*this);
+
+					_ptr = next(_ptr);
+					return (tmp);
+				};
+				
+				// POST DECREMENTATION
+				ConstMapIterator& operator -- (void)
+				{
+					_ptr = prev(_ptr);
+					return (*this);
+				};
+
+				// PRE DECREMENTATION
+				ConstMapIterator operator -- (int)
+				{
+					ConstMapIterator	tmp(*this);
+
+					_ptr = prev(_ptr);
+					return (tmp);
+				};
+
+			private:
+
+				nodePointer maximum(nodePointer node)
+				{
+					while (node->right->color != NIL)
+						node = node->right;
+					return (node);
+				};
+
+				nodePointer minimum(nodePointer node)
+				{
+					while (node->left->color != NIL)
+						node = node->left;
+					return (node);
+				};
+
+				nodePointer next(nodePointer node)
+				{
+					if (node->color == NIL)
+						return (node);
+
+					if (node->right->color != NIL)
+						return (minimum(node->right));
+
+					nodePointer _ptr = node->parent;
+					while (_ptr->color != NIL && node == _ptr->right)
 					{
-						Node = _ptr;
-						_ptr = _ptr->parent;
-					}
-					if (_ptr->color != NIL)
-						return (_ptr);
-					return (Node);
-				};
-
-				// return the next node in the tree and check if it's the end of the tree
-				NodePointer next(NodePointer Node)
-				{
-					if (Node->color == NIL)
-						return (Node);
-					if (Node->right->color != NIL)
-						return (minimum(Node->right));
-					NodePointer _ptr = Node->parent;
-					while (_ptr->color != NIL && Node == _ptr->right)
-					{
-						Node = _ptr;
+						node = _ptr;
 						_ptr = _ptr->parent;
 					}
 					return (_ptr);
 				};
-				// pointer to the current element
-				NodePointer 															_ptr;
 
-	};
+				nodePointer prev(nodePointer node)
+				{
+					if (node->color == NIL)
+						return (node->parent);
+
+					if (node->color != NIL && node->left->color != NIL)
+						return (maximum(node->left));
+
+					nodePointer _ptr = node->parent;
+					while (_ptr->color != NIL && node == _ptr->left)
+					{
+						node = _ptr;
+						_ptr = _ptr->parent;
+					}
+					if (_ptr->color != NIL)
+						return (_ptr);
+					return (node);
+				};
+			};
 
 };
 // End of namespace FT

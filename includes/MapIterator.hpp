@@ -14,123 +14,177 @@
 #define MAPITERATOR_HPP
 
 #include "utils.hpp"
-#include "RedBlackTree.hpp"
+#include "ConstMapIterator.hpp"
 
 namespace ft
 {
-	template <class T>
-	// Iterator Map = bidirectionnal access iterator
-	class MapIterator
-	{
-		public:
-			typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
-			typedef typename traits::value_type												value_type;
-			typedef	typename traits::difference_type										difference_type;
-			typedef	typename traits::pointer												pointer;
-			typedef	typename traits::reference												reference;
-			typedef	typename traits::iterator_category										iterator_category;
-			typedef  Node<T>*														NodePointer;
-			// Constructors
-			MapIterator() : _ptr(NULL) {};
-			// Copy, constructor from pointer
-			MapIterator(pointer ptr) : _ptr(ptr.base()) {};
-			// destructor
-			~MapIterator() {};
-			// Operators
-			// assignation operator
-			MapIterator operator=( const MapIterator &rhs)
-			{
-				// protection de l'autodéfinition
-				if (*this != rhs)
-					this->_ptr = rhs._ptr;
-				return (*this);
-			}
-			// comparison operators
-			bool operator==(const MapIterator &rhs) const { return (_ptr == rhs.base()); };
-			bool operator!=(const MapIterator &rhs) const { return (_ptr != rhs.base()); };
-			// rvalue dereferencing operator
-			reference operator*() const { return (*(_ptr->value)); };
-			// pointer dereferencing operator
-			pointer operator->() const { return (_ptr->value); };
-			// lvalue pointer dereferencing operator
-			pointer operator&() const { return (_ptr); };
-			// incrementation operator iterator++
-			MapIterator &operator++() { _ptr = next(_ptr); return (*this); };
-			// post-incrementation operator ++iterator
-			MapIterator operator++(int) {
-				MapIterator tmp(*this);
-				_ptr = next(_ptr);
-				return (tmp); };
-			// decrementation operator iterator--
-			MapIterator &operator--() { _ptr = prev(_ptr); return (_ptr); };
-			// post-decrementation operator --iterator
-			MapIterator operator--(int)
-			{
-				MapIterator tmp(*this);
-				_ptr = prev(_ptr);
-				return (tmp);
-			};
 
-			// base() function used to get the underlying pointer of the iterator
-			pointer base() const { return (_ptr); };
+	template <class Key, class Value, class Iter>
+		class MapIterator
+		{
 
-		private:
-				// find last node of the branch
-				NodePointer maximum(NodePointer Node)
+			// MEMBER TYPES
+			public:
+
+				typedef Iter															iterator_type;
+				typedef std::bidirectional_iterator_tag									iterator_category;
+				typedef typename ft::iterator_traits<iterator_type>::value_type			value_type;
+				typedef typename ft::iterator_traits<iterator_type>::difference_type	difference_type;
+				typedef typename ft::iterator_traits<iterator_type>::pointer			pointer;
+				typedef typename ft::iterator_traits<iterator_type>::reference			reference;
+				typedef node<Key, Value>*												nodePointer;
+
+			// MEMBER OBJECTS
+			private:
+
+				nodePointer																_ptr;
+
+			// MEMBER FUNCTIONS
+			public:
+
+				// DEFAULT CONSTRUCTOR
+				MapIterator(nodePointer _ptr = NULL) :
+					_ptr(_ptr)
 				{
-					while (Node->right->color != NIL)
-						Node = Node->right;
-					return (Node);
+					return ;
 				};
 
-				// find first node of the branch
-				NodePointer minimum(NodePointer Node)
+				// OPERATOR =
+				MapIterator& operator = (const MapIterator& other)
 				{
-					while (Node->left->color != NIL)
-						Node = Node->left;
-					return (Node);
+					if (this == &other)
+						return (*this);
+					_ptr = other._ptr;
+					return (*this);
 				};
 
-				// return the previous node in the tree and check if it's a NIL node
-				NodePointer prev(NodePointer Node)
+				// OPERATOR = FOR CONST ITERATOR
+				MapIterator& operator = (const ConstMapIterator<Key, Value, Iter> & other)
 				{
-					if (Node->color == NIL)
-						return (Node->parent);
-					if (Node->color != NIL && Node->left->color != NIL)
-						return (maximum(Node->left));
-					NodePointer _ptr = Node->parent;
-					while (_ptr->color != NIL && Node == _ptr->left)
+					_ptr = other._ptr;
+					return (*this);
+				};
+
+				// DESTRUCTOR
+				~MapIterator(void)
+				{
+					return ;
+				};
+
+				// BASE
+				nodePointer base(void) const
+				{
+					return (_ptr);
+				};
+
+				// OPERATOR ==
+				bool operator == (const MapIterator& other) const
+				{
+					return (_ptr == other.base());
+				};
+
+				// OPERATOR !=
+				bool operator != (const MapIterator& other) const
+				{
+					return (_ptr != other.base());
+				};
+
+				// DEREFERENCE
+				reference operator * (void) const
+				{
+					return (*(_ptr->data));
+				};
+
+				// DEREFERENCE
+				pointer operator -> (void) const
+				{
+					if (_ptr)
+						return (_ptr->data);
+					return (NULL);
+				};
+
+				// PRE-INCREMENTATION
+				MapIterator& operator ++ (void)
+				{
+					_ptr = next(_ptr);
+					return (*this);
+				};
+
+				// POST-INCREMENTATION
+				MapIterator operator ++ (int)
+				{
+					MapIterator	tmp(*this);
+
+					_ptr = next(_ptr);
+					return (tmp);
+				};
+
+				// PRE-DECREMENATION
+				MapIterator & operator -- (void)
+				{
+					_ptr = prev(_ptr);
+					return (*this);
+				};
+
+				// POST-DECREMENATION
+				MapIterator operator -- (int)
+				{
+					MapIterator	tmp(*this);
+
+					_ptr = prev(_ptr);
+					return (tmp);
+				};
+
+			private:
+
+				nodePointer maximum(nodePointer node)
+				{
+					while (node->right->color != NIL)
+						node = node->right;
+					return (node);
+				};
+
+				nodePointer minimum(nodePointer node)
+				{
+					while (node->left->color != NIL) 
+						node = node->left;
+					return (node);
+				};
+
+				nodePointer next(nodePointer node)
+				{
+					if (node->color == NIL)
+						return (node);
+					if (node->right->color != NIL)
+						return (minimum(node->right));
+					nodePointer _ptr = node->parent;
+					while (_ptr->color != NIL && node == _ptr->right)
 					{
-						Node = _ptr;
-						_ptr = _ptr->parent;
-					}
-					if (_ptr->color != NIL)
-						return (_ptr);
-					return (Node);
-				};
-
-				// return the next node in the tree and check if it's the end of the tree
-				NodePointer next(NodePointer Node)
-				{
-					if (Node->color == NIL)
-						return (Node);
-					if (Node->right->color != NIL)
-						return (minimum(Node->right));
-					NodePointer _ptr = Node->parent;
-					while (_ptr->color != NIL && Node == _ptr->right)
-					{
-						Node = _ptr;
+						node = _ptr;
 						_ptr = _ptr->parent;
 					}
 					return (_ptr);
 				};
 
+				nodePointer prev(nodePointer node)
+				{
+					if (node->color == NIL)
+						return (node->parent);
+					if (node->color != NIL && node->left->color != NIL)
+						return (maximum(node->left));
+					nodePointer _ptr = node->parent;
+					while (_ptr->color != NIL && node == _ptr->left)
+					{
+						node = _ptr;
+						_ptr = _ptr->parent;
+					}
+					if (_ptr->color != NIL)
+						return (_ptr);
+					return (node);
+				};
 
-				// pointer to the current element
-				NodePointer															_ptr;
+		}; // END OF MapIterator CLASS
 
-	};
-
-};
+}; // END OF NAMESPACE FT
 // End of namespace FT
 #endif

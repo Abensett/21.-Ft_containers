@@ -31,7 +31,7 @@ diff ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out > test_res
 
 if ! [[ -s test_results/difftest_${i}.out ]];
 then
-    echo -e "Test ${tests[${i}]} ✅"
+    printf "%-20s%s\n" "Test ${tests[${i}]}"  " ✅"
 else
     echo -e "TEST ${tests[${i}]} ❌ "
     diff -y ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out
