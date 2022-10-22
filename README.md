@@ -70,17 +70,20 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 
 ## Sitographie 
+* [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)  
+
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
-* [Vector Infos](https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170)
 * [Iterators](https://cplusplus.com/reference/iterator/)
 * [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
 
 #### Somes questions
+
 * [Diff between 'typename' and 'class'](https://stackoverflow.com/questions/2023977/difference-of-keywords-typename-and-class-in-templates)
 * [When is 'typename' necessary](https://stackoverflow.com/questions/7923369/when-is-the-typename-keyword-necessary)
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
 
 * Vector
+    * [Vector Infos](https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170)p
     * [**Size** = number of elements / **Capacity** = amount of total space before reallocation](https://stackoverflow.com/questions/6296945/size-vs-capacity-of-a-vector)
     * [**Traits** give information, at the compilation, about certain types thanks to a generic base](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Traits.html)
     * [Why and how using **traits**](https://www.youtube.com/watch?v=bFCzd5U2fsk)
