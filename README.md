@@ -70,11 +70,12 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 
 ## Sitographie 
+* [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)  
+
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
 * [Vector Infos](https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170)
 * [Iterators](https://cplusplus.com/reference/iterator/)
 * [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
-* [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)
 
 #### Somes questions
 
