@@ -76,6 +76,8 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 * [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
 
 #### Somes questions
+* [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)
+
 * [Diff between 'typename' and 'class'](https://stackoverflow.com/questions/2023977/difference-of-keywords-typename-and-class-in-templates)
 * [When is 'typename' necessary](https://stackoverflow.com/questions/7923369/when-is-the-typename-keyword-necessary)
 * [Allocator : allocate then construct](https://en.cppreference.com/w/cpp/memory/allocator)
