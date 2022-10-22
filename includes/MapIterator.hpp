@@ -26,12 +26,6 @@ namespace ft
 			// MEMBER TYPES
 			public:
 
-				typedef Iter															iterator_type;
-				typedef std::bidirectional_iterator_tag									iterator_category;
-				typedef typename ft::iterator_traits<iterator_type>::value_type			value_type;
-				typedef typename ft::iterator_traits<iterator_type>::difference_type	difference_type;
-				typedef typename ft::iterator_traits<iterator_type>::pointer			pointer;
-				typedef typename ft::iterator_traits<iterator_type>::reference			reference;
 				typedef node<Key, Value>*												nodePointer;
 
 			// MEMBER OBJECTS
@@ -146,7 +140,7 @@ namespace ft
 
 				nodePointer minimum(nodePointer node)
 				{
-					while (node->left->color != NIL) 
+					while (node->left->color != NIL)
 						node = node->left;
 					return (node);
 				};

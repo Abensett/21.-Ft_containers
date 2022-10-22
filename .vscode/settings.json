@@ -81,6 +81,7 @@
         "queue": "cpp",
         "set": "cpp",
         "filesystem": "cpp",
-        "*.tpp": "cpp"
+        "*.tpp": "cpp",
+        "numbers": "cpp"
     }
 }

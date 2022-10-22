@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <chrono>
 #ifndef library
 #define library 0
 #endif
@@ -19,7 +18,6 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::stringstream;
-using namespace std::chrono;
 
 // print a vector of any type: size, capacity, element
 template <typename T> void print_vector( ft::vector<T> &v )
@@ -167,7 +165,7 @@ void	Test_insert(void)
 };
 
 int main(int ac, char**av)
-{	
+{
 	if(ac != 2)
 	{
 		cout << "usage: ./vector_testeur [test_number]" << endl;
@@ -175,12 +173,16 @@ int main(int ac, char**av)
 	}
 	stringstream    tmp;
 	string          idx;
+	// std::chrono::time_point<std::chrono::system_clock> begin, end;
+
 
 	int             i = 0;                               // on fait un cast comme ATOI dans ces 3 lignes
 	tmp << *av[1];                                      // flux d'insertio dans tmp
 	tmp >> i;                                        // flux d'extraction de tmp
-
-   (*Fcn_tests[i])();        // on exute la fonction a tester dans le tableau de pointeurs grace a l'argument du main
-
+	// begin = std::chrono::system_clock::now();
+    (*Fcn_tests[i])();        // on exute la fonction a tester dans le tableau de pointeurs grace a l'argument du main
+	// end = std::chrono::system_clock::now();
+	// duration<double> duration = end - begin;
+	// cout << "Temps d'execution: " << duration.count() << endl;
 	return 0;
 }

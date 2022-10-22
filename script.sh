@@ -21,17 +21,25 @@ tests=(constructeur  operateur_= iterator iterators insert
 
 # This the execution of the testers and the diff
 i=0
+printf "%-23s%s%s\n" "TESTS " "  FT STD DIF (en ms)"
 while [[ $i -le $NOMBRE_DE_TESTS ]]
 do
- ./test_results/ft ${i} > ./test_results/ft_test_${i}.out
+
+start=$(date +%s%N)                                             # start time in nanoseconds
+./test_results/ft ${i} > ./test_results/ft_test_${i}.out
+runtime_ft=$((($(date +%s%N) - $start)/1000000))                # runtime in milliseconds
+
+start=$(date +%s%N)
  ./test_results/std  ${i} > ./test_results/std_test_${i}.out
+runtime_std=$((($(date +%s%N) - $start)/1000000))
+
 diff ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out > test_results/difftest_${i}.out
 
-# if condition is between brackets  -s check if the file is empty
+time_diff=$((${runtime_ft}/${runtime_std}));
 
 if ! [[ -s test_results/difftest_${i}.out ]];
 then
-    printf "%-20s%s\n" "Test ${tests[${i}]}"  " ✅"
+    printf "%-20s%-15s\n" "Test ${tests[${i}]}"  " ✅   ${runtime_ft}   ${runtime_std}   ${time_diff}"
 else
     echo -e "TEST ${tests[${i}]} ❌ "
     diff -y ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out

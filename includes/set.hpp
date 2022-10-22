@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/22 13:13:31 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/22 20:33:25 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ namespace ft
 
 	// set class
 	// std::less<key> is to  strict total order <
-	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
+	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<Key> >
 		class set
 		{
 			/************************************************************

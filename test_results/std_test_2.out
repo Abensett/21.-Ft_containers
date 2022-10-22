@@ -1,0 +1,13 @@
+size: 5
+capacity: 5
+content: 5 5 5 5 5 
+Ceci est un const iterator: 5
+5 5 5 5 5 0 8208 8208 size: 5
+capacity: 5
+content: 5 5 5 5 5 
+5 5 5 5 5 
+0 32 32 Ceci est un const rev iterator: 5
+size: 5
+capacity: 5
+content: 5 5 5 5 5 
+

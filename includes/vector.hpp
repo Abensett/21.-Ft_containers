@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/05 17:41:07 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/23 00:39:47 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,12 +399,12 @@ namespace ft
 			/* single element (1)
 			** insents a new element before the element at the specified position
 			** return an iterator pointing to the inserted element.
-			** 
+			**
 			** !! begin() before reserve() !!
 			*/
 			iterator insert (iterator position, const value_type& val)
 			{
-					
+
 					iterator	it = begin();
 
 					if (_size + 1 > _capacity)
@@ -445,10 +445,10 @@ namespace ft
 								_alloc.construct(&_begin[_size + n - j], _begin[_size - j]);
 								_alloc.destroy(&_begin[_size - j++]);
 						}
-						
+
 						for (size_type i = 0; i < n; i++)
 								_alloc.construct(&_begin[pos++], val);
-								
+
 						_size += n;
 				};
 			// range (3)
@@ -467,7 +467,7 @@ namespace ft
 					else if (_size + n > _capacity)
 						reserve(_capacity * 2);
 				}
-				
+
 				size_type pos = position - it;
 
 				size_type	j = 1;
@@ -476,10 +476,10 @@ namespace ft
 					get_allocator().construct(&_begin[_size + n - j], _begin[_size - j]);
 					get_allocator().destroy(&_begin[_size - j++]);
 				}
-			
+
 				for (size_type i = 0; i < n; i++)
 					get_allocator().construct(&_begin[pos++], *(first++));
-	
+
 				_size += n;
 			};
 
