@@ -34,13 +34,13 @@ template <typename T> void print_vector( ft::vector<T> &v )
 }
 
 
-template <typename T> void print_map( ft::map<T,T> &v )
+template <typename key, typename T> void print_map( ft::map<key,T> &v )
 {
 	cout << "MAP"<< endl;
 	cout << "size: " << v.size() << endl;
 	cout << "capacity: " << v.capacity() << endl;
 	cout << "content: ";
-	for (typename ft::map<T,T>::iterator it = v.begin(); it != v.end(); it++)
+	for (typename ft::map<key,T>::iterator it = v.begin(); it != v.end(); it++)
 		cout << *it << " ";
 	cout << endl;
 }
@@ -374,8 +374,21 @@ void	Test_rel_stack(void)
 }
 
 
+void	Test_constructors_map(void)
+{
+	ft::map<int, string> m1;
+	m1.insert(ft::make_pair(1,"world"));
+	m1.insert(ft::make_pair(2,"hello"));
+	m1.insert(ft::make_pair(3,"!"));
+	ft::map<int, string> m2(m1);
 
-
+	ft::map<int, string>::iterator it = m1.begin();
+	ft::map<int, string>::iterator ite = m1.end();
+	ft::map<int, string> m3 (it, ite);
+	print_map(m1);
+	print_map(m2);
+	print_map(m3);
+}
 
 
 
@@ -409,16 +422,16 @@ void  (*Fcn_tests[])() =
 
 
 	// Map
-	// Test_constructors_map,
-	// Test_operator_equal_map,
-	// Test_Iterators_map,
-	// Test_capacity_map,
-	// Test_insert,
-	// Test_erase,
-	// Test_clear,
-	// Test_swap,
-	// Test_operations,
-	// Test_rel_map,
+	Test_constructors_map,
+// 	Test_operator_equal_map,
+// 	Test_Iterators_map,
+// 	Test_capacity_map,
+// 	Test_insert_map,
+// 	Test_erase_map,
+// 	Test_clear_map,
+// 	Test_swap_map,
+// 	Test_operations,
+// 	Test_rel_map,
 };
 
 int main(int ac, char**av)

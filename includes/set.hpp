@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 22:22:56 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:35:03 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include "utils.hpp"
 #include "RedBlackTree.hpp"
+#include "map.hpp"
 // #include "setIterator.hpp"
 // #include "ConstsetIterator.hpp"
 
