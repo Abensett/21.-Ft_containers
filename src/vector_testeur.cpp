@@ -7,11 +7,13 @@
 	#include <map>
 	#include <stack>
 	#include <vector>
+	#include <set>
 	namespace ft = std;
 #else
-	// #include <map.hpp>
-	// #include <stack.hpp>
-	#include <vector.hpp>
+	#include "map.hpp"
+	#include "stack.hpp"
+	#include "vector.hpp"
+	#include "set.hpp"
 #endif
 
 using std::cout;
@@ -22,6 +24,7 @@ using std::stringstream;
 // print a vector of any type: size, capacity, element
 template <typename T> void print_vector( ft::vector<T> &v )
 {
+	cout << "VECTOR "<< endl;
 	cout << "size: " << v.size() << endl;
 	cout << "capacity: " << v.capacity() << endl;
 	cout << "content: ";
@@ -30,6 +33,31 @@ template <typename T> void print_vector( ft::vector<T> &v )
 	cout << endl;
 }
 
+
+template <typename T> void print_map( ft::map<T,T> &v )
+{
+	cout << "MAP"<< endl;
+	cout << "size: " << v.size() << endl;
+	cout << "capacity: " << v.capacity() << endl;
+	cout << "content: ";
+	for (typename ft::map<T,T>::iterator it = v.begin(); it != v.end(); it++)
+		cout << *it << " ";
+	cout << endl;
+}
+
+template <typename T> void print_set( ft::set<T> &v )
+{
+	cout << "size: " << v.size() << endl;
+	cout << "capacity: " << v.capacity() << endl;
+	cout << "content: ";
+	for (typename ft::set<T>::iterator it = v.begin(); it != v.end(); it++)
+		cout << *it << " ";
+	cout << endl;
+}
+
+	/************************************************************
+	 * 						VECTOR TESTS						*
+	 ************************************************************/
 void    Test_Constructors(void)
 {
 	// std::time_t avant = system_clock::now();
@@ -104,6 +132,43 @@ void    Test_Iterators(void)
 	cout << endl;
 }
 
+void	Test_resize(void)
+{
+	ft::vector<int> v1;
+	v1.resize(5);
+	print_vector(v1);
+	v1.resize(8, 8);
+	print_vector(v1);
+	v1.resize(3);
+	print_vector(v1);
+}
+
+void	Test_capacity(void)
+{
+	ft::vector<string> v1;
+	cout << "size: " << v1.size() << endl;
+	cout << "capacity: " << v1.capacity() << endl;
+	v1.push_back("hello");
+	cout << "size: " << v1.size() << endl;
+	cout << "capacity: " << v1.capacity() << endl;
+	cout << "max size: " << v1.max_size() << endl;
+	ft::vector<string> v2;
+	cout << "empy: " << v2.empty() << endl;
+	cout << "empy: " << v1.empty() << endl;
+}
+
+void	Test_assign(void)
+{
+	ft::vector<int> v1(5, 8);
+	ft::vector<int> v2(3, 5);
+	print_vector(v1);
+	print_vector(v2);
+	v1.assign(v2.begin(), v2.end());
+	print_vector(v1);
+	print_vector(v2);
+	v1.assign(5, 8);
+	print_vector(v1);
+};
 
 void    Test_erase(void)
 {
@@ -154,14 +219,206 @@ void	Test_insert(void)
 
 }
 
-// pointeurs sur fonctions tests
- void  (*Fcn_tests[])() =
+void	Test_pop_back(void)
 {
+	ft::vector<int> v1;
+	v1.push_back(1);
+	v1.push_back(2);
+	print_vector(v1);
+	v1.pop_back();
+	print_vector(v1);
+}
+
+void 	Test_push_back(void)
+{
+	ft::vector<int> v1;
+	v1.push_back(1);
+	print_vector(v1);
+	v1.push_back(2);
+	v1.push_back(3);
+	print_vector(v1);
+}
+
+void	Test_clear(void)
+{
+	ft::vector<int> v1(5, 8);
+	print_vector(v1);
+	v1.clear();
+	print_vector(v1);
+};
+
+void	Test_relationals(void)
+{
+	ft::vector<int> v1(5, 8);
+	ft::vector<int> v2(3, 5);
+	if (v1 == v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (v1 != v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (v1 < v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (v1 > v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (v1 <= v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (v1 >= v2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+}
+
+void	Test_swap(void)
+{
+	// ft::vector<int> v1(5, 8);
+	// ft::vector<int> v2(3, 5);
+	// print_vector(v1);
+	// print_vector(v2);
+	// v1.swap(v2);
+	// print_vector(v1);
+	// print_vector(v2);
+};
+	/************************************************************
+	 * 						STACK	 TESTS						*
+	 ************************************************************/
+void	Test_top(void)
+{
+	ft::stack<int> s1;
+	s1.push(1);
+	s1.push(2);
+	cout << s1.top() << endl;
+	s1.push(3);
+	cout << s1.top() << endl;
+}
+
+void	Test_pop(void)
+{
+	ft::stack<int> s1;
+	s1.push(1);
+	s1.push(2);
+	s1.push(3);
+	s1.pop();
+	cout << s1.top() << endl;
+}
+
+void	Test_push(void)
+{
+	ft::stack<int> s1;
+	s1.push(1);
+	s1.push(2);
+	s1.push(3);
+	cout << s1.top() << endl;
+}
+
+void	Test_empty(void)
+{
+	ft::stack<int> s1;
+	cout << s1.empty() << endl;
+	s1.push(1);
+	cout << s1.empty() << endl;
+}
+
+void	Test_rel_stack(void)
+{
+	ft::stack<int> s1;
+	ft::stack<int> s2;
+	ft::stack<string> s3;
+
+	s1.push(1);
+	s1.push(2);
+	s1.push(3);
+	s2.push(1);
+	s2.push(2);
+	s2.push(3);
+	s3.push("hello");
+	s3.push("world");
+	s3.push("!");
+	if (s1 == s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (s1 != s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (s1 < s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (s1 > s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (s1 <= s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	if (s1 >= s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+	s2.pop();
+	if (s1 == s2)
+		cout << "OUI" << endl;
+	else
+		cout << "NON"<< endl;
+}
+
+
+
+
+
+
+
+	/************************************************************
+	 * 						MAP		 TESTS						*
+	 ************************************************************/
+
+// pointeurs sur fonctions tests
+void  (*Fcn_tests[])() =
+{
+	// Vector
 	Test_Constructors,
 	Test_operator_equal,
-    Test_Iterators,
+	Test_Iterators,
+	Test_resize,
+	Test_capacity,
+	Test_assign,
 	Test_erase,
-	Test_insert
+	Test_insert,
+	Test_push_back,
+	Test_pop_back,
+	Test_clear,
+	Test_relationals,
+	Test_relationals,
+	// Stack
+	Test_top,
+	Test_push,
+	Test_pop,
+	Test_empty,
+	Test_rel_stack,
+
+
+	// Map
+	// Test_constructors_map,
+	// Test_operator_equal_map,
+	// Test_Iterators_map,
+	// Test_capacity_map,
+	// Test_insert,
+	// Test_erase,
+	// Test_clear,
+	// Test_swap,
+	// Test_operations,
+	// Test_rel_map,
 };
 
 int main(int ac, char**av)
@@ -172,17 +429,12 @@ int main(int ac, char**av)
 		return 1;
 	}
 	stringstream    tmp;
-	string          idx;
-	// std::chrono::time_point<std::chrono::system_clock> begin, end;
-
+	string          idx(av[1]);
 
 	int             i = 0;                               // on fait un cast comme ATOI dans ces 3 lignes
-	tmp << *av[1];                                      // flux d'insertio dans tmp
+	tmp << idx;                                      // flux d'insertio dans tmp
 	tmp >> i;                                        // flux d'extraction de tmp
-	// begin = std::chrono::system_clock::now();
-    (*Fcn_tests[i])();        // on exute la fonction a tester dans le tableau de pointeurs grace a l'argument du main
-	// end = std::chrono::system_clock::now();
-	// duration<double> duration = end - begin;
-	// cout << "Temps d'execution: " << duration.count() << endl;
+	cout << "Test number: " << idx << " = " << endl;
+	(*Fcn_tests[i])();        // on exute la fonction a tester dans le tableau de pointeurs grace a l'argument du main
 	return 0;
 }

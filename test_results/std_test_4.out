@@ -1,27 +1,8 @@
+Test number: 4 = 
 size: 0
 capacity: 0
-content: 
 size: 1
 capacity: 1
-content: 2 
-size: 2
-capacity: 2
-content: 1 2 
-size: 3
-capacity: 4
-content: 1 2 4 
-size: 4
-capacity: 4
-content: 1 2 3 4 
-size: 7
-capacity: 8
-content: 1 2 3 4 8 8 8 
-size: 5
-capacity: 5
-content: 8 8 8 8 8 
-size: 6
-capacity: 10
-content: 8 8 8 8 8 1 
-size: 10
-capacity: 10
-content: 8 8 8 8 8 1 8 8 8 8 
+max size: 288230376151711743
+empy: 1
+empy: 0

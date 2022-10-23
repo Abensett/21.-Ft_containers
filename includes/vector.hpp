@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 00:39:47 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/23 21:57:57 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace ft
 			// typedef -> to define a type -> always the type specifer in first
 			// typename -> specifies that the next identifier is a type
 
-			/* First template parameter T -> represents the type of data stored */
+			/* First template parameter T -> represents the type of _begin stored */
 			typedef T											value_type;
 			/* Second template parameter Alloc
 			** default allocator template used if not specified in args
@@ -288,23 +288,26 @@ namespace ft
 			*/
 			void resize (size_type n, value_type val = value_type())
 			{
-				if (n > max_size())
-					throw std::length_error("vector::resize");
-				if (_capacity == 0 || n > _capacity)
-					reserve(n);
-				else if (n > _capacity)
-					reserve(_capacity * 2);
-				if (n > _size)
+				if (n < _size)
 				{
-					for (size_type i = _size; i < n; i++)
-						_alloc.construct(_begin + i, val);
+						while (n < _size)
+						{
+							_alloc.destroy(&_begin[_size - 1]);
+							_size--;
+						}
 				}
 				else
 				{
-					for (size_type i = _size; i > n; i--)
-						_alloc.destroy(_begin + i);
-				}
-				_size = n;
+					if (_capacity == 0 || n > 2 * _capacity)
+						reserve(n);
+					else if (n > _capacity)
+						reserve(_capacity * 2);
+					while (_size < n)
+					{
+						_alloc.construct(_begin + _size, val);
+						++_size;
+					}
+			}
 			};
 
 			/************************************************************

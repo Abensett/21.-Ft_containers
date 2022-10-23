@@ -137,7 +137,7 @@ namespace ft
 						node = node->right;
 					return (node);
 				};
-
+vector
 				nodePointer minimum(nodePointer node)
 				{
 					while (node->left->color != NIL)

@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 00:41:55 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/23 19:24:07 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,38 +45,38 @@ namespace ft
 {
 
 	template <class it>
-	class reverse_iterator {
+	class reverse_iteratormap {
 	public:
 		// -structors
-		reverse_iterator			(void)												{ _it = it(); }
-		reverse_iterator			(typename it::value_type * ptr)						{ _it = it(ptr); }
-		reverse_iterator			(const it & x)										{ _it = x; --_it; }
-		~reverse_iterator			(void)												{}
+		reverse_iteratormap			(void)												{ _it = it(); }
+		reverse_iteratormap			(typename it::value_type * ptr)						{ _it = it(ptr); }
+		reverse_iteratormap			(const it & x)										{ _it = x; --_it; }
+		~reverse_iteratormap			(void)												{}
 		// Conversion
-		template <class U>			friend class										reverse_iterator;
+		template <class U>			friend class										reverse_iteratormap;
 		template <class U>
-		reverse_iterator			(const reverse_iterator<U> & x)						{ _it = x.getIt(); }
+		reverse_iteratormap			(const reverse_iteratormap<U> & x)						{ _it = x.getIt(); }
 
 		// Assignment
-		reverse_iterator &			operator=	(const reverse_iterator & x)			{ _it = x.getIt(); return (*this); }
-		reverse_iterator &			operator+=	(int n)									{ _it -= n; return (*this); }
-		reverse_iterator &			operator-=	(int n)									{ _it += n; return (*this); }
+		reverse_iteratormap &			operator=	(const reverse_iteratormap & x)			{ _it = x.getIt(); return (*this); }
+		reverse_iteratormap &			operator+=	(int n)									{ _it -= n; return (*this); }
+		reverse_iteratormap &			operator-=	(int n)									{ _it += n; return (*this); }
 		// Comparison
-		template <class U> bool		operator==	(const reverse_iterator<U> & x) const	{ return (_it == x.getIt()); }
-		template <class U> bool		operator!=	(const reverse_iterator<U> & x) const	{ return (_it != x.getIt()); }
-		template <class U> bool		operator<	(const reverse_iterator<U> & x) const	{ return (_it > x.getIt()); }
-		template <class U> bool		operator>	(const reverse_iterator<U> & x) const	{ return (_it < x.getIt()); }
-		template <class U> bool		operator<=	(const reverse_iterator<U> & x) const	{ return (_it >= x.getIt()); }
-		template <class U> bool		operator>=	(const reverse_iterator<U> & x) const	{ return (_it <= x.getIt()); }
+		template <class U> bool		operator==	(const reverse_iteratormap<U> & x) const	{ return (_it == x.getIt()); }
+		template <class U> bool		operator!=	(const reverse_iteratormap<U> & x) const	{ return (_it != x.getIt()); }
+		template <class U> bool		operator<	(const reverse_iteratormap<U> & x) const	{ return (_it > x.getIt()); }
+		template <class U> bool		operator>	(const reverse_iteratormap<U> & x) const	{ return (_it < x.getIt()); }
+		template <class U> bool		operator<=	(const reverse_iteratormap<U> & x) const	{ return (_it >= x.getIt()); }
+		template <class U> bool		operator>=	(const reverse_iteratormap<U> & x) const	{ return (_it <= x.getIt()); }
 		// -crementation
-		reverse_iterator &			operator++	(void)									{ --_it; return (*this); }
-		reverse_iterator &			operator--	(void)									{ ++_it; return (*this); }
-		reverse_iterator			operator++	(int)									{ reverse_iterator<it> x(*this); --_it; return (x); }
-		reverse_iterator			operator--	(int)									{ reverse_iterator<it> x(*this); ++_it; return (x); }
+		reverse_iteratormap &			operator++	(void)									{ --_it; return (*this); }
+		reverse_iteratormap &			operator--	(void)									{ ++_it; return (*this); }
+		reverse_iteratormap			operator++	(int)									{ reverse_iteratormap<it> x(*this); --_it; return (x); }
+		reverse_iteratormap			operator--	(int)									{ reverse_iteratormap<it> x(*this); ++_it; return (x); }
 		// Operation
-		reverse_iterator			operator+	(int n) const							{ return (_it - n + 1); }
-		reverse_iterator			operator-	(int n) const							{ return (_it + n + 1); }
-		std::ptrdiff_t				operator-	(const reverse_iterator & x) const		{ return (x.getIt() - _it); }
+		reverse_iteratormap			operator+	(int n) const							{ return (_it - n + 1); }
+		reverse_iteratormap			operator-	(int n) const							{ return (_it + n + 1); }
+		std::ptrdiff_t				operator-	(const reverse_iteratormap & x) const		{ return (x.getIt() - _it); }
 		// Dereference
 		typename it::value_type &	operator[]	(size_t n) const						{ return (*(_it - n)); }
 		typename it::value_type &	operator*	(void) const							{ return (*_it); }
@@ -85,7 +85,7 @@ namespace ft
 		it							base		(void)									{ return (++it(_it)); }
 		it							getIt		(void) const							{ return (_it); }
 		// Non-member functions
-		friend reverse_iterator		operator+	(int n, const reverse_iterator & x)		{ return (x.getIt() - n + 1); }
+		friend reverse_iteratormap		operator+	(int n, const reverse_iteratormap & x)		{ return (x.getIt() - n + 1); }
 
 	private:
 		it		_it;
@@ -153,11 +153,10 @@ public:
 	class mapIterator {
 		// typedef class iterator;
 	public:
-		// typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
-		// typedef	typename traits::difference_type										difference_type;
-		// typedef	typename traits::pointer												pointer;
-		// typedef	typename traits::reference												reference;
-		// typedef	typename traits::iterator_category										iterator_category;
+		typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
+		typedef	typename traits::pointer													pointer;
+		typedef	typename traits::reference													reference;
+		typedef	typename traits::iterator_category											iterator_category;
 		typedef					ft::pair<const Key, T>										pair_type;
 		typedef typename		ft::conditional<IsConst, const pair_type, pair_type>::type	value_type;
 		typedef typename		ft::conditional<IsConst, const node, node>::type			node_type;
@@ -246,8 +245,8 @@ public:
 	typedef		typename allocator_type::const_pointer			const_pointer;
 	typedef		mapIterator<false>								iterator;
 	typedef		mapIterator<true>								const_iterator;
-	typedef		ft::reverse_iterator<iterator>					reverse_iterator;
-	typedef		ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+	typedef		ft::reverse_iteratormap<iterator>					reverse_iterator;
+	typedef		ft::reverse_iteratormap<const_iterator>			const_reverse_iterator;
 	typedef		typename mapIterator<false>::difference_type	difference_type;
 	typedef		typename mapIterator<false>::size_type			size_type;
 

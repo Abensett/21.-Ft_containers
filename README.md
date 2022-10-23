@@ -30,7 +30,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 </details>
 
 ### Stack
->  ```= a type of container adaptors with LIFO(Last In First Out) ```  
+>  ```= a type of container adaptors with LIFO(Last In First Out ```  
 > * uses an encapsulated object of either vector or deque (by default) or list  
 > * a new element is ```added at one end``` (top) and an element is ```removed from that end only```
 

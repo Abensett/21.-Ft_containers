@@ -42,7 +42,7 @@ SRC 			=
 
 OBJ 			:= $(SRC:.cpp=.o)
 
-SRC			= $(addprefix $(DIRSRC), $(SRC))
+SRC				= $(addprefix $(DIRSRC), $(SRC))
 
 DIROBJS			= $(addprefix $(DIROBJ), $(OBJ))
 

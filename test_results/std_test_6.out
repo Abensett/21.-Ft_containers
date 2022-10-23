@@ -1,0 +1,25 @@
+Test number: 6 = 
+VECTOR 
+size: 1
+capacity: 1
+content: 1 
+VECTOR 
+size: 3
+capacity: 4
+content: 1 2 3 
+VECTOR 
+size: 5
+capacity: 8
+content: 1 2 3 4 5 
+VECTOR 
+size: 6
+capacity: 8
+content: 1 2 3 4 5 6 
+VECTOR 
+size: 5
+capacity: 8
+content: 1 3 4 5 6 
+VECTOR 
+size: 4
+capacity: 8
+content: 1 3 4 5 

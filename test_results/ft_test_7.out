@@ -1,0 +1,37 @@
+Test number: 7 = 
+VECTOR 
+size: 0
+capacity: 0
+content: 
+VECTOR 
+size: 1
+capacity: 1
+content: 2 
+VECTOR 
+size: 2
+capacity: 2
+content: 1 2 
+VECTOR 
+size: 3
+capacity: 4
+content: 1 2 4 
+VECTOR 
+size: 4
+capacity: 4
+content: 1 2 3 4 
+VECTOR 
+size: 7
+capacity: 8
+content: 1 2 3 4 8 8 8 
+VECTOR 
+size: 5
+capacity: 5
+content: 8 8 8 8 8 
+VECTOR 
+size: 6
+capacity: 10
+content: 8 8 8 8 8 1 
+VECTOR 
+size: 10
+capacity: 10
+content: 8 8 8 8 8 1 8 8 8 8 

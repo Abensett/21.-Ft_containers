@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/01 17:33:31 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/23 22:25:30 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 		void			push (const value_type& val) { container.push_back(val);};
 		void			pop() { container.pop_back();};
 
-		
+
 
 		private :
 			container_type	container;
