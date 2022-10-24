@@ -2,7 +2,7 @@
 #shebang means gotta use bash to run this
 
 # number of tests
-NOMBRE_DE_TESTS=17
+NOMBRE_DE_TESTS=18
 
 GREEN='\033[32;1m'
 RED='\033[31;1m'
@@ -20,8 +20,8 @@ This-is-a-comment-thanks-to-here-doc
 
 
 # .out are the output files of a program
-tests=(constructeur  operateur_=  iterators resize capacity assign erase insert
-  	push_back pop_back clear rel_operators swap top push pop empty rel_operators)
+tests=(constructeurs  operateurs_=  iterators resize capacity assign erase insert
+  	push_back pop_back clear rel_operators swap top push pop empty rel_operators constructeurs )
 
 # This the execution of the testers and the diff
 i=0
@@ -40,21 +40,21 @@ then
 printf "\n %s"" $GREEN MAP $WHITE \n"
 fi;
 
-start=$(date +%s%N)                                             # start time in nanoseconds
+# start="10#$(date +%s%N)"     
 ./test_results/ft ${i} > ./test_results/ft_test_${i}.out
-runtime_ft=$((($(date +%s%N) - $start)/1000000))                # runtime in milliseconds
+# runtime_ft=$((($(date +%s%N) - $start)/1000000))                # runtime in milliseconds
 
-start=$(date +%s%N)
+# start=$(date +%s%N)
  ./test_results/std  ${i} > ./test_results/std_test_${i}.out
-runtime_std=$((($(date +%s%N) - $start)/1000000))
+# runtime_std=$((($(date +%s%N) - $start)/1000000))
 
 diff ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out > test_results/difftest_${i}.out
 
-time_diff=$((${runtime_ft}/${runtime_std}));
+#time_diff=$((${runtime_ft}/${runtime_std}));
 
 if ! [[ -s test_results/difftest_${i}.out ]];
 then
-    printf "%-20s%-15s\n" "${i}: ${tests[${i}]}"  " ✅   ${runtime_ft}   ${runtime_std}   ${time_diff}"
+    printf "%-20s%-15s\n" "${i}: ${tests[${i}]}"  " ✅ " #"  ${runtime_ft}   ${runtime_std}   ${time_diff}"
 else
     echo -e "\n ${i}: ${tests[${i}]} ❌ "
     diff -y ./test_results/std_test_${i}.out ./test_results/ft_test_${i}.out

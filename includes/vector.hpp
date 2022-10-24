@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 21:57:57 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/24 19:35:41 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -460,30 +460,40 @@ namespace ft
 				void insert (iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type
 				 first, InputIterator last)
 			{
-				size_type	n = std::distance(first, last);
-				iterator	it = begin();
+						iterator	it = begin();
+						size_type	distance = std::distance(first, last);
+						size_type	i = 0;
+						size_type	j = 1;
+						size_type	k = 0;
 
-				if (_size + n > _capacity)
-				{
-					if (_capacity == 0 || _size + n > 2 * _capacity)
-						reserve(_size + n);
-					else if (_size + n > _capacity)
-						reserve(_capacity * 2);
-				}
-
-				size_type pos = position - it;
-
-				size_type	j = 1;
-				for (size_type i = pos; i < _size; i++)
-				{
-					get_allocator().construct(&_begin[_size + n - j], _begin[_size - j]);
-					get_allocator().destroy(&_begin[_size - j++]);
-				}
-
-				for (size_type i = 0; i < n; i++)
-					get_allocator().construct(&_begin[pos++], *(first++));
-
-				_size += n;
+						if (_size + distance > _capacity)
+						{
+							if (_capacity == 0 || _size + distance > 2 * _capacity)
+								reserve(_size + distance);
+							else if (_size + distance > _capacity)
+								reserve(_capacity * 2);
+						}
+						while (it != position)
+						{
+							it++;
+							i++;
+						}
+						size_type backup = i;
+						while (i < _size)
+						{
+							get_allocator().construct(&_begin[_size + distance - j], _begin[_size - j]);
+							get_allocator().destroy(&_begin[_size - j]);
+							j++;
+							i++;
+						}
+						while (k < distance)
+						{
+							get_allocator().construct(&_begin[backup], *first);
+							first++;
+							k++;
+							backup++;
+						}
+						_size += distance;
 			};
 
 			/*

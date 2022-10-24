@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Sat Oct  1 14:40:02 2022
+# Make data base, printed on Mon Oct 24 19:20:15 2022
 
 # Variables
 
@@ -31,7 +31,7 @@ INCLUDES = -I ./includes
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/abou/Desktop/Computering/mycontainers
+CURDIR := /Users/abou/Desktop/Computering/containersfolder/ft_containers
 # makefile
 SHELL = /bin/sh
 # environment
@@ -47,7 +47,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 VSCODE_CWD = /
 # environment
-PATH = /Users/abou/Library/Python/3.8/bin:/Users/abou/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+PATH = /Users/abou/Library/Python/3.8/bin:/Users/abou/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
 # makefile (from `Makefile', line 47)
 DIROBJS = $(addprefix $(DIROBJ), $(OBJ))
 # environment
@@ -67,7 +67,7 @@ SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.KGtTMjlG5H/Listeners
 # environment
 DISPLAY = /private/tmp/com.apple.launchd.qde1hYDFTV/org.xquartz:0
 # environment
-PWD = /Users/abou/Desktop/Computering/mycontainers
+PWD = /Users/abou/Desktop/Computering/containersfolder/ft_containers
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # makefile (from `Makefile', line 6)
@@ -79,7 +79,7 @@ HOME = /Users/abou
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/abou/Library/Application Support/Code/CachedData/e7f30e38c5a4efafeec8ad52861eb772a9ee4dfb
+VSCODE_CODE_CACHE_PATH = /Users/abou/Library/Application Support/Code/CachedData/d045a5eda657f4d7b676dedbfa7aab8207f8a075
 # environment
 LOGNAME = abou
 # environment
@@ -125,7 +125,7 @@ TMPDIR = /var/folders/2z/n_j1frln1rq2q__6qhnmdmrr0000gn/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/abou/Library/Application Support/Code/1.71.1-main.sock
+VSCODE_IPC_HOOK = /Users/abou/Library/Application Support/Code/1.72.2-main.sock
 # environment
 MallocNanoZone = 0
 # makefile (from `Makefile', line 7)
@@ -137,7 +137,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.41596504.41596511
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.47669597.47669603
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # makefile (from `Makefile', line 8)
@@ -177,7 +177,7 @@ DIRSRC = src/
 # environment
 LANG = C
 # environment
-VSCODE_PID = 605
+VSCODE_PID = 65744
 # variable set hash-table stats:
 # Load=83/1024=8%, Rehash=0, Collisions=5/124=4%
 
@@ -187,10 +187,10 @@ VSCODE_PID = 605
 
 # Directories
 
-# . (device 16777229, inode 43315150): 11 files, no impossibilities.
+# . (device 16777229, inode 43315150): 12 files, no impossibilities.
 # src (device 16777229, inode 43315240): No files, no impossibilities so far.
 
-# 11 files, no impossibilities in 2 directories.
+# 12 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -228,7 +228,7 @@ all: executable
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-10-01 14:08:45
+#  Last modified 2022-10-24 19:17:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -322,18 +322,18 @@ executable:
 
 # files hash-table stats:
 # Load=11/1024=1%, Rehash=0, Collisions=0/35=0%
+ 
 # VPATH Search Paths
 
 # No `vpath' search paths.
 
 # No general (`VPATH' variable) search path.
 
- 
 # # of strings in strcache: 1
 # # of strcache buffers: 1
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sat Oct  1 14:40:02 2022
+# Finished Make data base on Mon Oct 24 19:20:15 2022
 
  

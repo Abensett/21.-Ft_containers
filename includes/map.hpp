@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/24 00:22:55 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/24 21:38:12 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,70 +25,63 @@
 
 // // https://cplusplus.com/reference/map/map/
 
-# ifndef MACOS_
-#  if __APPLE__
-#   define MACOS_ 1
-#  else
-#   define MACOS_ 0
-#  endif
-# endif
 
-# ifndef RED_
-#  define RED_ true
+# ifndef RED
+#  define RED true
 # endif
-# ifndef BLACK_
-#  define BLACK_ false
+# ifndef BLACK
+#  define BLACK false
 # endif
 
 
 namespace ft
 {
 
-	template <class it>
+	template <class iterator>
 	class reverse_iteratormap {
 	public:
-		// -structors
-		reverse_iteratormap			(void)												{ _it = it(); }
-		reverse_iteratormap			(typename it::value_type * ptr)						{ _it = it(ptr); }
-		reverse_iteratormap			(const it & x)										{ _it = x; --_it; }
+	// -structors
+		reverse_iteratormap			(void)												{ _iterator = iterator(); }
+		reverse_iteratormap			(typename iterator::value_type * ptr)						{ _iterator = iterator(ptr); }
+		reverse_iteratormap			(const iterator & x)										{ _iterator = x; --_iterator; }
 		~reverse_iteratormap			(void)												{}
 		// Conversion
 		template <class U>			friend class										reverse_iteratormap;
 		template <class U>
-		reverse_iteratormap			(const reverse_iteratormap<U> & x)						{ _it = x.getIt(); }
+		reverse_iteratormap			(const reverse_iteratormap<U> & x)						{ _iterator = x.getiterator(); }
 
 		// Assignment
-		reverse_iteratormap &			operator=	(const reverse_iteratormap & x)			{ _it = x.getIt(); return (*this); }
-		reverse_iteratormap &			operator+=	(int n)									{ _it -= n; return (*this); }
-		reverse_iteratormap &			operator-=	(int n)									{ _it += n; return (*this); }
+		reverse_iteratormap &			operator=	(const reverse_iteratormap & x)			{ _iterator = x.getiterator(); return (*this); }
+		reverse_iteratormap &			operator+=	(int n)									{ _iterator -= n; return (*this); }
+		reverse_iteratormap &			operator-=	(int n)									{ _iterator += n; return (*this); }
 		// Comparison
-		template <class U> bool		operator==	(const reverse_iteratormap<U> & x) const	{ return (_it == x.getIt()); }
-		template <class U> bool		operator!=	(const reverse_iteratormap<U> & x) const	{ return (_it != x.getIt()); }
-		template <class U> bool		operator<	(const reverse_iteratormap<U> & x) const	{ return (_it > x.getIt()); }
-		template <class U> bool		operator>	(const reverse_iteratormap<U> & x) const	{ return (_it < x.getIt()); }
-		template <class U> bool		operator<=	(const reverse_iteratormap<U> & x) const	{ return (_it >= x.getIt()); }
-		template <class U> bool		operator>=	(const reverse_iteratormap<U> & x) const	{ return (_it <= x.getIt()); }
+		template <class U> bool		operator==	(const reverse_iteratormap<U> & x) const	{ return (_iterator == x.getiterator()); }
+		template <class U> bool		operator!=	(const reverse_iteratormap<U> & x) const	{ return (_iterator != x.getiterator()); }
+		template <class U> bool		operator<	(const reverse_iteratormap<U> & x) const	{ return (_iterator > x.getiterator()); }
+		template <class U> bool		operator>	(const reverse_iteratormap<U> & x) const	{ return (_iterator < x.getiterator()); }
+		template <class U> bool		operator<=	(const reverse_iteratormap<U> & x) const	{ return (_iterator >= x.getiterator()); }
+		template <class U> bool		operator>=	(const reverse_iteratormap<U> & x) const	{ return (_iterator <= x.getiterator()); }
 		// -crementation
-		reverse_iteratormap &			operator++	(void)									{ --_it; return (*this); }
-		reverse_iteratormap &			operator--	(void)									{ ++_it; return (*this); }
-		reverse_iteratormap			operator++	(int)									{ reverse_iteratormap<it> x(*this); --_it; return (x); }
-		reverse_iteratormap			operator--	(int)									{ reverse_iteratormap<it> x(*this); ++_it; return (x); }
+		reverse_iteratormap &			operator++	(void)									{ --_iterator; return (*this); }
+		reverse_iteratormap &			operator--	(void)									{ ++_iterator; return (*this); }
+		reverse_iteratormap			operator++	(int)									{ reverse_iteratormap<iterator> x(*this); --_iterator; return (x); }
+		reverse_iteratormap			operator--	(int)									{ reverse_iteratormap<iterator> x(*this); ++_iterator; return (x); }
 		// Operation
-		reverse_iteratormap			operator+	(int n) const							{ return (_it - n + 1); }
-		reverse_iteratormap			operator-	(int n) const							{ return (_it + n + 1); }
-		std::ptrdiff_t				operator-	(const reverse_iteratormap & x) const		{ return (x.getIt() - _it); }
+		reverse_iteratormap			operator+	(int n) const							{ return (_iterator - n + 1); }
+		reverse_iteratormap			operator-	(int n) const							{ return (_iterator + n + 1); }
+		std::ptrdiff_t				operator-	(const reverse_iteratormap & x) const		{ return (x.getiterator() - _iterator); }
 		// Dereference
-		typename it::value_type &	operator[]	(size_t n) const						{ return (*(_it - n)); }
-		typename it::value_type &	operator*	(void) const							{ return (*_it); }
-		typename it::value_type *	operator->	(void) const							{ return (&(*_it)); }
+		typename iterator::value_type &	operator[]	(size_t n) const						{ return (*(_iterator - n)); }
+		typename iterator::value_type &	operator*	(void) const							{ return (*_iterator); }
+		typename iterator::value_type *	operator->	(void) const							{ return (&(*_iterator)); }
 		// Member functions
-		it							base		(void)									{ return (++it(_it)); }
-		it							getIt		(void) const							{ return (_it); }
+		iterator							base		(void)									{ return (++iterator(_iterator)); }
+		iterator							getiterator		(void) const							{ return (_iterator); }
 		// Non-member functions
-		friend reverse_iteratormap		operator+	(int n, const reverse_iteratormap & x)		{ return (x.getIt() - n + 1); }
+		friend reverse_iteratormap		operator+	(int n, const reverse_iteratormap & x)		{ return (x.getiterator() - n + 1); }
 
 	private:
-		it		_it;
+		iterator		_iterator;
 	};
 
 	template <class T>
@@ -126,20 +119,13 @@ public:
 
 	typedef struct				s_node
 	{
-# if __APPLE__
-		ft::pair<const Key, T>	data;
-		bool					color;
-		struct s_node *			left;
-		struct s_node *			right;
-		struct s_node *			parent;
-# else
-		ft::pair<const Key, T>	data;
-		struct s_node *			left;
-		struct s_node *			right;
-		struct s_node *			parent;
-		bool					color;
-# endif
 
+		ft::pair<const Key, T>	data;
+		struct s_node *			left;
+		struct s_node *			right;
+		struct s_node *			parent;
+		bool					color;
+		
 		s_node (ft::pair<const Key, T> data) : data(data) {}
 		const Key &	key (void)	{ return (data.first); }
 		T &			val (void)	{ return (data.second); }
@@ -149,37 +135,45 @@ public:
 	// Iterator subclass
 	//////////////////////////////
 
-	template <bool IsConst>
+
+	// Iterator Vector = bidirectionnal	
+	// template <class ConstIter> evite de faire un iterator const et un iterator non const
+	// class ConstVectorIterator;
+	
+	template <bool ConstIter>
 	class mapIterator {
-		// typedef class iterator;
 	public:
-		typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
-		typedef	typename traits::pointer													pointer;
-		typedef	typename traits::reference													reference;
-		typedef	typename traits::iterator_category											iterator_category;
-		typedef					ft::pair<const Key, T>										pair_type;
-		typedef typename		ft::conditional<IsConst, const pair_type, pair_type>::type	value_type;
-		typedef typename		ft::conditional<IsConst, const node, node>::type			node_type;
+		typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >			traits;			// specify the iterator traits
+		typedef typename		ft::conditional<ConstIter, const pair_type, pair_type>::type	value_type;
 		typedef					std::ptrdiff_t												difference_type;
+		typedef	typename		 traits::pointer											pointer;
+		typedef	typename 		traits::reference											reference;
+		typedef	typename 		traits::iterator_category									iterator_category;
+		
+		typedef					ft::pair<const Key, T>										pair_type;
+		typedef typename		ft::conditional<ConstIter, const node, node>::type			node_type;
 		typedef					std::size_t													size_type;
-		// -structors
+		
+		// Constructors
 		mapIterator				(void)														{ _ptr = NULL; }
 		mapIterator				(node_type * const ptr)										{ _ptr = ptr; }
-		~mapIterator			(void)														{}
+		~mapIterator			(void)													{}
+
+		// used for const_iterator and iterator conversion (see below)
 		// Const stuff
-		template <bool B>		mapIterator
-			(const mapIterator<B> & x, typename ft::enable_if<!B>::type* = 0)				{ _ptr = x.getPtr(); }
+		template <bool Bool>		mapIterator
+			(const mapIterator<Bool> & x, typename ft::enable_if<!B>::type* = 0)				{ _ptr = x.getPtr(); }
 
 		// Assignment
 		mapIterator &			operator=	(const mapIterator & x)							{ _ptr = x.getPtr(); return (*this); }
 		// Comparison
-		template <bool B> bool	operator==	(const mapIterator<B> & x) const				{ return (_ptr == x.getPtr()); }
-		template <bool B> bool	operator!=	(const mapIterator<B> & x) const				{ return (_ptr != x.getPtr()); }
+		template <bool Bool> bool	operator==	(const mapIterator<Bool> & x) const				{ return (_ptr == x.getPtr()); }
+		template <bool Bool> bool	operator!=	(const mapIterator<Bool> & x) const				{ return (_ptr != x.getPtr()); }
 		// -crementation
 		mapIterator &			operator++	(void)											{ this->nextNode(); return (*this); }
 		mapIterator &			operator--	(void)											{ this->prevNode(); return (*this); }
-		mapIterator				operator++	(int)											{ mapIterator<IsConst> x(*this); this->nextNode(); return (x); }
-		mapIterator				operator--	(int)											{ mapIterator<IsConst> x(*this); this->prevNode(); return (x); }
+		mapIterator				operator++	(int)											{ mapIterator<ConstIter> x(*this); this->nextNode(); return (x); }
+		mapIterator				operator--	(int)											{ mapIterator<ConstIter> x(*this); this->prevNode(); return (x); }
 		// Dereference
 		value_type &			operator*	(void) const									{ return (_ptr->data); }
 		value_type *			operator->	(void) const									{ return (&_ptr->data); }
@@ -610,7 +604,7 @@ private:
 	{
 		_nil = _alloc.allocate(1);
 		this->_construct(_nil);
-		_nil->color = BLACK_;
+		_nil->color = BLACK;
 	}
 
 	node * _new_node (const value_type & val = value_type())
@@ -636,7 +630,7 @@ private:
 		tmp.left = _nil;
 		tmp.right = _nil;
 		tmp.parent = _nil;
-		tmp.color = RED_;
+		tmp.color = RED;
 		_alloc.construct(ptr, tmp);
 	}
 
@@ -749,17 +743,17 @@ private:
 		node * uncle = (grandparent->right == parent) ? grandparent->left : grandparent->right;
 
 		if (parent == _nil)
-			x->color = BLACK_;
-		else if (parent->color == BLACK_)
+			x->color = BLACK;
+		else if (parent->color == BLACK)
 			return ;
-		else if (uncle->color == RED_)
+		else if (uncle->color == RED)
 		{
-			parent->color = BLACK_;
-			uncle->color = BLACK_;
-			grandparent->color = RED_;
+			parent->color = BLACK;
+			uncle->color = BLACK;
+			grandparent->color = RED;
 			this->_insertRB(grandparent);
 		}
-		else if (uncle->color == BLACK_)
+		else if (uncle->color == BLACK)
 		{
 			if (grandparent->left->left == x || grandparent->right->right == x)
 			{
@@ -782,8 +776,8 @@ private:
 
 	void _deleteRB (node * v, node * u)
 	{
-		if (v->color == RED_ || u->color == RED_)
-			u->color = BLACK_;
+		if (v->color == RED || u->color == RED)
+			u->color = BLACK;
 		else
 			this->_doubleBlack(u, v->parent);
 	}
@@ -794,31 +788,31 @@ private:
 
 		if (u == _nil->right)
 			return ;
-		else if (sibling->color == BLACK_ && (sibling->left->color == RED_ || sibling->right->color == RED_))
+		else if (sibling->color == BLACK && (sibling->left->color == RED || sibling->right->color == RED))
 		{
-			if (sibling == parent->left && sibling->left->color == RED_)
+			if (sibling == parent->left && sibling->left->color == RED)
 				this->_LL(parent, sibling);
-			else if (sibling == parent->left && sibling->right->color == RED_)
+			else if (sibling == parent->left && sibling->right->color == RED)
 				this->_LR(parent, sibling, sibling->right);
-			else if (sibling == parent->right && sibling->right->color == RED_)
+			else if (sibling == parent->right && sibling->right->color == RED)
 				this->_RR(parent, sibling);
-			else if (sibling == parent->right && sibling->left->color == RED_)
+			else if (sibling == parent->right && sibling->left->color == RED)
 				this->_RL(parent, sibling, sibling->left);
 
-			if (sibling->left->color == RED_)
-				sibling->left->color = BLACK_;
+			if (sibling->left->color == RED)
+				sibling->left->color = BLACK;
 			else
-				sibling->right->color = BLACK_;
+				sibling->right->color = BLACK;
 		}
-		else if (sibling->color == BLACK_)
+		else if (sibling->color == BLACK)
 		{
-			sibling->color = RED_;
-			if (parent->color == RED_)
-				parent->color = BLACK_;
+			sibling->color = RED;
+			if (parent->color == RED)
+				parent->color = BLACK;
 			else
 				this->_doubleBlack(parent, parent->parent);
 		}
-		else if (sibling->color == RED_)
+		else if (sibling->color == RED)
 		{
 			if (sibling == parent->left)
 				this->_LL(parent, sibling);

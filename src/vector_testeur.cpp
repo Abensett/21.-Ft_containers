@@ -27,21 +27,27 @@ template <typename T> void print_vector( ft::vector<T> &v )
 	cout << "VECTOR "<< endl;
 	cout << "size: " << v.size() << endl;
 	cout << "capacity: " << v.capacity() << endl;
-	cout << "content: ";
+	cout << "content:" << endl;
 	for (typename ft::vector<T>::iterator it = v.begin(); it != v.end(); it++)
-		cout << *it << " ";
+			cout << *it << " ";
 	cout << endl;
 }
 
+template <typename T>
+std::string	printPair(const T &iterator, std::ostream &o = std::cout)
+{
+	o << "key: " << iterator->first << " | value: " << iterator->second;
+	o << std::endl;
+	return ("");
+}
 
 template <typename key, typename T> void print_map( ft::map<key,T> &v )
 {
 	cout << "MAP"<< endl;
 	cout << "size: " << v.size() << endl;
-	cout << "capacity: " << v.capacity() << endl;
-	cout << "content: ";
+	cout << "content: " << endl;
 	for (typename ft::map<key,T>::iterator it = v.begin(); it != v.end(); it++)
-		cout << *it << " ";
+		printPair(it);
 	cout << endl;
 }
 

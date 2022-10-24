@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 19:24:59 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/24 21:31:12 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag{};		//Categories used to identify random access iterators
 
-		/*
+	/*
 	**	ITERATOR_TRAITS
 	** 	- A type trait class that provides a uniform interface to obtaining properties of iterator types.
 	**  - specializations for iterator types

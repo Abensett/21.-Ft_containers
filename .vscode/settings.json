@@ -82,6 +82,7 @@
         "set": "cpp",
         "filesystem": "cpp",
         "*.tpp": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "safd": "cpp"
     }
 }
