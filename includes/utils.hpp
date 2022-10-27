@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 15:12:15 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/24 21:31:12 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/27 18:35:10 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag{};		//Categories used to identify random access iterators
 
-	/*
+		/*
 	**	ITERATOR_TRAITS
 	** 	- A type trait class that provides a uniform interface to obtaining properties of iterator types.
 	**  - specializations for iterator types
@@ -363,9 +363,112 @@ template <class T1, class T2>  bool operator>= (const pair<T1,T2>& lhs, const pa
 **
 ** - Constructs a pair object with its elements initialized to the values passed as arguments.
 */
+
+
+
 template <class T1, class T2>  pair<T1,T2> make_pair (T1 x, T2 y)
 { return ( pair<T1,T2>(x,y) ); };
 
+
+
+	template <class it>
+	class reverse_iteratormap {
+	public:
+		// constructors
+		// default constructor etc
+		reverse_iteratormap			(void)												{ _it = it(); }
+		reverse_iteratormap			(typename it::value_type * ptr)						{ _it = it(ptr); }
+		reverse_iteratormap			(const it & x)										{ _it = x; --_it; }
+		~reverse_iteratormap			(void)												{}
+
+		// Conversion constructor from iterator to const_iterator or
+		template <class U>
+		reverse_iteratormap			(const reverse_iteratormap<U> & x)						{ _it = x.getIt(); }
+
+
+		// operators
+		reverse_iteratormap &			operator=	(const reverse_iteratormap & x)			{ _it = x.getIt(); return (*this); }
+		reverse_iteratormap &			operator+=	(int n)									{ _it -= n; return (*this); }
+		reverse_iteratormap &			operator-=	(int n)									{ _it += n; return (*this); }
+
+		// Comparison
+		template <class U> bool		operator==	(const reverse_iteratormap<U> & x) const	{ return (_it == x.getIt()); }
+		template <class U> bool		operator!=	(const reverse_iteratormap<U> & x) const	{ return (_it != x.getIt()); }
+		template <class U> bool		operator<	(const reverse_iteratormap<U> & x) const	{ return (_it > x.getIt()); }
+		template <class U> bool		operator>	(const reverse_iteratormap<U> & x) const	{ return (_it < x.getIt()); }
+		template <class U> bool		operator<=	(const reverse_iteratormap<U> & x) const	{ return (_it >= x.getIt()); }
+		template <class U> bool		operator>=	(const reverse_iteratormap<U> & x) const	{ return (_it <= x.getIt()); }
+
+		// incrementation and decrementation
+		reverse_iteratormap &			operator++	(void)									{ --_it; return (*this); }
+		reverse_iteratormap &			operator--	(void)									{ ++_it; return (*this); }
+		reverse_iteratormap			operator++	(int)									{ reverse_iteratormap<it> x(*this); --_it; return (x); }
+		reverse_iteratormap			operator--	(int)									{ reverse_iteratormap<it> x(*this); ++_it; return (x); }
+		// Operation
+		reverse_iteratormap			operator+	(int n) const							{ return (_it - n + 1); }
+		reverse_iteratormap			operator-	(int n) const							{ return (_it + n + 1); }
+		std::ptrdiff_t				operator-	(const reverse_iteratormap & x) const		{ return (x.getIt() - _it); }
+		// Dereference
+		typename it::value_type &	operator[]	(size_t n) const						{ return (*(_it - n)); }
+		typename it::value_type &	operator*	(void) const							{ return (*_it); }
+		typename it::value_type *	operator->	(void) const							{ return (&(*_it)); }
+		// Member functions
+		it							base		(void)									{ return (++it(_it)); }
+		it							getIt		(void) const							{ return (_it); }
+		// Non-member functions
+		friend reverse_iteratormap		operator+	(int n, const reverse_iteratormap & x)		{ return (x.getIt() - n + 1); }
+
+		private :
+			it		_it;
+	};
+
+	template <class it>
+	class reverse_iteratorset {
+	public:
+		// -structors
+		reverse_iteratorset			(void)												{ _it = it(); }
+		reverse_iteratorset			(typename it::value_type * ptr)						{ _it = it(ptr); }
+		reverse_iteratorset			(const it & x)										{ _it = x; --_it; }
+		~reverse_iteratorset			(void)												{}
+		// Conversion
+		template <class U>
+		reverse_iteratorset			(const reverse_iteratorset<U> & x)						{ _it = x.getIt(); }
+
+		// Assignment
+		reverse_iteratorset &			operator=	(const reverse_iteratorset & x)			{ _it = x.getIt(); return (*this); }
+		reverse_iteratorset &			operator+=	(int n)									{ _it -= n; return (*this); }
+		reverse_iteratorset &			operator-=	(int n)									{ _it += n; return (*this); }
+		// Comparison
+		template <class U> bool		operator==	(const reverse_iteratorset<U> & x) const	{ return (_it == x.getIt()); }
+		template <class U> bool		operator!=	(const reverse_iteratorset<U> & x) const	{ return (_it != x.getIt()); }
+		template <class U> bool		operator<	(const reverse_iteratorset<U> & x) const	{ return (_it > x.getIt()); }
+		template <class U> bool		operator>	(const reverse_iteratorset<U> & x) const	{ return (_it < x.getIt()); }
+		template <class U> bool		operator<=	(const reverse_iteratorset<U> & x) const	{ return (_it >= x.getIt()); }
+		template <class U> bool		operator>=	(const reverse_iteratorset<U> & x) const	{ return (_it <= x.getIt()); }
+
+		// incrementation and decrementation
+		reverse_iteratorset &			operator++	(void)									{ --_it; return (*this); }
+		reverse_iteratorset &			operator--	(void)									{ ++_it; return (*this); }
+		reverse_iteratorset			operator++	(int)									{ reverse_iteratorset<it> x(*this); --_it; return (x); }
+		reverse_iteratorset			operator--	(int)									{ reverse_iteratorset<it> x(*this); ++_it; return (x); }
+
+		// Operation
+		reverse_iteratorset			operator+	(int n) const							{ return (_it - n + 1); }
+		reverse_iteratorset			operator-	(int n) const							{ return (_it + n + 1); }
+		std::ptrdiff_t				operator-	(const reverse_iteratorset & x) const		{ return (x.getIt() - _it); }
+		// Dereference
+		typename it::value_type &	operator[]	(size_t n) const						{ return (*(_it - n)); }
+		typename it::value_type &	operator*	(void) const							{ return (*_it); }
+		typename it::value_type *	operator->	(void) const							{ return (&(*_it)); }
+		// Member functions
+		it							base		(void)									{ return (++it(_it)); }
+		it							getIt		(void) const							{ return (_it); }
+		// Non-member functions
+		friend reverse_iteratorset		operator+	(int n, const reverse_iteratorset & x)		{ return (x.getIt() - n + 1); }
+
+	private:
+		it		_it;
+	};
 
 };
 // End of namespace FT

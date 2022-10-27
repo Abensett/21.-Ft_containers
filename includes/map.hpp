@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/24 21:38:12 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/27 19:59:05 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@
 #include <iostream>
 
 #include "utils.hpp"
-#include "RedBlackTree.hpp"
-// #include "MapIterator.hpp"
-// #include "ConstMapIterator.hpp"
 
-// // https://cplusplus.com/reference/map/map/
-
+// https://cplusplus.com/reference/map/map/
 
 # ifndef RED
 #  define RED true
@@ -33,56 +29,9 @@
 #  define BLACK false
 # endif
 
-
 namespace ft
 {
 
-	template <class iterator>
-	class reverse_iteratormap {
-	public:
-	// -structors
-		reverse_iteratormap			(void)												{ _iterator = iterator(); }
-		reverse_iteratormap			(typename iterator::value_type * ptr)						{ _iterator = iterator(ptr); }
-		reverse_iteratormap			(const iterator & x)										{ _iterator = x; --_iterator; }
-		~reverse_iteratormap			(void)												{}
-		// Conversion
-		template <class U>			friend class										reverse_iteratormap;
-		template <class U>
-		reverse_iteratormap			(const reverse_iteratormap<U> & x)						{ _iterator = x.getiterator(); }
-
-		// Assignment
-		reverse_iteratormap &			operator=	(const reverse_iteratormap & x)			{ _iterator = x.getiterator(); return (*this); }
-		reverse_iteratormap &			operator+=	(int n)									{ _iterator -= n; return (*this); }
-		reverse_iteratormap &			operator-=	(int n)									{ _iterator += n; return (*this); }
-		// Comparison
-		template <class U> bool		operator==	(const reverse_iteratormap<U> & x) const	{ return (_iterator == x.getiterator()); }
-		template <class U> bool		operator!=	(const reverse_iteratormap<U> & x) const	{ return (_iterator != x.getiterator()); }
-		template <class U> bool		operator<	(const reverse_iteratormap<U> & x) const	{ return (_iterator > x.getiterator()); }
-		template <class U> bool		operator>	(const reverse_iteratormap<U> & x) const	{ return (_iterator < x.getiterator()); }
-		template <class U> bool		operator<=	(const reverse_iteratormap<U> & x) const	{ return (_iterator >= x.getiterator()); }
-		template <class U> bool		operator>=	(const reverse_iteratormap<U> & x) const	{ return (_iterator <= x.getiterator()); }
-		// -crementation
-		reverse_iteratormap &			operator++	(void)									{ --_iterator; return (*this); }
-		reverse_iteratormap &			operator--	(void)									{ ++_iterator; return (*this); }
-		reverse_iteratormap			operator++	(int)									{ reverse_iteratormap<iterator> x(*this); --_iterator; return (x); }
-		reverse_iteratormap			operator--	(int)									{ reverse_iteratormap<iterator> x(*this); ++_iterator; return (x); }
-		// Operation
-		reverse_iteratormap			operator+	(int n) const							{ return (_iterator - n + 1); }
-		reverse_iteratormap			operator-	(int n) const							{ return (_iterator + n + 1); }
-		std::ptrdiff_t				operator-	(const reverse_iteratormap & x) const		{ return (x.getiterator() - _iterator); }
-		// Dereference
-		typename iterator::value_type &	operator[]	(size_t n) const						{ return (*(_iterator - n)); }
-		typename iterator::value_type &	operator*	(void) const							{ return (*_iterator); }
-		typename iterator::value_type *	operator->	(void) const							{ return (&(*_iterator)); }
-		// Member functions
-		iterator							base		(void)									{ return (++iterator(_iterator)); }
-		iterator							getiterator		(void) const							{ return (_iterator); }
-		// Non-member functions
-		friend reverse_iteratormap		operator+	(int n, const reverse_iteratormap & x)		{ return (x.getiterator() - n + 1); }
-
-	private:
-		iterator		_iterator;
-	};
 
 	template <class T>
 	void swap (T & a, T & b)
@@ -92,20 +41,20 @@ namespace ft
 		b = tmp;
 	}
 	template <class T, class U>
-	struct is_same { static const bool value = false; };
+	struct same_type { static const bool value = false; };
 
 	template <class T>
-	struct is_same<T, T> { static const bool value = true; };
+	struct same_type<T, T> { static const bool value = true; };
 
 
 	template <bool B, class T = void, class U = void>
-	struct conditional {};
+	struct whichtype {};
 
 	template <class T, class U>
-	struct conditional<true, T, U> { typedef T type; };
+	struct whichtype<true, T, U> { typedef T type; };
 
 	template <class T, class U>
-	struct conditional<false, T, U> { typedef U type; };
+	struct whichtype<false, T, U> { typedef U type; };
 
 
 
@@ -113,76 +62,63 @@ template <class Key, class T, class Compare = std::less<Key>, class Alloc = std:
 class map {
 public:
 
-	//////////////////////////////
-	// Node
-	//////////////////////////////
+	/* ****************************************************************************
+	* ------------------------------- RBNode Class -------------------------------*
+	* 					P														  *
+	*		RBN a Node is a struct with :								   		  *
+	*		a value, a color, a parent, a left child and a right child			  *
+	*******************************************************************************/
 
 	typedef struct				s_node
 	{
-
 		ft::pair<const Key, T>	data;
 		struct s_node *			left;
 		struct s_node *			right;
 		struct s_node *			parent;
 		bool					color;
-		
+
+
 		s_node (ft::pair<const Key, T> data) : data(data) {}
 		const Key &	key (void)	{ return (data.first); }
 		T &			val (void)	{ return (data.second); }
 	}							node;
 
-	//////////////////////////////
-	// Iterator subclass
-	//////////////////////////////
 
 
-	// Iterator Vector = bidirectionnal	
-	// template <class ConstIter> evite de faire un iterator const et un iterator non const
-	// class ConstVectorIterator;
-	
-	template <bool ConstIter>
+	template <bool checkconst>
 	class mapIterator {
 	public:
-		typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >			traits;			// specify the iterator traits
-		typedef typename		ft::conditional<ConstIter, const pair_type, pair_type>::type	value_type;
-		typedef					std::ptrdiff_t												difference_type;
-		typedef	typename		 traits::pointer											pointer;
-		typedef	typename 		traits::reference											reference;
-		typedef	typename 		traits::iterator_category									iterator_category;
-		
+		typedef ft::iterator_traits<iterator<std::bidirectional_iterator_tag, T> >		traits;			// specify the iterator traits
+		typedef	typename traits::pointer													pointer;
+		typedef	typename traits::reference													reference;
+		typedef	typename traits::iterator_category											iterator_category;
 		typedef					ft::pair<const Key, T>										pair_type;
-		typedef typename		ft::conditional<ConstIter, const node, node>::type			node_type;
+		typedef typename		ft::whichtype<checkconst, const pair_type, pair_type>::type	value_type;
+		typedef typename		ft::whichtype<checkconst, const node, node>::type			node_type;
+		typedef					std::ptrdiff_t												difference_type;
 		typedef					std::size_t													size_type;
-		
-		// Constructors
 		mapIterator				(void)														{ _ptr = NULL; }
 		mapIterator				(node_type * const ptr)										{ _ptr = ptr; }
 		~mapIterator			(void)													{}
 
-		// used for const_iterator and iterator conversion (see below)
-		// Const stuff
-		template <bool Bool>		mapIterator
-			(const mapIterator<Bool> & x, typename ft::enable_if<!B>::type* = 0)				{ _ptr = x.getPtr(); }
+		template <bool B>		mapIterator
+			(const mapIterator<B> & x, typename ft::enable_if<!B>::type* = 0)				{ _ptr = x.getPtr(); }
 
-		// Assignment
 		mapIterator &			operator=	(const mapIterator & x)							{ _ptr = x.getPtr(); return (*this); }
-		// Comparison
-		template <bool Bool> bool	operator==	(const mapIterator<Bool> & x) const				{ return (_ptr == x.getPtr()); }
-		template <bool Bool> bool	operator!=	(const mapIterator<Bool> & x) const				{ return (_ptr != x.getPtr()); }
-		// -crementation
+		template <bool B> bool	operator==	(const mapIterator<B> & x) const				{ return (_ptr == x.getPtr()); }
+		template <bool B> bool	operator!=	(const mapIterator<B> & x) const				{ return (_ptr != x.getPtr()); }
 		mapIterator &			operator++	(void)											{ this->nextNode(); return (*this); }
 		mapIterator &			operator--	(void)											{ this->prevNode(); return (*this); }
-		mapIterator				operator++	(int)											{ mapIterator<ConstIter> x(*this); this->nextNode(); return (x); }
-		mapIterator				operator--	(int)											{ mapIterator<ConstIter> x(*this); this->prevNode(); return (x); }
-		// Dereference
+		mapIterator				operator++	(int)											{ mapIterator<checkconst> x(*this); this->nextNode(); return (x); }
+		mapIterator				operator--	(int)											{ mapIterator<checkconst> x(*this); this->prevNode(); return (x); }
 		value_type &			operator*	(void) const									{ return (_ptr->data); }
 		value_type *			operator->	(void) const									{ return (&_ptr->data); }
-		// Member functions
 		node_type *				getPtr		(void) const									{ return (_ptr); }
 
 	private:
 		node_type *				_ptr;
 
+		// find the next node in the tree (in-order) which is the smallest node greater than the current node
 		void nextNode (void)
 		{
 			if (_ptr->right != _ptr->right->left)
@@ -199,6 +135,7 @@ public:
 			}
 		}
 
+		// find the previous node in the tree (in-order) which is the largest node smaller than the current node
 		void prevNode (void)
 		{
 			if (_ptr == _ptr->parent)
@@ -221,9 +158,9 @@ public:
 		}
 	}; // Iterator
 
-	//////////////////////////////
-	// Member types
-	//////////////////////////////
+	/************************************************************
+	* 						MEMBER TYPES						*
+	************************************************************/
 
 	class		ValueCompare;
 
@@ -244,9 +181,7 @@ public:
 	typedef		typename mapIterator<false>::difference_type	difference_type;
 	typedef		typename mapIterator<false>::size_type			size_type;
 
-	//////////////////////////////
-	// Value compare
-	//////////////////////////////
+	// nested class for comparing values (used in lower_bound, upper_bound, equal_range) - compares keys of values
 
 	class ValueCompare {
 	public:
@@ -261,9 +196,9 @@ public:
 		Compare			comp;
 	};
 
-	//////////////////////////////
-	// Constructors
-	//////////////////////////////
+	/************************************************************
+	 * 				CONSTRUCTEURS/DESTRUCTOR					*
+	************************************************************/
 
 	explicit map (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
 	{
@@ -274,7 +209,7 @@ public:
 
 	template <class InputIterator>
 	map (InputIterator first, InputIterator last, const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type(),
-	typename ft::enable_if<!ft::is_same<InputIterator, int>::value>::type* = 0)
+	typename ft::enable_if<!ft::same_type<InputIterator, int>::value>::type* = 0)
 	{
 		_alloc = alloc;
 		_comp = comp;
@@ -290,9 +225,6 @@ public:
 		*this = x;
 	}
 
-	//////////////////////////////
-	// Destructors
-	//////////////////////////////
 
 	~map (void)
 	{
@@ -300,10 +232,6 @@ public:
 		_alloc.destroy(_nil);
 		_alloc.deallocate(_nil, 1);
 	}
-
-	//////////////////////////////
-	// Assignment operator
-	//////////////////////////////
 
 	map & operator= (const map & x)
 	{
@@ -319,18 +247,17 @@ public:
 		return (*this);
 	}
 
-	//////////////////////////////
-	// Iterators
-	//////////////////////////////
-
+	/************************************************************
+	 * 					      ITERATORS		   		 		    *
+	 ************************************************************/
 	iterator begin (void)
 	{
-		return (iterator(this->_leftmost(_nil->right)));
+		return (iterator(this->_find_min(_nil->right)));
 	}
 
 	const_iterator begin (void) const
 	{
-		return (const_iterator(this->_leftmost(_nil->right)));
+		return (const_iterator(this->_find_min(_nil->right)));
 	}
 
 	iterator end (void)
@@ -342,10 +269,6 @@ public:
 	{
 		return (const_iterator(_nil));
 	}
-
-	//////////////////////////////
-	// Reverse iterators
-	//////////////////////////////
 
 	reverse_iterator rbegin (void)
 	{
@@ -359,18 +282,17 @@ public:
 
 	reverse_iterator rend (void)
 	{
-		return (reverse_iterator(this->_leftmost(_nil->right)));
+		return (reverse_iterator(this->_find_min(_nil->right)));
 	}
 
 	const_reverse_iterator rend (void) const
 	{
-		return (const_reverse_iterator(this->_leftmost(_nil->right)));
+		return (const_reverse_iterator(this->_find_min(_nil->right)));
 	}
 
-	//////////////////////////////
-	// Capacity
-	//////////////////////////////
-
+	/************************************************************
+	 * 					      CAPACITY		   		 		    *
+	 ************************************************************/
 	bool empty (void) const
 	{
 		return (_nil == _nil->right);
@@ -389,9 +311,9 @@ public:
 		return (_alloc.max_size());
 	}
 
-	//////////////////////////////
-	// Member access
-	//////////////////////////////
+	/************************************************************
+	 * 					      ELEMENT ACCESS		   		 	*
+	 ************************************************************/
 
 	mapped_type & operator[] (const key_type & k)
 	{
@@ -399,9 +321,9 @@ public:
 		return (this->find(k)->second);
 	}
 
-	//////////////////////////////
-	// Insertion modifiers
-	//////////////////////////////
+	/************************************************************
+	 * 					      MODIFIERS		   		 	    *
+	 ************************************************************/
 
 	ft::pair<iterator,bool> insert (const value_type & val)
 	{
@@ -426,15 +348,11 @@ public:
 
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last,
-	typename ft::enable_if<!ft::is_same<InputIterator, int>::value>::type* = 0)
+	typename ft::enable_if<!ft::same_type<InputIterator, int>::value>::type* = 0)
 	{
 		while (first != last)
 			this->insert(*first++);
 	}
-
-	//////////////////////////////
-	// Erasure modifiers
-	//////////////////////////////
 
 	void erase (iterator position)
 	{
@@ -457,7 +375,7 @@ public:
 			else
 				ptr->parent->right = child;
 
-			this->_removeNode(ptr, child);
+			this->_remove_node(ptr, child);
 		}
 	}
 
@@ -477,10 +395,6 @@ public:
 			this->erase(it);
 	}
 
-	//////////////////////////////
-	// Common modifiers
-	//////////////////////////////
-
 	void swap (map & x)
 	{
 		ft::swap(_alloc, x._alloc);
@@ -495,10 +409,9 @@ public:
 			this->erase(it);
 	}
 
-	//////////////////////////////
-	// Observers
-	//////////////////////////////
-
+	/************************************************************
+	 * 					      OBSERVERS		   		 	    *
+	 ************************************************************/
 	key_compare key_comp (void) const
 	{
 		return (key_compare());
@@ -509,9 +422,9 @@ public:
 		return (value_compare(_comp));
 	}
 
-	//////////////////////////////
-	// Search operations
-	//////////////////////////////
+	/************************************************************
+	 * 					      OPERATIONS		   		 	    *
+	 ************************************************************/
 
 	iterator find (const key_type & k)
 	{
@@ -540,9 +453,7 @@ public:
 		return (n);
 	}
 
-	//////////////////////////////
-	// Bound operations
-	//////////////////////////////
+
 
 	iterator lower_bound (const key_type & k)
 	{
@@ -586,20 +497,17 @@ public:
 		return (ft::make_pair(this->lower_bound(k), this->upper_bound(k)));
 	}
 
-	//////////////////////////////
-	// Allocator
-	//////////////////////////////
-
 	allocator_type get_allocator (void) const
 	{
 		return (allocator_type());
 	}
 
-	//////////////////////////////
-	// Private functions
-	//////////////////////////////
+	/************************************************************
+	 * 				 PRIVATE  HELPING FUNCTIONS		   		     *
+	 ************************************************************/
 
 private:
+	// create a new nil node with the given value
 	void _new_nil_node (void)
 	{
 		_nil = _alloc.allocate(1);
@@ -607,6 +515,7 @@ private:
 		_nil->color = BLACK;
 	}
 
+	// create a new node
 	node * _new_node (const value_type & val = value_type())
 	{
 		node * new_node = _alloc.allocate(1);
@@ -619,11 +528,12 @@ private:
 			parent->left = new_node;
 		new_node->parent = parent;
 
-		this->_insertRB(new_node);
+		this->_insert_in_RB(new_node);
 
 		return (new_node);
 	}
 
+	// create a new node with the given value
 	void _construct (node * ptr, const value_type & val = value_type())
 	{
 		node tmp(val);
@@ -634,6 +544,7 @@ private:
 		_alloc.construct(ptr, tmp);
 	}
 
+	// swap two nodes
 	void _swap_nodes (node * a, node * b)
 	{
 		if (a->left != b && a->left != _nil)
@@ -684,14 +595,16 @@ private:
 			_nil->right = a;
 	}
 
-	void _removeNode (node * ptr, node * child)
+	// delete a node
+	void _remove_node (node * ptr, node * child)
 	{
-		this->_deleteRB(ptr, child);
+		this->_delete_from_RB(ptr, child);
 
 		_alloc.destroy(ptr);
 		_alloc.deallocate(ptr, 1);
 	}
 
+	// find the node with the given key
 	node * _find_node (node * current, const key_type & k) const
 	{
 		if (current == _nil || this->_equal(current->key(), k))
@@ -702,6 +615,7 @@ private:
 			return (this->_find_node(current->right, k));
 	}
 
+	// find the parent of the node with the given key
 	node * _find_parent (node * current, const key_type & k) const
 	{
 		if (!this->_comp(k, current->key()))
@@ -720,23 +634,32 @@ private:
 		}
 	}
 
-	node * _leftmost (node * root) const
+	// find the minimum node in the tree
+	node * _find_min (node * root) const
 	{
 		while (root->left != root->left->left)
 			root = root->left;
 		return (root);
 	}
 
+	// find the maximum node in the tree
 	bool _equal (const key_type & lhs, const key_type & rhs) const
 	{
 		return (this->_comp(lhs, rhs) == false && this->_comp(rhs, lhs) == false);
 	}
+	/************************************************************
+	 * 				 PREDBLACK TREE FUNCTIONS		   		     *
+	 ************************************************************/
+	/******************************************************************************
+	A Red Black Tree is a Binary Search Tree with the following 4 properties:
+	1. Every Node is either red or black
+	2. The root is black and Every leaf (NULL) is black
+	3. If a Node is red, then both its children are black
+	4. Every simple path from a Node to a descendant leaf contains the same number of black Nodes
+	******************************************************************************/
 
-	//////////////////////////////
-	// Red and Black Tree
-	//////////////////////////////
-
-	void _insertRB (node * x)
+	// fix the tree after insertion
+	void _insert_in_RB (node * x)
 	{
 		node * parent = x->parent;
 		node * grandparent = parent->parent;
@@ -751,53 +674,58 @@ private:
 			parent->color = BLACK;
 			uncle->color = BLACK;
 			grandparent->color = RED;
-			this->_insertRB(grandparent);
+			this->_insert_in_RB(grandparent);
 		}
 		else if (uncle->color == BLACK)
 		{
 			if (grandparent->left->left == x || grandparent->right->right == x)
 			{
 				if (grandparent->left->left == x)
-					this->_LL(grandparent, parent);
+					this-> _left_rotation(grandparent, parent);
 				else if (grandparent->right->right == x)
-					this->_RR(grandparent, parent);
+					this->_right_rotation(grandparent, parent);
 				ft::swap(grandparent->color, parent->color);
 			}
 			else
 			{
 				if (grandparent->left->right == x)
-					this->_LR(grandparent, parent, x);
+					this->_left_right_rotation(grandparent, parent, x);
 				else if (grandparent->right->left == x)
-					this->_RL(grandparent, parent, x);
+					this->_right_left_rotation(grandparent, parent, x);
 				ft::swap(grandparent->color, x->color);
 			}
 		}
 	}
 
-	void _deleteRB (node * v, node * u)
+	// fix the tree after deletion
+	void _delete_from_RB (node * v, node * u)
 	{
 		if (v->color == RED || u->color == RED)
 			u->color = BLACK;
 		else
-			this->_doubleBlack(u, v->parent);
+			this->_double_black(u, v->parent);
 	}
 
-	void _doubleBlack (node * u, node * parent)
+	// fix the tree after deletion
+	// double black node
+	void _double_black (node * u, node * parent)
 	{
+
 		node * sibling = (parent->left != u) ? parent->left : parent->right;
 
+		// Case 1: x
 		if (u == _nil->right)
 			return ;
 		else if (sibling->color == BLACK && (sibling->left->color == RED || sibling->right->color == RED))
 		{
 			if (sibling == parent->left && sibling->left->color == RED)
-				this->_LL(parent, sibling);
+				this-> _left_rotation(parent, sibling);
 			else if (sibling == parent->left && sibling->right->color == RED)
-				this->_LR(parent, sibling, sibling->right);
+				this->_left_right_rotation(parent, sibling, sibling->right);
 			else if (sibling == parent->right && sibling->right->color == RED)
-				this->_RR(parent, sibling);
+				this->_right_rotation(parent, sibling);
 			else if (sibling == parent->right && sibling->left->color == RED)
-				this->_RL(parent, sibling, sibling->left);
+				this->_right_left_rotation(parent, sibling, sibling->left);
 
 			if (sibling->left->color == RED)
 				sibling->left->color = BLACK;
@@ -810,20 +738,23 @@ private:
 			if (parent->color == RED)
 				parent->color = BLACK;
 			else
-				this->_doubleBlack(parent, parent->parent);
+				this->_double_black(parent, parent->parent);
 		}
 		else if (sibling->color == RED)
 		{
 			if (sibling == parent->left)
-				this->_LL(parent, sibling);
+				this-> _left_rotation(parent, sibling);
 			else
-				this->_RR(parent, sibling);
+				this->_right_rotation(parent, sibling);
 			ft::swap(parent->color, sibling->color);
-			this->_doubleBlack(u, parent);
+			this->_double_black(u, parent);
 		}
 	}
 
-	void _LL (node * grandparent, node * parent)
+	// Left Rotation
+	// make the right child of the node the new root
+	// make the left child of the new root the right child of the node
+	void  _left_rotation (node * grandparent, node * parent)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = parent;
@@ -837,7 +768,10 @@ private:
 		parent->right = grandparent;
 	}
 
-	void _RR (node * grandparent, node * parent)
+	// Right Right Rotation
+	// 1. Make the left child of the right child the parent
+	// 2. Make the right child of the parent the left child of the new parent
+	void _right_rotation (node * grandparent, node * parent)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = parent;
@@ -851,7 +785,8 @@ private:
 		parent->left = grandparent;
 	}
 
-	void _LR (node * grandparent, node * parent, node * x)
+	// Left Right Rotation
+	void _left_right_rotation (node * grandparent, node * parent, node * x)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = x;
@@ -870,7 +805,8 @@ private:
 		x->right = grandparent;
 	}
 
-	void _RL (node * grandparent, node * parent, node * x)
+	// Right Left Rotation
+	void _right_left_rotation (node * grandparent, node * parent, node * x)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = x;
@@ -889,19 +825,13 @@ private:
 		x->right = parent;
 	}
 
-	//////////////////////////////
-	// Member variables
-	//////////////////////////////
 
 	allocator_type		_alloc;
 	key_compare			_comp;
 	node *				_nil;
 }; // Map
 
-	//////////////////////////////
-	// Relational operators
-	//////////////////////////////
-
+	// Non-member function overloads
 	template <class Key, class T, class Compare, class Alloc>
 	bool operator== (const map<Key,T,Compare,Alloc> & lhs, const map<Key,T,Compare,Alloc> & rhs)
 	{

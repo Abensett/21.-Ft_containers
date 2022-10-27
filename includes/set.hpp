@@ -6,7 +6,7 @@
 /*   By: abensett <abensett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 21:46:13 by abensett          #+#    #+#             */
-/*   Updated: 2022/10/23 23:35:03 by abensett         ###   ########.fr       */
+/*   Updated: 2022/10/27 19:58:00 by abensett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,142 +18,52 @@
 #include <limits>
 #include <iostream>
 
-#include "utils.hpp"
-#include "RedBlackTree.hpp"
 #include "map.hpp"
-// #include "setIterator.hpp"
-// #include "ConstsetIterator.hpp"
+#include "utils.hpp"
 
-// // https://cplusplus.com/reference/set/set/
-
-# ifndef MACOS_
-#  if __APPLE__
-#   define MACOS_ 1
-#  else
-#   define MACOS_ 0
-#  endif
-# endif
-
-# ifndef RED_
-#  define RED_ true
-# endif
-# ifndef BLACK_
-#  define BLACK_ false
-# endif
-
+// https://cplusplus.com/reference/set/set/
 
 namespace ft
 {
-
-	template <class it>
-	class reverse_iteratorset {
-	public:
-		// -structors
-		reverse_iteratorset			(void)												{ _it = it(); }
-		reverse_iteratorset			(typename it::value_type * ptr)						{ _it = it(ptr); }
-		reverse_iteratorset			(const it & x)										{ _it = x; --_it; }
-		~reverse_iteratorset			(void)												{}
-		// Conversion
-		template <class U>			friend class										reverse_iteratorset;
-		template <class U>
-		reverse_iteratorset			(const reverse_iteratorset<U> & x)						{ _it = x.getIt(); }
-
-		// Assignment
-		reverse_iteratorset &			operator=	(const reverse_iteratorset & x)			{ _it = x.getIt(); return (*this); }
-		reverse_iteratorset &			operator+=	(int n)									{ _it -= n; return (*this); }
-		reverse_iteratorset &			operator-=	(int n)									{ _it += n; return (*this); }
-		// Comparison
-		template <class U> bool		operator==	(const reverse_iteratorset<U> & x) const	{ return (_it == x.getIt()); }
-		template <class U> bool		operator!=	(const reverse_iteratorset<U> & x) const	{ return (_it != x.getIt()); }
-		template <class U> bool		operator<	(const reverse_iteratorset<U> & x) const	{ return (_it > x.getIt()); }
-		template <class U> bool		operator>	(const reverse_iteratorset<U> & x) const	{ return (_it < x.getIt()); }
-		template <class U> bool		operator<=	(const reverse_iteratorset<U> & x) const	{ return (_it >= x.getIt()); }
-		template <class U> bool		operator>=	(const reverse_iteratorset<U> & x) const	{ return (_it <= x.getIt()); }
-		// -crementation
-		reverse_iteratorset &			operator++	(void)									{ --_it; return (*this); }
-		reverse_iteratorset &			operator--	(void)									{ ++_it; return (*this); }
-		reverse_iteratorset			operator++	(int)									{ reverse_iteratorset<it> x(*this); --_it; return (x); }
-		reverse_iteratorset			operator--	(int)									{ reverse_iteratorset<it> x(*this); ++_it; return (x); }
-		// Operation
-		reverse_iteratorset			operator+	(int n) const							{ return (_it - n + 1); }
-		reverse_iteratorset			operator-	(int n) const							{ return (_it + n + 1); }
-		std::ptrdiff_t				operator-	(const reverse_iteratorset & x) const		{ return (x.getIt() - _it); }
-		// Dereference
-		typename it::value_type &	operator[]	(size_t n) const						{ return (*(_it - n)); }
-		typename it::value_type &	operator*	(void) const							{ return (*_it); }
-		typename it::value_type *	operator->	(void) const							{ return (&(*_it)); }
-		// Member functions
-		it							base		(void)									{ return (++it(_it)); }
-		it							getIt		(void) const							{ return (_it); }
-		// Non-member functions
-		friend reverse_iteratorset		operator+	(int n, const reverse_iteratorset & x)		{ return (x.getIt() - n + 1); }
-
-	private:
-		it		_it;
-	};
 
 template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
 class set {
 public:
 
-	//////////////////////////////
-	// Node
-	//////////////////////////////
-
 	typedef struct				s_node
 	{
-# if __APPLE__
-		const T					data;
-		bool					color;
-		struct s_node *			left;
-		struct s_node *			right;
-		struct s_node *			parent;
-# else
+
 		const T					data;
 		struct s_node *			left;
 		struct s_node *			right;
 		struct s_node *			parent;
 		bool					color;
-# endif
 
 		s_node (const T data) : data(data) {}
 	}							node;
 
-	//////////////////////////////
-	// Iterator subclass
-	//////////////////////////////
-
-	template <bool IsConst>
+	template <bool checkconst>
 	class setIterator {
 	public:
-		// Member types
 		typedef					const T													value_type;
 		typedef					node													node_type;
 		typedef					std::ptrdiff_t											difference_type;
 		typedef					std::size_t												size_type;
-		// -structors
 		setIterator				(void)													{ _ptr = NULL; }
 		setIterator				(node_type * const ptr)									{ _ptr = ptr; }
 		~setIterator			(void)													{}
-		// Const stuff
 		template <bool B>		setIterator
 			(const setIterator<B> & x)													{ _ptr = x.getPtr(); }
 
-		// Assignment
 		setIterator &			operator=	(const setIterator & x)						{ _ptr = x.getPtr(); return (*this); }
-		// Comparison
 		template <bool B> bool	operator==	(const setIterator<B> & x) const			{ return (_ptr == x.getPtr()); }
 		template <bool B> bool	operator!=	(const setIterator<B> & x) const			{ return (_ptr != x.getPtr()); }
-		// -crementation
 		setIterator &			operator++	(void)										{ this->nextNode(); return (*this); }
 		setIterator &			operator--	(void)										{ this->prevNode(); return (*this); }
-		setIterator				operator++	(int)										{ setIterator<IsConst> x(*this); this->nextNode(); return (x); }
-		setIterator				operator--	(int)										{ setIterator<IsConst> x(*this); this->prevNode(); return (x); }
-		// Dereference
+		setIterator				operator++	(int)										{ setIterator<checkconst> x(*this); this->nextNode(); return (x); }
+		setIterator				operator--	(int)										{ setIterator<checkconst> x(*this); this->prevNode(); return (x); }
 		value_type &			operator*	(void) const								{ return (_ptr->data); }
-		value_type *			operator->	(void) const								{ return (&_ptr->data); }
-		// Member functions
-		node_type *				getPtr		(void) const								{ return (_ptr); }
+		value_type *			operator->	(void) const								{ return (&_ptr->data); }		node_type *				getPtr		(void) const								{ return (_ptr); }
 
 	private:
 		node_type *				_ptr;
@@ -194,11 +104,9 @@ public:
 				_ptr = _ptr->parent;
 			}
 		}
-	}; // Iterator
+	};
 
-	//////////////////////////////
-	// Member types
-	//////////////////////////////
+
 
 	typedef		T												key_type;
 	typedef		T												value_type;
@@ -216,9 +124,6 @@ public:
 	typedef		typename setIterator<false>::difference_type	difference_type;
 	typedef		typename setIterator<false>::size_type			size_type;
 
-	//////////////////////////////
-	// Constructors
-	//////////////////////////////
 
 	explicit set (const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type())
 	{
@@ -229,7 +134,7 @@ public:
 
 	template <class InputIterator>
 	set (InputIterator first, InputIterator last, const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type(),
-	typename ft::enable_if<!ft::is_same<InputIterator, int>::value>::type* = 0)
+	typename ft::enable_if<!ft::same_type<InputIterator, int>::value>::type* = 0)
 	{
 		_alloc = alloc;
 		_comp = comp;
@@ -245,10 +150,6 @@ public:
 		*this = x;
 	}
 
-	//////////////////////////////
-	// Destructors
-	//////////////////////////////
-
 	~set (void)
 	{
 		this->clear();
@@ -256,9 +157,6 @@ public:
 		_alloc.deallocate(_nil, 1);
 	}
 
-	//////////////////////////////
-	// Assignment operator
-	//////////////////////////////
 
 	set & operator= (const set & x)
 	{
@@ -274,18 +172,14 @@ public:
 		return (*this);
 	}
 
-	//////////////////////////////
-	// Iterators
-	//////////////////////////////
-
 	iterator begin (void)
 	{
-		return (iterator(this->_leftmost(_nil->right)));
+		return (iterator(this->_find_min(_nil->right)));
 	}
 
 	const_iterator begin (void) const
 	{
-		return (const_iterator(this->_leftmost(_nil->right)));
+		return (const_iterator(this->_find_min(_nil->right)));
 	}
 
 	iterator end (void)
@@ -297,10 +191,6 @@ public:
 	{
 		return (const_iterator(_nil));
 	}
-
-	//////////////////////////////
-	// Reverse iterators
-	//////////////////////////////
 
 	reverse_iterator rbegin (void)
 	{
@@ -314,17 +204,14 @@ public:
 
 	reverse_iterator rend (void)
 	{
-		return (reverse_iterator(this->_leftmost(_nil->right)));
+		return (reverse_iterator(this->_find_min(_nil->right)));
 	}
 
 	const_reverse_iterator rend (void) const
 	{
-		return (const_reverse_iterator(this->_leftmost(_nil->right)));
+		return (const_reverse_iterator(this->_find_min(_nil->right)));
 	}
 
-	//////////////////////////////
-	// Capacity
-	//////////////////////////////
 
 	bool empty (void) const
 	{
@@ -344,9 +231,6 @@ public:
 		return (_alloc.max_size());
 	}
 
-	//////////////////////////////
-	// Insertion modifiers
-	//////////////////////////////
 
 	ft::pair<iterator,bool> insert (const value_type & val)
 	{
@@ -371,15 +255,12 @@ public:
 
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last,
-	typename ft::enable_if<!ft::is_same<InputIterator, int>::value>::type* = 0)
+	typename ft::enable_if<!ft::same_type<InputIterator, int>::value>::type* = 0)
 	{
 		while (first != last)
 			this->insert(*first++);
 	}
 
-	//////////////////////////////
-	// Erasure modifiers
-	//////////////////////////////
 
 	void erase (iterator position)
 	{
@@ -402,7 +283,7 @@ public:
 			else
 				ptr->parent->right = child;
 
-			this->_removeNode(ptr, child);
+			this->_remove_node(ptr, child);
 		}
 	}
 
@@ -422,10 +303,6 @@ public:
 			this->erase(it);
 	}
 
-	//////////////////////////////
-	// Common modifiers
-	//////////////////////////////
-
 	void swap (set & x)
 	{
 		ft::swap(_alloc, x._alloc);
@@ -440,10 +317,6 @@ public:
 			this->erase(it);
 	}
 
-	//////////////////////////////
-	// Observers
-	//////////////////////////////
-
 	key_compare key_comp (void) const
 	{
 		return (key_compare());
@@ -453,10 +326,6 @@ public:
 	{
 		return (key_compare());
 	}
-
-	//////////////////////////////
-	// Search operations
-	//////////////////////////////
 
 	iterator find (const value_type & val) const
 	{
@@ -476,10 +345,6 @@ public:
 		}
 		return (n);
 	}
-
-	//////////////////////////////
-	// Range operations
-	//////////////////////////////
 
 	iterator lower_bound (const value_type & val) const
 	{
@@ -502,25 +367,19 @@ public:
 		return (ft::make_pair(this->lower_bound(val), this->upper_bound(val)));
 	}
 
-	//////////////////////////////
-	// Allocator
-	//////////////////////////////
 
 	allocator_type get_allocator (void) const
 	{
 		return (allocator_type());
 	}
 
-	//////////////////////////////
-	// Private functions
-	//////////////////////////////
 
 private:
 	void _new_nil_node (void)
 	{
 		_nil = _alloc.allocate(1);
 		this->_construct(_nil);
-		_nil->color = BLACK_;
+		_nil->color = BLACK;
 	}
 
 	node * _new_node (const value_type & val = value_type())
@@ -535,7 +394,7 @@ private:
 			parent->left = new_node;
 		new_node->parent = parent;
 
-		this->_insertRB(new_node);
+		this->_insert_in_RB(new_node);
 
 		return (new_node);
 	}
@@ -546,7 +405,7 @@ private:
 		tmp.left = _nil;
 		tmp.right = _nil;
 		tmp.parent = _nil;
-		tmp.color = RED_;
+		tmp.color = RED;
 		_alloc.construct(ptr, tmp);
 	}
 
@@ -600,9 +459,9 @@ private:
 			_nil->right = a;
 	}
 
-	void _removeNode (node * ptr, node * child)
+	void _remove_node (node * ptr, node * child)
 	{
-		this->_deleteRB(ptr, child);
+		this->_delete_from_RB(ptr, child);
 
 		_alloc.destroy(ptr);
 		_alloc.deallocate(ptr, 1);
@@ -636,7 +495,7 @@ private:
 		}
 	}
 
-	node * _leftmost (node * root) const
+	node * _find_min (node * root) const
 	{
 		while (root->left != root->left->left)
 			root = root->left;
@@ -648,98 +507,94 @@ private:
 		return (this->_comp(lhs, rhs) == false && this->_comp(rhs, lhs) == false);
 	}
 
-	//////////////////////////////
-	// Red and Black Tree
-	//////////////////////////////
-
-	void _insertRB (node * x)
+	void _insert_in_RB (node * x)
 	{
 		node * parent = x->parent;
 		node * grandparent = parent->parent;
 		node * uncle = (grandparent->right == parent) ? grandparent->left : grandparent->right;
 
 		if (parent == _nil)
-			x->color = BLACK_;
-		else if (parent->color == BLACK_)
+			x->color = BLACK;
+		else if (parent->color == BLACK)
 			return ;
-		else if (uncle->color == RED_)
+		else if (uncle->color == RED)
 		{
-			parent->color = BLACK_;
-			uncle->color = BLACK_;
-			grandparent->color = RED_;
-			this->_insertRB(grandparent);
+			parent->color = BLACK;
+			uncle->color = BLACK;
+			grandparent->color = RED;
+			this->_insert_in_RB(grandparent);
 		}
-		else if (uncle->color == BLACK_)
+		else if (uncle->color == BLACK)
 		{
 			if (grandparent->left->left == x || grandparent->right->right == x)
 			{
 				if (grandparent->left->left == x)
-					this->_LL(grandparent, parent);
+					this->_left_right_rotation(grandparent, parent);
 				else if (grandparent->right->right == x)
-					this->_RR(grandparent, parent);
+					this->_right_rotation(grandparent, parent);
 				ft::swap(grandparent->color, parent->color);
 			}
 			else
 			{
 				if (grandparent->left->right == x)
-					this->_LR(grandparent, parent, x);
+					this->_left_right_rotation(grandparent, parent, x);
 				else if (grandparent->right->left == x)
-					this->_RL(grandparent, parent, x);
+					this->_right_left_rotation(grandparent, parent, x);
 				ft::swap(grandparent->color, x->color);
 			}
 		}
 	}
 
-	void _deleteRB (node * v, node * u)
+	void _delete_from_RB (node * v, node * u)
 	{
-		if (v->color == RED_ || u->color == RED_)
-			u->color = BLACK_;
+		if (v->color == RED || u->color == RED)
+			u->color = BLACK;
 		else
-			this->_doubleBlack(u, v->parent);
+			this->_double_black(u, v->parent);
 	}
 
-	void _doubleBlack (node * u, node * parent)
+	void _double_black (node * u, node * parent)
 	{
 		node * sibling = (parent->left != u) ? parent->left : parent->right;
 
 		if (u == _nil->right)
 			return ;
-		else if (sibling->color == BLACK_ && (sibling->left->color == RED_ || sibling->right->color == RED_))
+		else if (sibling->color == BLACK && (sibling->left->color == RED || sibling->right->color == RED))
 		{
-			if (sibling == parent->left && sibling->left->color == RED_)
-				this->_LL(parent, sibling);
-			else if (sibling == parent->left && sibling->right->color == RED_)
-				this->_LR(parent, sibling, sibling->right);
-			else if (sibling == parent->right && sibling->right->color == RED_)
-				this->_RR(parent, sibling);
-			else if (sibling == parent->right && sibling->left->color == RED_)
-				this->_RL(parent, sibling, sibling->left);
+			if (sibling == parent->left && sibling->left->color == RED)
+				this->_left_right_rotation(parent, sibling);
+			else if (sibling == parent->left && sibling->right->color == RED)
+				this->_left_right_rotation(parent, sibling, sibling->right);
+			else if (sibling == parent->right && sibling->right->color == RED)
+				this->_right_rotation(parent, sibling);
+			else if (sibling == parent->right && sibling->left->color == RED)
+				this->_right_left_rotation(parent, sibling, sibling->left);
 
-			if (sibling->left->color == RED_)
-				sibling->left->color = BLACK_;
+			if (sibling->left->color == RED)
+				sibling->left->color = BLACK;
 			else
-				sibling->right->color = BLACK_;
+				sibling->right->color = BLACK;
 		}
-		else if (sibling->color == BLACK_)
+		else if (sibling->color == BLACK)
 		{
-			sibling->color = RED_;
-			if (parent->color == RED_)
-				parent->color = BLACK_;
+			sibling->color = RED;
+			if (parent->color == RED)
+				parent->color = BLACK;
 			else
-				this->_doubleBlack(parent, parent->parent);
+				this->_double_black(parent, parent->parent);
 		}
-		else if (sibling->color == RED_)
+		else if (sibling->color == RED)
 		{
 			if (sibling == parent->left)
-				this->_LL(parent, sibling);
+				this->_left_right_rotation(parent, sibling);
 			else
-				this->_RR(parent, sibling);
+				this->_right_rotation(parent, sibling);
 			ft::swap(parent->color, sibling->color);
-			this->_doubleBlack(u, parent);
+			this->_double_black(u, parent);
 		}
 	}
 
-	void _LL (node * grandparent, node * parent)
+	void _left_right_rotation (node * grandparent, node * parent)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = parent;
@@ -753,7 +608,7 @@ private:
 		parent->right = grandparent;
 	}
 
-	void _RR (node * grandparent, node * parent)
+	void _right_rotation (node * grandparent, node * parent)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = parent;
@@ -767,7 +622,7 @@ private:
 		parent->left = grandparent;
 	}
 
-	void _LR (node * grandparent, node * parent, node * x)
+	void _left_right_rotation (node * grandparent, node * parent, node * x)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = x;
@@ -786,7 +641,7 @@ private:
 		x->right = grandparent;
 	}
 
-	void _RL (node * grandparent, node * parent, node * x)
+	void _right_left_rotation (node * grandparent, node * parent, node * x)
 	{
 		if (grandparent->parent->right == grandparent)
 			grandparent->parent->right = x;
@@ -805,18 +660,12 @@ private:
 		x->right = parent;
 	}
 
-	//////////////////////////////
-	// Member variables
-	//////////////////////////////
 
 	allocator_type		_alloc;
 	key_compare			_comp;
 	node *				_nil;
-}; // Set
+};
 
-	//////////////////////////////
-	// Relational operators
-	//////////////////////////////
 
 	template <class T, class Compare, class Alloc>
 	bool operator== (const set<T,Compare,Alloc> & lhs, const set<T,Compare,Alloc> & rhs)
@@ -860,7 +709,6 @@ private:
 		x.swap(y);
 	}
 
-
-} // Namespace ft
+}
 
 #endif

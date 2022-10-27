@@ -489,9 +489,173 @@ void Test_erase_map(void)
 	print_map(m1);
 	m1.erase(m1.begin(), m1.begin()++);
 	print_map(m1);
-	
+
 
 }
+
+
+void Test_clear_map(void)
+{
+	ft::map<int, int> m1;
+	m1.insert( ft::pair<int, char>(1, 'a') );
+	m1.insert( ft::pair<int, char>(2, 'b') );
+	m1.insert( ft::pair<int, char>(3, 'c') );
+	m1.insert( ft::pair<int, char>(4, 'd') );
+	m1.insert( ft::pair<int, char>(5, 'e') );
+	m1.insert( ft::pair<int, char>(6, 'f') );
+	m1.insert( ft::pair<int, char>(7, 'g') );
+	m1.insert( ft::pair<int, char>(8, 'h') );
+
+	print_map(m1);
+	m1.clear();
+	print_map(m1);
+	m1.insert( ft::pair<int, char>(1, 'a') );
+	m1.insert( ft::pair<int, char>(2, 'b') );
+	m1.insert( ft::pair<int, char>(3, 'c') );
+	print_map(m1);
+	m1.clear();
+	print_map(m1);
+}
+
+
+void	Test_swap_map (void)
+{
+	ft::map<int, int> m1;
+	m1.insert( ft::pair<int, char>(1, 'a') );
+	m1.insert( ft::pair<int, char>(2, 'b') );
+	m1.insert( ft::pair<int, char>(3, 'c') );
+	m1.insert( ft::pair<int, char>(4, 'd') );
+	m1.insert( ft::pair<int, char>(5, 'e') );
+	m1.insert( ft::pair<int, char>(6, 'f') );
+	m1.insert( ft::pair<int, char>(7, 'g') );
+	m1.insert( ft::pair<int, char>(8, 'h') );
+
+	ft::map<int, int> m2;
+	m2.insert( ft::pair<int, char>(1, 'a') );
+	m2.insert( ft::pair<int, char>(2, 'b') );
+	m2.insert( ft::pair<int, char>(3, 'c') );
+	m2.insert( ft::pair<int, char>(4, 'd') );
+	m2.insert( ft::pair<int, char>(5, 'e') );
+	m2.insert( ft::pair<int, char>(6, 'f') );
+	m2.insert( ft::pair<int, char>(7, 'g') );
+	m2.insert( ft::pair<int, char>(8, 'h') );
+
+	print_map(m1);
+	print_map(m2);
+	m1.swap(m2);
+	print_map(m1);
+	print_map(m2);
+};
+
+void  Test_operations_map (void)
+{
+	ft::map<int, int> m1;
+	m1.insert( ft::pair<int, char>(1, 'a') );
+	m1.insert( ft::pair<int, char>(2, 'b') );
+	m1.insert( ft::pair<int, char>(3, 'c') );
+	m1.insert( ft::pair<int, char>(4, 'd') );
+	m1.insert( ft::pair<int, char>(5, 'e') );
+	m1.insert( ft::pair<int, char>(6, 'f') );
+	m1.insert( ft::pair<int, char>(7, 'g') );
+	m1.insert( ft::pair<int, char>(8, 'h') );
+	m1.insert( ft::pair<int, char>(9, 'i') );
+	m1.insert( ft::pair<int, char>(10, 'j') );
+	m1.insert( ft::pair<int, char>(11, 'k') );
+	m1.insert( ft::pair<int, char>(12, 'l') );
+	ft::map<int, int>::iterator it = m1.find(5);
+	std::cout << it->first << " " << it->second << std::endl;
+	it = m1.find(24);
+	if (it == m1.end())
+		std::cout << "not found" << std::endl;
+	else
+		std::cout << it->first << " " << it->second << std::endl;
+	if (m1.count(5))
+		std::cout << "5 is in the map = " << it->second << std::endl;
+	else
+		std::cout << "5 is not in the map ="<<std::endl;
+	if (m1.count(24))
+		std::cout << "24 is in the map = " << it->second << std::endl;
+	else
+		std::cout << "24 is not in the map ="<<std::endl;
+	if (m1.lower_bound(5) != m1.end())
+		std::cout << "lower bound of 5 is = " << m1.lower_bound(5)->second << std::endl;
+	else
+		std::cout << "lower bound of 5 is = " << "end" << std::endl;
+	if (m1.lower_bound(24) != m1.end())
+		std::cout << "lower bound of 24 is = " << m1.lower_bound(24)->second << std::endl;
+	else
+		std::cout << "lower bound of 24 is = " << "end" << std::endl;
+	if(m1.upper_bound(5) != m1.end())
+		std::cout << "upper bound of 5 is = " << m1.upper_bound(5)->second << std::endl;
+	else
+		std::cout << "upper bound of 5 is = " << "end" << std::endl;
+	if(m1.upper_bound(24) != m1.end())
+		std::cout << "upper bound of 24 is = " << m1.upper_bound(24)->second << std::endl;
+	else
+		std::cout << "upper bound of 24 is = " << "end" << std::endl;
+	ft::map<int, int>::iterator it1 = m1.equal_range(5).first;
+	ft::map<int, int>::iterator it2 = m1.equal_range(5).second;
+	std::cout << "equal range of 5 is = ";
+	while (it1 != it2)
+	{
+		std::cout << it1->second << " ";
+		it1++;
+	}
+};
+
+void Test_rel_map (void)
+{
+	ft::map<int, int> m1;
+	m1.insert( ft::pair<int, char>(1, 'a') );
+	m1.insert( ft::pair<int, char>(2, 'b') );
+	m1.insert( ft::pair<int, char>(3, 'c') );
+	m1.insert( ft::pair<int, char>(4, 'd') );
+	m1.insert( ft::pair<int, char>(5, 'e') );
+	m1.insert( ft::pair<int, char>(6, 'f') );
+	m1.insert( ft::pair<int, char>(7, 'g') );
+	m1.insert( ft::pair<int, char>(8, 'h') );
+
+	ft::map<int, int> m2;
+	m2.insert( ft::pair<int, char>(1, 'a') );
+	m2.insert( ft::pair<int, char>(2, 'b') );
+	m2.insert( ft::pair<int, char>(3, 'c') );
+	m2.insert( ft::pair<int, char>(4, 'd') );
+	m2.insert( ft::pair<int, char>(5, 'e') );
+	m2.insert( ft::pair<int, char>(6, 'f') );
+	m2.insert( ft::pair<int, char>(7, 'g') );
+	m2.insert( ft::pair<int, char>(8, 'h') );
+
+	ft::map<int, int> m3;
+	m3.insert( ft::pair<int, char>(1, 'a') );
+	m3.insert( ft::pair<int, char>(2, 'c') );
+	m3.insert( ft::pair<int, char>(3, 'c') );
+
+	if(m2 == m1)
+		std::cout << "m2 == m1" << std::endl;
+	else
+		std::cout << "m2 != m1" << std::endl;
+	if(m2 != m3)
+		std::cout << "m2 != m3" << std::endl;
+	else
+		std::cout << "m2 == m3" << std::endl;
+	if(m2 < m3)
+		std::cout << "m2 < m3" << std::endl;
+	else
+		std::cout << "m2 > m3" << std::endl;
+	if(m2 > m3)
+		std::cout << "m2 > m3" << std::endl;
+	else
+		std::cout << "m2 < m3" << std::endl;
+	if(m2 <= m3)
+		std::cout << "m2 <= m3" << std::endl;
+	else
+		std::cout << "m2 > m3" << std::endl;
+	if(m2 >= m3)
+		std::cout << "m2 >= m3" << std::endl;
+	else
+		std::cout << "m2 < m3" << std::endl;
+};
+
 
 // pointeurs sur fonctions tests
 void  (*Fcn_tests[])() =
@@ -510,6 +674,7 @@ void  (*Fcn_tests[])() =
 	Test_clear,
 	Test_relationals,
 	Test_swap,
+
 	// Stack
 	Test_top,
 	Test_push,
@@ -517,17 +682,16 @@ void  (*Fcn_tests[])() =
 	Test_empty,
 	Test_rel_stack,
 
-
 	// Map
 	Test_constructors_map,
 	Test_Iterators_map,
 	Test_capacity_map,
 	Test_insert_map,
 	Test_erase_map,
-	// Test_clear_map,
-	// Test_swap_map,
-	// Test_operations_map,
-	// Test_rel_map,
+	Test_clear_map,
+	Test_swap_map,
+	Test_operations_map,
+	Test_rel_map,
 };
 
 int main(int ac, char**av)
