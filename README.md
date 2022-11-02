@@ -75,6 +75,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
 * [Iterators](https://cplusplus.com/reference/iterator/)
 * [Red Black Trees](https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/)
+* [TESTER](https://github.com/mli42/containers_test.git)
 
 #### Somes questions
 
@@ -91,7 +92,6 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 * Map 
     * [A Red Black Tree is a Binary Search Tree So let's see how it works?](https://www.programiz.com/dsa/binary-search-tree)
-    * [Why C++ uses RedBlackTree](https://github.com/mli42/containers_test.git)
     * [Video explaning RedBlackTree](https://www.youtube.com/watch?v=qvZGUFHWChY)
     * [Red Black Tree = lots of insertions/deletions  AVL Tree = lot of searches](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/) 
     * [Red Black Tree rotations](https://www.youtube.com/watch?v=q4fnJZr8ztY)
