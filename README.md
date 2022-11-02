@@ -99,7 +99,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
  * Utils
     * [**std::enable_if** is an important function to enable certain types for template specialization](https://leimao.github.io/blog/CPP-Enable-If/)
     * [**std::is_integral** is a Trait class that identifies whether T is an integral type](https://cplusplus.com/reference/type_traits/is_integral/?kw=is_integral)
-    * [**std::lexicographical_compare**: true if the range1 < range2 | note: the shorter sequence <  than the longer one](https://leimao.github.io/blog/CPP-Enable-If/)
+    * [**std::lexicographical_compare**: true if the range1 < range2 | note: the shorter sequence <  than the longer one](https://en.cppreference.com/w/cpp/algorithm/lexicographical_compare)
 
     * [**std::pair** is a class that couples together a pair of values](https://cplusplus.com/reference/utility/pair/)
     
