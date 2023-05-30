@@ -1,5 +1,5 @@
 # Ft_containers
-Le but de ce projet est d'implémenter quelques containers C++ de la bibliothèque standard (Standard Template Library).
+Le but de ce projet est d'implémenter plusieurs containers C++ de la bibliothèque standard (Standard Template Library).
 
 ## Table of contents
 * [Vector](#Vector) 
