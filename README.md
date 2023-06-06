@@ -7,7 +7,7 @@
 * [Map](#Map)
 * [Iterators](#Iterators) 
 * [Utils to implement](#Utils)
-* [Ressources](#Ressources)
+* [Resources](#Resources)
 
 ### Goal
 > Le but de ce projet est d'implémenter plusieurs containers C++ de la bibliothèque standard (Standard Template Library).
