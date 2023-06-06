@@ -1,12 +1,16 @@
 # Ft_containers
-Le but de ce projet est d'implémenter plusieurs containers C++ de la bibliothèque standard (Standard Template Library).
 
 ## Table of contents
+* [Goal](#Goal)
 * [Vector](#Vector) 
 * [Stack](#Stack)
 * [Map](#Map)
 * [Iterators](#Iterators) 
 * [Utils to implement](#Utils)
+* [Ressources](#Ressources)
+
+### Goal
+> Le but de ce projet est d'implémenter plusieurs containers C++ de la bibliothèque standard (Standard Template Library).
 
 ### Vector
 >  ```= Dynamic contiguous array (SEQUENTIEL)```  
@@ -70,7 +74,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 ## 42 Project 125/100
 
-## Sitographie 
+## Ressources 
 * [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)  
 
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
