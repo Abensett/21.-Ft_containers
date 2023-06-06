@@ -74,7 +74,7 @@ via les itérateurs```, mais aussi ```à partir des pointeurs``` classiques sur 
 
 ## 42 Project 125/100
 
-## Ressources 
+## Resources 
 * [Bete de site explicatif avec plein d'exemples concrets et concis](https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/Intro--Conteneurs-Iterateurs.html)  
 
 * [Cours container STL](http://tvaira.free.fr/dev/cours/cours-conteneurs-stl.pdf)
